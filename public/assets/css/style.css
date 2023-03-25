@@ -362,7 +362,7 @@ Separator
     width:85px;
     height:2px;
     margin:20px auto;
-    background: #ff6863;
+    background: #5680E9;
 }
 .separator_small{
     width:30px;
@@ -398,21 +398,21 @@ Button
     border-radius: 0;
 }
 .btn-default:hover{
-    border-color:#ff6863;
-    background-color: #ff6863;
+    border-color:#5AB9EA;
+    background-color: #5AB9EA;
 }
 
 .btn-primary{
     color: #fff;
-    background-color: #ff6863;
+    background-color: #5AB9EA;
     border:1px solid;
-    border-color: #ff6863;
+    border-color: #5AB9EA;
     padding: 1rem 2rem;
 }
 .btn-primary:hover{
     background-color: #eee;
     border-color: #eee;
-    color:#ff6863;
+    color:#5AB9EA;
 }
 
 .btn-success{}
@@ -1468,7 +1468,7 @@ Pricing Section style
 
 }
 .pricing_price_border{
-    background-color: #ff6863;
+    background-color: #5680E9;
     padding: 10px;
     border-radius: 50%;
     margin: 0 auto;
@@ -1480,7 +1480,7 @@ Pricing Section style
     right: 25%;
 }
 .pricing_price_border .pricing_price{
-    background-color: #ff6863;
+    background-color: #5680E9;
     border: 2px solid;
     border-color: #fff;
     width: 130px;
