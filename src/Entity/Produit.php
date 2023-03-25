@@ -2,77 +2,42 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProduitRepository;
+use App\Entity\User;
 
-/**
- * Produit
- *
- * @ORM\Table(name="produit", indexes={@ORM\Index(name="vendeur", columns={"vendeur"})})
- * @ORM\Entity
- */
+
+
+#[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idProduit", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idproduit;
+{ #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    private  $idproduit;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="categorie", type="string", length=255, nullable=false)
-     */
-    private $categorie;
+    #[ORM\Column(name: "categorie", type: "string", length: 255, nullable: false)]
+    private  $categorie;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(name: "nom", type: "string", length: 255, nullable: false)]
+    private  $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(name: "description", type: "text", length: 65535, nullable: false)]
+    private  $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
-     */
-    private $image;
+    #[ORM\Column(name: "image", type: "string", length: 255, nullable: false)]
+    private  $image;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prix", type="decimal", precision=10, scale=2, nullable=false)
-     */
-    private $prix;
+    #[ORM\Column(name: "prix", type: "decimal", precision: 10, scale: 2, nullable: false)]
+    private  $prix;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $date = 'CURRENT_TIMESTAMP';
+    #[ORM\Column(name: "date", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private  $date;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="vendeur", referencedColumnName="idUser")
-     * })
-     */
-    private $vendeur;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
+    private  $vendeur;
 
     public function getIdproduit(): ?int
     {
