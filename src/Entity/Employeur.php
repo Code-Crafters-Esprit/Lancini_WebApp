@@ -3,48 +3,26 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+use App\Repository\EmployeurRepository;
 
-/**
- * Employeur
- *
- * @ORM\Table(name="employeur", indexes={@ORM\Index(name="idUser", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: EmployeurRepository::class)]
+
 class Employeur
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idEmployeur", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idemployeur;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="companyName", type="string", length=255, nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  $idemployeur = null;
+    #[ORM\Column(name: "companyName", type: "string", length: 255)]
     private $companyname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="secteur", type="string", length=255, nullable=false)
-     */
+    
+    #[ORM\Column(name: "secteur", type: "string", length: 255)]
     private $secteur;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+   
+    private  $iduser = null;
     public function getIdemployeur(): ?int
     {
         return $this->idemployeur;

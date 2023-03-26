@@ -5,7 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
-
+use Symfony\Component\Validator\Constraints\Date;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 
@@ -14,45 +15,27 @@ class Avis
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idAvis = null;
-
+    private $idAvis = null;
 
     #[ORM\Column(length:100)]
-    private ?string $description = null;
-    
+    private  $description = null;
 
     #[ORM\Column]
-    private ?int $note = null;
+    private $note = null;
 
+    #[ORM\Column(type: "date")]
+    private  $date = null;
 
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: "avis")]
+    private  $idproduit = null; 
 
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "avis")]
+    private  $idevaluateuruser = null; 
 
-    #[ORM\Column]
-    private ?Date $date = null;
-
-    /**
-     * @var \Produit
-     *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProduit", referencedColumnName="idProduit")
-     * })
-     */
-    private $idproduit;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEvaluateurUser", referencedColumnName="idUser")
-     * })
-     */
-    private $idevaluateuruser;
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->idAvis;
     }
 
     public function getDescription(): ?string
