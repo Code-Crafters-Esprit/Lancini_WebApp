@@ -4,78 +4,39 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 
-/**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "idUser", type: "integer", nullable: false)]
+
     private $iduser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Nom", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "Nom", type: "string", length: 255, nullable: false)]
     private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Prenom", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "Prenom", type: "string", length: 255, nullable: false)]
     private $prenom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "email", type: "string", length: 255, nullable: false)]
     private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="motDePasse", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "motDePasse", type: "string", length: 255, nullable: false)]
     private $motdepasse;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "role", type: "string", length: 255, nullable: false)]
     private $role;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="bio", type="text", length=65535, nullable=true)
-     */
+    #[ORM\Column(name: "bio", type: "string", length: 65535, nullable: false)]
     private $bio;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photoPath", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: "photoPath", type: "string", length: 255, nullable: false)]
     private $photopath;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="numTel", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: "numTel", type: "string", length: 255, nullable: false)]
     private $numtel;
 
     public function getIduser(): ?int
@@ -178,6 +139,4 @@ class User
 
         return $this;
     }
-
-
 }

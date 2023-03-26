@@ -3,33 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdministrateurRepository;
 
-/**
- * Administrateur
- *
- * @ORM\Table(name="administrateur", indexes={@ORM\Index(name="idUser", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: AdministrateurRepository::class)]
 class Administrateur
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pseudo", type="string", length=255, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "pseudo", type: "string", length: 255, nullable: false)]
+
     private $pseudo;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Experience')]
+    private $iduser = null;
 
     public function getPseudo(): ?string
     {
@@ -47,6 +33,4 @@ class Administrateur
 
         return $this;
     }
-
-
 }

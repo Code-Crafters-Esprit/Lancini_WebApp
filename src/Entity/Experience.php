@@ -4,82 +4,40 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ExperienceRepository;
 
-/**
- * Experience
- *
- * @ORM\Table(name="experience", indexes={@ORM\Index(name="userId", columns={"userId"})})
- * @ORM\Entity
- */
+
+#[ORM\Entity(repositoryClass: ExperienceRepository::class)]
 class Experience
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idExperience", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "idExperience", type: "integer", nullable: false)]
     private $idexperience;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "titre", type: "string", length: 255, nullable: false)]
     private $titre;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
+    #[ORM\Column(name: "description", type: "string", length: 255, nullable: true)]
     private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(name: "type", type: "string", length: 50, nullable: false)]
     private $type;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="lieu", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: "lieu", type: "string", length: 50, nullable: true)]
     private $lieu;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="secteur", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: "secteur", type: "string", length: 255, nullable: true)]
     private $secteur;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateDebut", type="date", nullable=true)
-     */
+    #[ORM\Column(name: "dateDebut", type: "date", nullable: true)]
     private $datedebut;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateFin", type="date", nullable=true)
-     */
+    #[ORM\Column(name: "dateFin", type: "date", nullable: true)]
     private $datefin;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="idUser")
-     * })
-     */
-    private $userid;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Experience')]
+    private  $userid = null;
 
     public function getIdexperience(): ?int
     {
@@ -181,6 +139,4 @@ class Experience
 
         return $this;
     }
-
-
 }
