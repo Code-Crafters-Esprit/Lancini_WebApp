@@ -38,7 +38,8 @@ class Avis
      *   @ORM\JoinColumn(name="idProduit", referencedColumnName="idProduit")
      * })
      */
-    private $idproduit;
+    #[ORM\Column]
+    private ?int $idproduit = null;
 
     /**
      * @var \User
