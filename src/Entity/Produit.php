@@ -35,9 +35,9 @@ class Produit
     #[ORM\Column(name: "date", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private  $date;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
-    private  $vendeur;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Produit')]
+
+    private  $vendeur=null;
 
     public function getIdproduit(): ?int
     {

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
 
+
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
 {
@@ -16,22 +17,20 @@ class Commande
     private  $idCommande = null;
 
     #[ORM\Column(name: "dateCommande", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private $datecommande;
+    private $datecommande = null;
 
     #[ORM\Column(name: "montantPaye", type: "decimal", precision: 10, scale: 2, nullable: false)]
-    private $montantpaye;
+    private $montantpaye=null;
 
-    #[ORM\ManyToOne(targetEntity: Produit::class)]
-    #[ORM\JoinColumn(name: "produit", referencedColumnName: "idProduit")]
-    private $produit;
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "acheteur", referencedColumnName: "idUser")]
-    private $acheteur;
+    private $produit =null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
-    private $vendeur;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Commande')]
+        private $acheteur=null;
+
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
+    private $vendeur=null;
 
 
     public function getIdcommande(): ?int

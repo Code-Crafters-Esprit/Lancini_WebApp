@@ -19,8 +19,8 @@ class Employeur
     
     #[ORM\Column(name: "secteur", type: "string", length: 255)]
     private $secteur;
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Employeur')]
+
    
     private  $iduser = null;
     public function getIdemployeur(): ?int

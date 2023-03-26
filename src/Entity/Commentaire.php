@@ -3,50 +3,30 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentaireRepository;
+use App\Entity\Publication;
+use App\Entity\User;
 
-/**
- * Commentaire
- *
- * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="idPub", columns={"idPub"}), @ORM\Index(name="idUser", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CommentaireRepository::class)]
+
 class Commentaire
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idComm", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idcomm;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  $idcomm = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="commentaire", type="string", length=100, nullable=false)
-     */
-    private $commentaire;
+    
+    #[ORM\Column(length:100)]
+    private  $commentaire = null;
 
-    /**
-     * @var \Publication
-     *
-     * @ORM\ManyToOne(targetEntity="Publication")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idPub", referencedColumnName="idPub")
-     * })
-     */
-    private $idpub;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
+    #[ORM\ManyToOne(targetEntity: "Publication", inversedBy: 'Commentaire')]
+    private  $idpub = null; 
+ 
+
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Commentaire')]
+    private  $iduser = null; 
 
     public function getIdcomm(): ?int
     {
@@ -88,6 +68,5 @@ class Commentaire
 
         return $this;
     }
-
 
 }

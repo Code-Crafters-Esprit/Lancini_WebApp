@@ -46,8 +46,8 @@ class Cv
     private  $education = null;
 
    
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Cv')]
+
     private $userid = null;
 
     public function getIdcv(): ?int
