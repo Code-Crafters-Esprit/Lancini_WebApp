@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\ReclamationRepository;
 /**
  * Reclamation
  *
