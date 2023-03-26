@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Produit;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
@@ -11,48 +12,36 @@ use App\Repository\ReclamationRepository;
  * @ORM\Table(name="reclamation")
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  $id = null;
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=10, nullable=false)
      */
+    #[ORM\Column(name: "nom", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=10, nullable=false)
-     */
+    #[ORM\Column(name: "prenom", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $prenom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "description", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    
     private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sujetdereclamations", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "sujetdereclamations", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $sujetdereclamations;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=150, nullable=false)
-     */
+    #[ORM\Column(name: "email", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tel", type="string", length=100, nullable=false)
-     */
+    #[ORM\Column(name: "tel", type: "sring", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    
     private $tel;
 
     /**
@@ -60,6 +49,8 @@ class Reclamation
      *
      * @ORM\Column(name="etat", type="string", length=255, nullable=false)
      */
+    #[ORM\Column(name: "etat", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+
     private $etat;
 
     /**
