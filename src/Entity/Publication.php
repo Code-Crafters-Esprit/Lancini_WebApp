@@ -4,61 +4,32 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PublicationRepository;
+use Symfony\Component\Validator\Constraints\Date;
 
-/**
- * Publication
- *
- * @ORM\Table(name="publication", indexes={@ORM\Index(name="fk_pub", columns={"proprietaire"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: PublicationRepository::class)]
+
 class Publication
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idPub", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idpub;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idpub = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="libelle", type="string", length=30, nullable=false)
-     */
-    private $libelle;
+    #[ORM\Column(length:30)]
+    private ?string $libelle = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="datePub", type="date", nullable=false)
-     */
-    private $datepub;
+    #[ORM\Column()]
+    private ?Date $datepub = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Description", type="string", length=100, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(length:100)]
+    private ?string $description = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="cat", type="string", length=30, nullable=false)
-     */
-    private $cat;
+    #[ORM\Column(length:30)]
+    private ?string $cat = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
-     * })
-     */
-    private $proprietaire;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'publication')]
+    private ?User $proprietaire = null; 
 
     public function getIdpub(): ?int
     {
@@ -124,6 +95,5 @@ class Publication
 
         return $this;
     }
-
 
 }

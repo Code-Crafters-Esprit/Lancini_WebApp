@@ -4,68 +4,35 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EvenementRepository;
+use Symfony\Component\Validator\Constraints\Date;
 
-/**
- * Evenement
- *
- * @ORM\Table(name="evenement", indexes={@ORM\Index(name="fk_event", columns={"proprietaire"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: EvenementRepository::class)]
+
 class Evenement
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idEvent", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idevent;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idevent = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=30, nullable=false)
-     */
-    private $titre;
+    #[ORM\Column(length:30)]
+    private ?string $titre = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sujet", type="string", length=100, nullable=false)
-     */
-    private $sujet;
+    #[ORM\Column(length:100)]
+    private ?string $sujet = null;
+    
+    #[ORM\Column(length:50)]
+    private ?string $lieu = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lieu", type="string", length=50, nullable=false)
-     */
-    private $lieu;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="horaire", type="string", length=10, nullable=false)
-     */
-    private $horaire;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEvent", type="date", nullable=false)
-     */
-    private $dateevent;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
-     * })
-     */
-    private $proprietaire;
+    #[ORM\Column(length:10)]
+    private ?string $horaire = null;
+    
+    #[ORM\Column()]
+    private ?Date $dateevent = null;
+   
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'evenement')]
+    private ?User $proprietaire = null; 
 
     public function getIdevent(): ?int
     {
@@ -143,6 +110,5 @@ class Evenement
 
         return $this;
     }
-
 
 }

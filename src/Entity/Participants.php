@@ -3,43 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ParticipantsRepository;
 
-/**
- * Participants
- *
- * @ORM\Table(name="participants", indexes={@ORM\Index(name="idEvent", columns={"idEvent"}), @ORM\Index(name="idUser", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ParticipantsRepository::class)]
+
 class Participants
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idParticipant", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idparticipant;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idparticipant = null;
 
-    /**
-     * @var \Evenement
-     *
-     * @ORM\ManyToOne(targetEntity="Evenement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEvent", referencedColumnName="idEvent")
-     * })
-     */
-    private $idevent;
+    #[ORM\ManyToOne(targetEntity: "Evenement", inversedBy: 'participants')]
+    private ?Evenement $idevent = null; 
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'participants')]
+    private ?User $iduser = null; 
 
     public function getIdparticipant(): ?int
     {
@@ -69,6 +48,5 @@ class Participants
 
         return $this;
     }
-
 
 }

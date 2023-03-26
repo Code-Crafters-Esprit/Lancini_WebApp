@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
-
+use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 
@@ -24,35 +24,20 @@ class Avis
     #[ORM\Column]
     private ?int $note = null;
 
-
-
-
     #[ORM\Column]
     private ?Date $date = null;
 
-    /**
-     * @var \Produit
-     *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProduit", referencedColumnName="idProduit")
-     * })
-     */
-    private $idproduit;
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'avis')]
+    private ?Produit $idproduit = null; 
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEvaluateurUser", referencedColumnName="idUser")
-     * })
-     */
-    private $idevaluateuruser;
+
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'avis')]
+    private ?User $idevaluateuruser = null; 
+
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->idAvis;
     }
 
     public function getDescription(): ?string
