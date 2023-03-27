@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
+use App\Repository\OffreRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'offre')]
 #[ORM\Index(columns: ['proprietaire'], name: 'proprietaire')]
 #[ORM\Index(columns: ['idSecteur'], name: 'offre_ibfk_21')]
-#[ORM\Entity]
+#[ORM\Entity(OffreRepository::class)]
 class Offre
 {
     #[ORM\Id]

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\PostulationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'postulation')]
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['idOffre', 'idUser'], name: 'idOffre')]
 #[ORM\Index(columns: ['idOffre'], name: 'IDX_DA7D4E9BB842C572')]
 #[ORM\Index(columns: ['idUser'], name: 'IDX_DA7D4E9BFE6E88D7')]
-#[ORM\Entity]
+#[ORM\Entity(PostulationRepository::class)]
 class Postulation
 {
 
