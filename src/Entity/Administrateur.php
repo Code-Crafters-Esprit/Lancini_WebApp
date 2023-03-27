@@ -17,8 +17,6 @@ class Administrateur
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Experience')]
     private $iduser = null;
 
-    private $iduser=null;
-
     public function getPseudo(): ?string
     {
         return $this->pseudo;

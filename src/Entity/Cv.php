@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CvRepository;
 
@@ -11,44 +9,48 @@ use App\Repository\CvRepository;
 class Cv
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "idCV", type: "integer", nullable: false)]
-    private $idcv;
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idcv = null;
 
-    #[ORM\Column(type: "integer", nullable: false)]
-    private $cin;
+    #[ORM\Column]
+    private ?int $cin = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    private $nom;
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    private $prenom;
+    #[ORM\Column(length: 255)]
+    private ?string $prenom = null;
 
-    #[ORM\Column(type: "string", length: 10, nullable: false)]
-    private $sexe;
 
-    #[ORM\Column(type: "date", nullable: true)]
-    private $datenaissance;
+    #[ORM\Column(length: 10)]
+    private ?string $sexe = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $photo = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $adresse = null;
+    #[ORM\Column()]
+    private ?\DateTime $datenaissance = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    private  $email;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private  $langue = null;
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private  $education = null;
+    #[ORM\Column(length: 255)]
+    private ?string $adresse = null;
 
-   
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $langue = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $education = null;
+
+
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Cv')]
+    private ?User $userid = null;
 
-    private $userid = null;
 
     public function getIdcv(): ?int
     {
@@ -186,6 +188,4 @@ class Cv
 
         return $this;
     }
-
-
 }

@@ -3,37 +3,24 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TestRepository;
 
-/**
- * Test
- *
- * @ORM\Table(name="test")
- * @ORM\Entity
- */
+
+#[ORM\Entity(repositoryClass: TestRepository::class)]
 class Test
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idTest", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idtest;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idtest = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nomTest", type="string", length=255, nullable=false)
-     */
-    private $nomtest;
+    #[ORM\Column(length: 255)]
+    private ?string $nomtest = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="difficulte", type="integer", nullable=false)
-     */
-    private $difficulte;
+
+    #[ORM\Column]
+    private ?int $difficulte = null;
+
 
     public function getIdtest(): ?int
     {
@@ -63,6 +50,4 @@ class Test
 
         return $this;
     }
-
-
 }
