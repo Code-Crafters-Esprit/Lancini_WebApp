@@ -9,53 +9,30 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Secteur
- *
- * @ORM\Table(name="secteur")
- * @ORM\Entity
  */
+#[ORM\Table(name: 'secteur')]
+#[ORM\Entity]
 class Secteur
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="IdSecteur", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idsecteur;
+    #[ORM\Column(name: 'IdSecteur', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idsecteur;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=25, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: false)]
+    private string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
+    private string $description;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="DateCreation", type="date", nullable=false)
-     */
-    private $datecreation;
+    #[ORM\Column(name: 'DateCreation', type: 'date', nullable: false)]
+    private \DateTime $datecreation;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="DateModification", type="date", nullable=true)
-     */
-    private $datemodification;
+    #[ORM\Column(name: 'DateModification', type: 'date', nullable: true)]
+    private \DateTime|null $datemodification;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Offre", mappedBy="secteur", cascade={"persist", "remove"})
-     */
-    private $offre;
+    #[ORM\OneToMany(targetEntity: 'Offre', mappedBy: 'secteur', cascade: ['persist', 'remove'])]
+    private Collection $offre;
 
     public function __construct()
     {
@@ -140,11 +117,9 @@ class Secteur
 
     public function removeOffre(Offre $offre): self
     {
-        if ($this->offre->removeElement($offre)) {
-            // set the owning side to null (unless already changed)
-            if ($offre->getSecteur() === $this) {
-                $offre->setSecteur(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->offre->removeElement($offre) && $offre->getSecteur() === $this) {
+            $offre->setSecteur(null);
         }
 
         return $this;

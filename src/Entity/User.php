@@ -4,91 +4,52 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'user')]
+#[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
+#[ORM\Entity]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idUser;
+    public $iduser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idUser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Prenom", type="string", length=255, nullable=false)
-     */
-    private $prenom;
+    #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    private string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
+    private string $prenom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="motDePasse", type="string", length=255, nullable=false)
-     */
-    private $motdepasse;
+    #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
+    private string $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255, nullable=false)
-     */
-    private $role;
+    #[ORM\Column(name: 'motDePasse', type: 'string', length: 255, nullable: false)]
+    private string $motdepasse;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="bio", type="text", length=65535, nullable=true)
-     */
-    private $bio;
+    #[ORM\Column(name: 'role', type: 'string', length: 255, nullable: false)]
+    private string $role;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photoPath", type="string", length=255, nullable=true)
-     */
-    private $photopath;
+    #[ORM\Column(name: 'bio', type: 'text', length: 65535, nullable: true)]
+    private ?string $bio;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="numTel", type="string", length=255, nullable=true)
-     */
-    private $numtel;
+    #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
+    private ?string $photopath;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Badge", mappedBy="userid", cascade={"persist"})
-     */
-    private $badge;
+    #[ORM\Column(name: 'numTel', type: 'string', length: 255, nullable: true)]
+    private ?string $numtel;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Offre", mappedBy="proprietaire", cascade={"persist"})
-     */
-    private $offre;
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Badge', cascade: ['persist'])]
+    private Collection $badge;
+
+    #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
+    private Collection $offre;
 
     public function __construct()
     {
@@ -233,11 +194,9 @@ class User
 
     public function removeOffre(Offre $offre): self
     {
-        if ($this->offre->removeElement($offre)) {
-            // set the owning side to null (unless already changed)
-            if ($offre->getProprietaire() === $this) {
-                $offre->setProprietaire(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->offre->removeElement($offre) && $offre->getProprietaire() === $this) {
+            $offre->setProprietaire(null);
         }
 
         return $this;
@@ -255,11 +214,9 @@ class User
 
     public function removeBadge(Badge $badge): self
     {
-        if ($this->badge->removeElement($badge)) {
-            // set the owning side to null (unless already changed)
-            if ($badge->getUserid() === $this) {
-                $badge->setUserid(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->badge->removeElement($badge) && $badge->getUserid() === $this) {
+            $badge->setUserid(null);
         }
 
         return $this;

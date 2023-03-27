@@ -2,59 +2,35 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Badge
- *
- * @ORM\Table(name="badge", indexes={@ORM\Index(name="userId", columns={"userId"}), @ORM\Index(name="testId", columns={"testId"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'badge')]
+#[ORM\Index(columns: ['userId'], name: 'userId')]
+#[ORM\Index(columns: ['testId'], name: 'testId')]
+#[ORM\Entity]
 class Badge
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idBadge", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idbadge;
+    #[ORM\Column(name: 'idBadge', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idbadge;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nomBadge", type="string", length=255, nullable=false)
-     */
-    private $nombadge;
+    #[ORM\Column(name: 'nomBadge', type: 'string', length: 255, nullable: false)]
+    private string $nombadge;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
-     */
-    private $date;
+    #[ORM\Column(name: 'date', type: 'date', nullable: false)]
+    private \DateTime $date;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="idUser")
-     * })
-     */
-    private $userid;
+    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'idUser')]
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    private ?User $userid;
 
-    /**
-     * @var \Test
-     *
-     * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="testId", referencedColumnName="idTest")
-     * })
-     */
-    private $testid;
+    #[ORM\JoinColumn(name: 'testId', referencedColumnName: 'idTest')]
+    #[ORM\ManyToOne(targetEntity: 'Test')]
+    private ?Test $testid;
 
     public function getIdbadge(): ?int
     {
@@ -108,6 +84,5 @@ class Badge
 
         return $this;
     }
-
 
 }

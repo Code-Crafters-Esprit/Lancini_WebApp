@@ -6,40 +6,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Postulation
- *
- * @ORM\Table(name="postulation", indexes={@ORM\Index(name="idUser", columns={"idUser", "idOffre"}), @ORM\Index(name="idOffre", columns={"idOffre", "idUser"}), @ORM\Index(name="IDX_DA7D4E9BB842C572", columns={"idOffre"}), @ORM\Index(name="IDX_DA7D4E9BFE6E88D7", columns={"idUser"})})
- * @ORM\Entity
  */
+#[ORM\Table(name: 'postulation')]
+#[ORM\Index(name: 'idUser', columns: ['idUser', 'idOffre'])]
+#[ORM\Index(name: 'idOffre', columns: ['idOffre', 'idUser'])]
+#[ORM\Index(name: 'IDX_DA7D4E9BB842C572', columns: ['idOffre'])]
+#[ORM\Index(name: 'IDX_DA7D4E9BFE6E88D7', columns: ['idUser'])]
+#[ORM\Entity]
 class Postulation
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idPost", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idpost;
 
-    /**
-     * @var Offre
-     *
-     * @ORM\ManyToOne(targetEntity="Offre")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idOffre", referencedColumnName="idOffre", onDelete="CASCADE")
-     * })
-     */
-    private Offre $idoffre;
+    #[ORM\Column(name: 'idPost', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idpost;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
+    #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'idOffre', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: 'Offre')]
+    private ?Offre $idoffre;
+
+    #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    private ?User $iduser;
 
     public function getIdpost(): ?int
     {

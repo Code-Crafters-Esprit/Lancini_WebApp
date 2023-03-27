@@ -5,91 +5,47 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Offre
- *
- * @ORM\Table(name="offre", indexes={@ORM\Index(name="proprietaire", columns={"proprietaire"}), @ORM\Index(name="offre_ibfk_21", columns={"idSecteur"})})
- * @ORM\Entity
- */
+#[ORM\Table(name: 'offre')]
+#[ORM\Index(columns: ['proprietaire'], name: 'proprietaire')]
+#[ORM\Index(columns: ['idSecteur'], name: 'offre_ibfk_21')]
+#[ORM\Entity]
 class Offre
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="idOffre", type="integer", nullable=false)
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\Column(name: 'idOffre', type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private int $idOffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     private string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeOffre", type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(name: 'typeOffre', type: 'string', length: 50, nullable: false)]
     private string $typeoffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
     private string $description;
 
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="dateDebut", type="date", nullable=false)
-     */
+    #[ORM\Column(name: 'dateDebut', type: 'date', nullable: false)]
     private DateTime $datedebut;
 
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="dateFin", type="date", nullable=true)
-     */
+    #[ORM\Column(name: 'dateFin', type: 'date', nullable: true)]
     private ?DateTime $datefin;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="competence", type="text", length=65535, nullable=false)
-     */
+    #[ORM\Column(name: 'competence', type: 'text', length: 65535, nullable: false)]
     private string $competence;
 
-    /**
-     * @var Secteur
-     *
-     * @ORM\ManyToOne(targetEntity="Secteur", cascade={"all"}, fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSecteur", referencedColumnName="IdSecteur")
-     * })
-     */
+    #[ORM\JoinColumn(name: 'idSecteur', referencedColumnName: 'IdSecteur')]
+    #[ORM\ManyToOne(targetEntity: 'Secteur', cascade: ['all'], fetch: 'EAGER')]
     private ?Secteur $secteur;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User", cascade={"all"}, fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
-     * })
-     */
+    #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser')]
+    #[ORM\ManyToOne(targetEntity: 'User', cascade: ['all'], fetch: 'EAGER')]
     private ?User $proprietaire;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Postulation", mappedBy="idoffre", cascade={"persist", "remove"})
-     */
-    private $postulation;
+    #[ORM\OneToMany(mappedBy: 'idoffre', targetEntity: 'App\Entity\Postulation', cascade: ['persist', 'remove'])]
+    private Collection $postulation;
 
     public function __construct()
     {
@@ -221,11 +177,9 @@ class Offre
 
     public function removePostulation(Postulation $postulation): self
     {
-        if ($this->postulation->removeElement($postulation)) {
-            // set the owning side to null (unless already changed)
-            if ($postulation->getIdoffre() === $this) {
-                $postulation->setIdoffre(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->postulation->removeElement($postulation) && $postulation->getIdoffre() === $this) {
+            $postulation->setIdoffre(null);
         }
 
         return $this;
