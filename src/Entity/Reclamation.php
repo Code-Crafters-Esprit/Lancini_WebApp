@@ -3,75 +3,40 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReclamationRepository;
 
-/**
- * Reclamation
- *
- * @ORM\Table(name="reclamation")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ReclamationRepository::class)]
+
 class Reclamation
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=10, nullable=false)
-     */
-    private $nom;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  $id = null;
+    #[ORM\Column(type: "string", length: 10, nullable: false)]
+private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=10, nullable=false)
-     */
+    #[ORM\Column(type: "string", length: 10, nullable: false)]
     private $prenom;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
+    
+    #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sujetdereclamations", type="string", length=255, nullable=false)
-     */
+    
+    #[ORM\Column(name: "sujetdereclamations", type: "string", length: 255, nullable: false)]
     private $sujetdereclamations;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=150, nullable=false)
-     */
+    
+    #[ORM\Column(type: "string", length: 150, nullable: false)]
     private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tel", type="string", length=100, nullable=false)
-     */
+    
+    #[ORM\Column(type: "string", length: 100, nullable: false)]
     private $tel;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etat", type="string", length=255, nullable=false)
-     */
+    
+    #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $etat;
 
-    /**
-     * @var \Avis
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Avis")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
-     * })
-     */
-    private $id;
+    #[ORM\ManyToOne(targetEntity: "Avis", inversedBy: 'Reclamation')]
+
+    private $idAvis=null;
 
     public function getNom(): ?string
     {
@@ -157,17 +122,33 @@ class Reclamation
         return $this;
     }
 
-    public function getId(): ?Avis
+    public function getIdAvis(): ?Avis
     {
-        return $this->id;
+        return $this->idAvis;
     }
 
-    public function setId(?Avis $id): self
+    public function setIdAvis(?Avis $idAvis): self
     {
-        $this->id = $id;
+        $this->idAvis = $idAvis;
 
         return $this;
     }
 
 
+
+	/**
+	 * @return mixed
+	 */
+	public function getId() {
+		return $this->id;
+	}
+	
+	/**
+	 * @param mixed $id 
+	 * @return self
+	 */
+	public function setId($id): self {
+		$this->id = $id;
+		return $this;
+	}
 }

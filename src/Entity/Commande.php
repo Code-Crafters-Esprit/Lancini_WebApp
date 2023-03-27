@@ -1,74 +1,41 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Produit;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommandeRepository;
 
-/**
- * Commande
- *
- * @ORM\Table(name="commande", indexes={@ORM\Index(name="acheteur", columns={"acheteur"}), @ORM\Index(name="vendeur", columns={"vendeur"}), @ORM\Index(name="produit", columns={"produit"})})
- * @ORM\Entity
- */
+
+#[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idCommande", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idcommande;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  $idCommande = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCommande", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $datecommande = 'CURRENT_TIMESTAMP';
+    #[ORM\Column(name: "dateCommande", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $datecommande = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="montantPaye", type="decimal", precision=10, scale=2, nullable=false)
-     */
-    private $montantpaye;
+    #[ORM\Column(name: "montantPaye", type: "decimal", precision: 10, scale: 2, nullable: false)]
+    private $montantpaye=null;
 
-    /**
-     * @var \Produit
-     *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="produit", referencedColumnName="idProduit")
-     * })
-     */
-    private $produit;
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="acheteur", referencedColumnName="idUser")
-     * })
-     */
-    private $acheteur;
+    private $produit =null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="vendeur", referencedColumnName="idUser")
-     * })
-     */
-    private $vendeur;
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Commande')]
+        private $acheteur=null;
+
+    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
+    private $vendeur=null;
+
 
     public function getIdcommande(): ?int
     {
-        return $this->idcommande;
+        return $this->idCommande;
     }
 
     public function getDatecommande(): ?\DateTimeInterface
