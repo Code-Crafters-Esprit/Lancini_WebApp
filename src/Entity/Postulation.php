@@ -22,17 +22,17 @@ class Postulation
     private $idpost;
 
     /**
-     * @var \Offre
+     * @var Offre
      *
      * @ORM\ManyToOne(targetEntity="Offre")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idOffre", referencedColumnName="idOffre")
+     *   @ORM\JoinColumn(name="idOffre", referencedColumnName="idOffre", onDelete="CASCADE")
      * })
      */
-    private $idoffre;
+    private Offre $idoffre;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({

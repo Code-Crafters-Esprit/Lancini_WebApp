@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,79 +17,88 @@ use Doctrine\ORM\Mapping as ORM;
 class Offre
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idOffre", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="idOffre", type="integer", nullable=false)
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $idoffre;
+    private int $idOffre;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
      */
-    private $nom;
+    private string $nom;
 
     /**
      * @var string
      *
      * @ORM\Column(name="typeOffre", type="string", length=50, nullable=false)
      */
-    private $typeoffre;
+    private string $typeoffre;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
-    private $description;
+    private string $description;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="dateDebut", type="date", nullable=false)
      */
-    private $datedebut;
+    private DateTime $datedebut;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="dateFin", type="date", nullable=true)
      */
-    private $datefin;
+    private ?DateTime $datefin;
 
     /**
      * @var string
      *
      * @ORM\Column(name="competence", type="text", length=65535, nullable=false)
      */
-    private $competence;
+    private string $competence;
 
     /**
-     * @var \Secteur
+     * @var Secteur
      *
-     * @ORM\ManyToOne(targetEntity="Secteur")
+     * @ORM\ManyToOne(targetEntity="Secteur", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSecteur", referencedColumnName="IdSecteur")
      * })
      */
-    private $idsecteur;
+    private ?Secteur $secteur;
 
     /**
-     * @var \User
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
      * })
      */
-    private $proprietaire;
+    private ?User $proprietaire;
 
-    public function getIdoffre(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Postulation", mappedBy="idoffre", cascade={"persist", "remove"})
+     */
+    private $postulation;
+
+    public function __construct()
     {
-        return $this->idoffre;
+        $this->postulation = new ArrayCollection();
+    }
+
+    public function getIdOffre(): ?int
+    {
+        return $this->idOffre;
     }
 
     public function getNom(): ?string
@@ -113,7 +125,7 @@ class Offre
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -161,14 +173,14 @@ class Offre
         return $this;
     }
 
-    public function getIdsecteur(): ?Secteur
+    public function getSecteur(): ?Secteur
     {
-        return $this->idsecteur;
+        return $this->secteur;
     }
 
-    public function setIdsecteur(?Secteur $idsecteur): self
+    public function setSecteur(?Secteur $secteur): self
     {
-        $this->idsecteur = $idsecteur;
+        $this->secteur = $secteur;
 
         return $this;
     }
@@ -185,5 +197,37 @@ class Offre
         return $this;
     }
 
+    public function getPostulation(): ArrayCollection
+    {
+        return $this->postulation;
+    }
 
+    public function setPostulation(ArrayCollection $postulation): self
+    {
+        $this->postulation = $postulation;
+
+        return $this;
+    }
+
+    public function addPostulation(Postulation $postulation): self
+    {
+        if (!$this->postulation->contains($postulation)) {
+            $this->postulation->add($postulation);
+            $postulation->setIdoffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostulation(Postulation $postulation): self
+    {
+        if ($this->postulation->removeElement($postulation)) {
+            // set the owning side to null (unless already changed)
+            if ($postulation->getIdoffre() === $this) {
+                $postulation->setIdoffre(null);
+            }
+        }
+
+        return $this;
+    }
 }

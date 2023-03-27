@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -49,6 +51,16 @@ class Secteur
      * @ORM\Column(name="DateModification", type="date", nullable=true)
      */
     private $datemodification;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Offre", mappedBy="secteur", cascade={"persist", "remove"})
+     */
+    private $offre;
+
+    public function __construct()
+    {
+        $this->offre = new ArrayCollection();
+    }
 
     public function getIdsecteur(): ?int
     {
@@ -104,4 +116,37 @@ class Secteur
     }
 
 
+    public function getOffre()
+    {
+        return $this->offre;
+    }
+
+    public function setOffre($offre): self
+    {
+        $this->offre = $offre;
+
+        return $this;
+    }
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offre->contains($offre)) {
+            $this->offre[] = $offre;
+            $offre->setSecteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        if ($this->offre->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getSecteur() === $this) {
+                $offre->setSecteur(null);
+            }
+        }
+
+        return $this;
+    }
 }
