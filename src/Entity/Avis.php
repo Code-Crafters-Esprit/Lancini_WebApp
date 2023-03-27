@@ -98,5 +98,10 @@ class Avis
         return $this;
     }
 
+    public function getIdAvis(): ?string
+    {
+        return $this->idAvis;
+    }
+
 
 }
