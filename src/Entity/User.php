@@ -13,7 +13,7 @@ class User
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idUser", type: "integer", nullable: false)]
 
-    private $iduser;
+    private  $iduser;
 
     #[ORM\Column(name: "Nom", type: "string", length: 255, nullable: false)]
     private $nom;
@@ -139,4 +139,10 @@ class User
 
         return $this;
     }
+
+         
+        public function __toString() {
+         
+            return sprintf('%s %s', $this->getNom(), $this->getPrenom());
+            }
 }

@@ -1,0 +1,6 @@
+{{form_start(f,{attr:{'novalidate':'novalidate'}})}} {#<form>#}
+  {{form_label(f.nom,'Nom Produit')}} {# <label>#}
+    {{form_widget(f.nom)}} {#<input>#}
+    {{form_errors(f.nom)}} {#le msg d'erreur#}
+   
+    {{form_end(f)}} {#</form>#}
