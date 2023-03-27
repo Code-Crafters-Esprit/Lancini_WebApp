@@ -2,91 +2,59 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Offre
- *
- * @ORM\Table(name="offre", indexes={@ORM\Index(name="proprietaire", columns={"proprietaire"}), @ORM\Index(name="offre_ibfk_21", columns={"idSecteur"})})
- * @ORM\Entity
- */
+#[ORM\Table(name: 'offre')]
+#[ORM\Index(columns: ['proprietaire'], name: 'proprietaire')]
+#[ORM\Index(columns: ['idSecteur'], name: 'offre_ibfk_21')]
+#[ORM\Entity]
 class Offre
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idOffre", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idoffre;
+    #[ORM\Id]
+    #[ORM\Column(name: 'idOffre', type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
+    private int $idOffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    private string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeOffre", type="string", length=50, nullable=false)
-     */
-    private $typeoffre;
+    #[ORM\Column(name: 'typeOffre', type: 'string', length: 50, nullable: false)]
+    private string $typeoffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
+    private string $description;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateDebut", type="date", nullable=false)
-     */
-    private $datedebut;
+    #[ORM\Column(name: 'dateDebut', type: 'date', nullable: false)]
+    private DateTime $datedebut;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateFin", type="date", nullable=true)
-     */
-    private $datefin;
+    #[ORM\Column(name: 'dateFin', type: 'date', nullable: true)]
+    private ?DateTime $datefin;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="competence", type="text", length=65535, nullable=false)
-     */
-    private $competence;
+    #[ORM\Column(name: 'competence', type: 'text', length: 65535, nullable: false)]
+    private string $competence;
 
-    /**
-     * @var \Secteur
-     *
-     * @ORM\ManyToOne(targetEntity="Secteur")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSecteur", referencedColumnName="IdSecteur")
-     * })
-     */
-    private $idsecteur;
+    #[ORM\JoinColumn(name: 'idSecteur', referencedColumnName: 'IdSecteur')]
+    #[ORM\ManyToOne(targetEntity: 'Secteur', cascade: ['all'], fetch: 'EAGER')]
+    private ?Secteur $secteur;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
-     * })
-     */
-    private $proprietaire;
+    #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser')]
+    #[ORM\ManyToOne(targetEntity: 'User', cascade: ['all'], fetch: 'EAGER')]
+    private ?User $proprietaire;
 
-    public function getIdoffre(): ?int
+    #[ORM\OneToMany(mappedBy: 'idoffre', targetEntity: 'App\Entity\Postulation', cascade: ['persist', 'remove'])]
+    private Collection $postulation;
+
+    public function __construct()
     {
-        return $this->idoffre;
+        $this->postulation = new ArrayCollection();
+    }
+
+    public function getIdOffre(): ?int
+    {
+        return $this->idOffre;
     }
 
     public function getNom(): ?string
@@ -113,7 +81,7 @@ class Offre
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -161,14 +129,14 @@ class Offre
         return $this;
     }
 
-    public function getIdsecteur(): ?Secteur
+    public function getSecteur(): ?Secteur
     {
-        return $this->idsecteur;
+        return $this->secteur;
     }
 
-    public function setIdsecteur(?Secteur $idsecteur): self
+    public function setSecteur(?Secteur $secteur): self
     {
-        $this->idsecteur = $idsecteur;
+        $this->secteur = $secteur;
 
         return $this;
     }
@@ -185,5 +153,35 @@ class Offre
         return $this;
     }
 
+    public function getPostulation(): ArrayCollection
+    {
+        return $this->postulation;
+    }
 
+    public function setPostulation(ArrayCollection $postulation): self
+    {
+        $this->postulation = $postulation;
+
+        return $this;
+    }
+
+    public function addPostulation(Postulation $postulation): self
+    {
+        if (!$this->postulation->contains($postulation)) {
+            $this->postulation->add($postulation);
+            $postulation->setIdoffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostulation(Postulation $postulation): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->postulation->removeElement($postulation) && $postulation->getIdoffre() === $this) {
+            $postulation->setIdoffre(null);
+        }
+
+        return $this;
+    }
 }
