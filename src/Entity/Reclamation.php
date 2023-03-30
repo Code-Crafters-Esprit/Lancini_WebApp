@@ -5,43 +5,55 @@ use App\Entity\Produit;
 use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ReclamationRepository;
+
 /**
  * Reclamation
  *
  * @ORM\Table(name="reclamation")
  * @ORM\Entity
  */
-#[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private  $id = null;
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=10, nullable=false)
      */
-    #[ORM\Column(name: "nom", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $nom;
 
-    #[ORM\Column(name: "prenom", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=10, nullable=false)
+     */
     private $prenom;
 
-    #[ORM\Column(name: "description", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     */
     private $description;
 
-    #[ORM\Column(name: "sujetdereclamations", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sujetdereclamations", type="string", length=255, nullable=false)
+     */
     private $sujetdereclamations;
 
-    #[ORM\Column(name: "email", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=150, nullable=false)
+     */
     private $email;
 
-    #[ORM\Column(name: "tel", type: "sring", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tel", type="string", length=100, nullable=false)
+     */
     private $tel;
 
     /**
@@ -49,21 +61,11 @@ class Reclamation
      *
      * @ORM\Column(name="etat", type="string", length=255, nullable=false)
      */
-    #[ORM\Column(name: "etat", type: "string", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-
     private $etat;
 
-    /**
-     * @var \Avis
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Avis")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
-     * })
-     */
-    private $id;
+    #[ORM\ManyToOne(targetEntity: "Avis", inversedBy: 'Reclamation')]
+
+    private $idAvis=null;
 
     public function getNom(): ?string
     {
@@ -149,17 +151,33 @@ class Reclamation
         return $this;
     }
 
-    public function getId(): ?Avis
+    public function getIdAvis(): ?Avis
     {
-        return $this->id;
+        return $this->idAvis;
     }
 
-    public function setId(?Avis $id): self
+    public function setIdAvis(?Avis $idAvis): self
     {
-        $this->id = $id;
+        $this->idAvis = $idAvis;
 
         return $this;
     }
 
 
+
+	/**
+	 * @return mixed
+	 */
+	public function getId() {
+		return $this->id;
+	}
+	
+	/**
+	 * @param mixed $id 
+	 * @return self
+	 */
+	public function setId($id): self {
+		$this->id = $id;
+		return $this;
+	}
 }

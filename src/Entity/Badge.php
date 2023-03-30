@@ -4,57 +4,30 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BadgeRepository;
 
-/**
- * Badge
- *
- * @ORM\Table(name="badge", indexes={@ORM\Index(name="userId", columns={"userId"}), @ORM\Index(name="testId", columns={"testId"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
 class Badge
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idBadge", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idbadge;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idbadge = null;
+    
+    #[ORM\Column(length:255)]
+    private ?string $nombadge = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nomBadge", type="string", length=255, nullable=false)
-     */
-    private $nombadge;
+    #[ORM\Column()]
+    private ?\DateTime $date = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
-     */
-    private $date;
+    
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Badge')]
+    private ?User $userid = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="idUser")
-     * })
-     */
-    private $userid;
+   
+    #[ORM\ManyToOne(targetEntity: "Test", inversedBy: 'Badge')]
+    private ?Test $testid = null;
 
-    /**
-     * @var \Test
-     *
-     * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="testId", referencedColumnName="idTest")
-     * })
-     */
-    private $testid;
 
     public function getIdbadge(): ?int
     {

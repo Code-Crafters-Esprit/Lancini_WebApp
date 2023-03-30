@@ -3,39 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CandidatRepository;
 
-/**
- * Candidat
- *
- * @ORM\Table(name="candidat", indexes={@ORM\Index(name="idUser", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CandidatRepository::class)]
 class Candidat
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idCandidat", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $idcandidat;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="secteur", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "secteur", type: "string", length: 255, nullable: false)]
     private $secteur;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Candidat')]
     private $iduser;
 
     public function getIdcandidat(): ?int
@@ -66,6 +47,4 @@ class Candidat
 
         return $this;
     }
-
-
 }

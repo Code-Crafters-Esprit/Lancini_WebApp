@@ -2,88 +2,65 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
- */
+#[ORM\Table(name: 'user')]
+#[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
+#[ORM\Entity]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $iduser;
+    public $iduser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Nom", type="string", length=255, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idUser;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Prenom", type="string", length=255, nullable=false)
-     */
-    private $prenom;
+    #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    private string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
+    private string $prenom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="motDePasse", type="string", length=255, nullable=false)
-     */
-    private $motdepasse;
+    #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
+    private string $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255, nullable=false)
-     */
-    private $role;
+    #[ORM\Column(name: 'motDePasse', type: 'string', length: 255, nullable: false)]
+    private string $motdepasse;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="bio", type="text", length=65535, nullable=true)
-     */
-    private $bio;
+    #[ORM\Column(name: 'role', type: 'string', length: 255, nullable: false)]
+    private string $role;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photoPath", type="string", length=255, nullable=true)
-     */
-    private $photopath;
+    #[ORM\Column(name: 'bio', type: 'text', length: 65535, nullable: true)]
+    private ?string $bio;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="numTel", type="string", length=255, nullable=true)
-     */
-    private $numtel;
+    #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
+    private ?string $photopath;
+
+    #[ORM\Column(name: 'numTel', type: 'string', length: 255, nullable: true)]
+    private ?string $numtel;
+
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Badge', cascade: ['persist'])]
+    private Collection $badge;
+
+    #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
+    private Collection $offre;
+
+    public function __construct()
+    {
+        $this->offre = new ArrayCollection();
+        $this->badge = new ArrayCollection();
+    }
 
     public function getIduser(): ?int
     {
         return $this->iduser;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -179,5 +156,67 @@ class User
         return $this;
     }
 
+    public function getBadge(): ArrayCollection
+    {
+        return $this->badge;
+    }
 
+    public function setBadge(ArrayCollection $badge): self
+    {
+        $this->badge = $badge;
+
+        return $this;
+    }
+
+    public function getOffre(): ArrayCollection
+    {
+        return $this->offre;
+    }
+
+    public function setOffre(ArrayCollection $offre): self
+    {
+        $this->offre = $offre;
+
+        return $this;
+    }
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offre->contains($offre)) {
+            $this->offre[] = $offre;
+            $offre->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->offre->removeElement($offre) && $offre->getProprietaire() === $this) {
+            $offre->setProprietaire(null);
+        }
+
+        return $this;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badge->contains($badge)) {
+            $this->badge->add($badge);
+            $badge->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->badge->removeElement($badge) && $badge->getUserid() === $this) {
+            $badge->setUserid(null);
+        }
+
+        return $this;
+    }
 }

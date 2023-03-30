@@ -3,34 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CompetenceRepository;
 
-/**
- * Competence
- *
- * @ORM\Table(name="competence", indexes={@ORM\Index(name="userId", columns={"userId"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CompetenceRepository::class)]
 class Competence
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="libelle", type="string", length=255, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "NONE")]
+    #[ORM\Column(name: "libelle", type: "string", length: 255, nullable: false)]
     private $libelle;
 
-    /**
-     * @var \User
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="idUser")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Competence')]
     private $userid;
 
     public function getLibelle(): ?string
@@ -49,6 +32,4 @@ class Competence
 
         return $this;
     }
-
-
 }

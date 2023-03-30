@@ -4,103 +4,54 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CvRepository;
 
-/**
- * Cv
- *
- * @ORM\Table(name="cv", indexes={@ORM\Index(name="userId", columns={"userId"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CvRepository::class)]
 class Cv
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idCV", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idcv;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idcv = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cin", type="integer", nullable=false)
-     */
-    private $cin;
+    #[ORM\Column]
+    private ?int $cin = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
-     */
-    private $prenom;
+    #[ORM\Column(length: 255)]
+    private ?string $prenom = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sexe", type="string", length=10, nullable=false)
-     */
-    private $sexe;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateNaissance", type="date", nullable=true)
-     */
-    private $datenaissance;
+    #[ORM\Column(length: 10)]
+    private ?string $sexe = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
-     */
-    private $photo;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
-     */
-    private $adresse;
+    #[ORM\Column()]
+    private ?\DateTime $datenaissance = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="langue", type="string", length=255, nullable=true)
-     */
-    private $langue;
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="education", type="string", length=255, nullable=true)
-     */
-    private $education;
+    #[ORM\Column(length: 255)]
+    private ?string $adresse = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="idUser")
-     * })
-     */
-    private $userid;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $langue = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $education = null;
+
+
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Cv')]
+    private ?User $userid = null;
+
 
     public function getIdcv(): ?int
     {
@@ -238,6 +189,4 @@ class Cv
 
         return $this;
     }
-
-
 }

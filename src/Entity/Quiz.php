@@ -3,68 +3,38 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\QuizRepository;
 
-/**
- * Quiz
- *
- * @ORM\Table(name="quiz", indexes={@ORM\Index(name="idTest", columns={"idTest"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idQuiz", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idquiz;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idquiz = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="question", type="string", length=255, nullable=false)
-     */
-    private $question;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reponseCorrecte", type="string", length=255, nullable=false)
-     */
-    private $reponsecorrecte;
+    #[ORM\Column(length: 255)]
+    private ?string $question = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reponseFausse1", type="string", length=255, nullable=false)
-     */
-    private $reponsefausse1;
+    #[ORM\Column(length: 255)]
+    private ?string $reponsecorrecte = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reponseFausse2", type="string", length=255, nullable=false)
-     */
-    private $reponsefausse2;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reponseFausse3", type="string", length=255, nullable=false)
-     */
-    private $reponsefausse3;
+    #[ORM\Column(length: 255)]
+    private ?string $reponsefausse1 = null;
 
-    /**
-     * @var \Test
-     *
-     * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTest", referencedColumnName="idTest")
-     * })
-     */
-    private $idtest;
+
+    #[ORM\Column(length: 255)]
+    private ?string $reponsefausse2 = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $reponsefausse3 = null;
+
+
+    #[ORM\ManyToOne(targetEntity: "Test", inversedBy: 'Quiz')]
+    private ?Test $idtest = null;
+
 
     public function getIdquiz(): ?int
     {
@@ -142,6 +112,4 @@ class Quiz
 
         return $this;
     }
-
-
 }
