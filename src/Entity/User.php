@@ -13,7 +13,7 @@ class User
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idUser", type: "integer", nullable: false)]
 
-    private  $iduser;
+    private  $idUser;
 
     #[ORM\Column(name: "Nom", type: "string", length: 255, nullable: false)]
     private $nom;
@@ -41,7 +41,7 @@ class User
 
     public function getIduser(): ?int
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function getNom(): ?string

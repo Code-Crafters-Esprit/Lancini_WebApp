@@ -12,9 +12,9 @@ use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
-{ #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
-    #[ORM\Id]
+{   #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
     private  $idproduit;
 
     #[ORM\Column(name: "categorie", type: "string", length: 255, nullable: false)]
@@ -35,9 +35,9 @@ class Produit
     #[ORM\Column(name: "date", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private  $date;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Produit')]
-
-    private  $vendeur=null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
+    private $vendeur;
 
     public function getIdproduit(): ?int
     {

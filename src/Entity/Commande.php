@@ -22,16 +22,17 @@ class Commande
     #[ORM\Column(name: "montantPaye", type: "decimal", precision: 10, scale: 2, nullable: false)]
     private $montantpaye=null;
 
-    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
+    #[ORM\ManyToOne(targetEntity: Produit::class)]
+    #[ORM\JoinColumn(name: "produit", referencedColumnName: "idProduit")]
+    private $produit;
 
-    private $produit =null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "acheteur", referencedColumnName: "idUser")]
+    private $acheteur;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Commande')]
-        private $acheteur=null;
-
-    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: 'Commande')]
-    private $vendeur=null;
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
+    private $vendeur;
 
     public function getIdcommande(): ?int
     {
