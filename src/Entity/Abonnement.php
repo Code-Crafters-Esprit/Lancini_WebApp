@@ -14,10 +14,10 @@ class Abonnement
     private $idabonnement;
 
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
-    private $useridfollowed;
+    private $useridfollowed=null;
 
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
-    private $userid;
+    private $userid=null;
 
     public function getIdabonnement(): ?int
     {

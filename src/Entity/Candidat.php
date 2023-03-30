@@ -17,7 +17,7 @@ class Candidat
     private $secteur;
 
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Candidat')]
-    private $iduser;
+    private $iduser=null;
 
     public function getIdcandidat(): ?int
     {
