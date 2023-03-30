@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
-use App\Form\AvisType;
+use App\Form\Avis1Type;
 use App\Repository\AvisRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class AvisController extends AbstractController
     public function new(Request $request, AvisRepository $avisRepository): Response
     {
         $avi = new Avis();
-        $form = $this->createForm(AvisType::class, $avi);
+        $form = $this->createForm(Avis1Type::class, $avi);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,7 +40,7 @@ class AvisController extends AbstractController
         ]);
     }
 
-    #[Route('/{idAvis}', name: 'app_avis_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_avis_show', methods: ['GET'])]
     public function show(Avis $avi): Response
     {
         return $this->render('avis/show.html.twig', [
@@ -48,10 +48,10 @@ class AvisController extends AbstractController
         ]);
     }
 
-    #[Route('/{idAvis}/edit', name: 'app_avis_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_avis_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Avis $avi, AvisRepository $avisRepository): Response
     {
-        $form = $this->createForm(AvisType::class, $avi);
+        $form = $this->createForm(Avis1Type::class, $avi);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,10 +66,10 @@ class AvisController extends AbstractController
         ]);
     }
 
-    #[Route('/{idAvis}', name: 'app_avis_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_avis_delete', methods: ['POST'])]
     public function delete(Request $request, Avis $avi, AvisRepository $avisRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$avi->getIdAvis(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$avi->getId(), $request->request->get('_token'))) {
             $avisRepository->remove($avi, true);
         }
 

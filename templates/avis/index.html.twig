@@ -7,7 +7,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>IdAvis</th>
+                <th>Id</th>
                 <th>Description</th>
                 <th>Note</th>
                 <th>Date</th>
@@ -17,13 +17,13 @@
         <tbody>
         {% for avi in avis %}
             <tr>
-                <td>{{ avi.idAvis }}</td>
+                <td>{{ avi.id }}</td>
                 <td>{{ avi.description }}</td>
                 <td>{{ avi.note }}</td>
                 <td>{{ avi.date ? avi.date|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_avis_show', {'idAvis': avi.idAvis}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'idAvis': avi.idAvis}) }}">edit</a>
+                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
+                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

@@ -6,17 +6,15 @@ use App\Entity\Avis;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DateTime;
-class AvisType extends AbstractType
+
+class Avis1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('description')
             ->add('note')
-            ->add('date', null, [
-                'data' => new DateTime(),
-            ])
+            ->add('date')
             ->add('idProduit')
             ->add('idevaluateuruser')
         ;
