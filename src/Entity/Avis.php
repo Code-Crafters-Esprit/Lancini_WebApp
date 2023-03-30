@@ -15,7 +15,7 @@ class Avis
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $idAvis = null;
+    private $id = null;
 
     #[ORM\Column(length:100)]
     private  $description = null;
@@ -26,7 +26,7 @@ class Avis
     #[ORM\Column(type: "date")]
     private  $date = null;
     #[ORM\ManyToOne(targetEntity: Produit::class)]
-    #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProuit")]
+    #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProduit")]
     private $idproduit;
 
 
@@ -37,7 +37,7 @@ class Avis
 
     public function getId(): ?int
     {
-        return $this->idAvis;
+        return $this->id;
     }
 
     public function getDescription(): ?string
@@ -102,8 +102,11 @@ class Avis
 
     public function getIdAvis(): ?string
     {
-        return $this->idAvis;
+        return $this->id;
     }
-
+    public function __toString()
+    {
+        return $this->description;
+    }
 
 }

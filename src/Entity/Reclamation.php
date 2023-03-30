@@ -39,7 +39,7 @@ class Reclamation
 
     
     #[ORM\ManyToOne(targetEntity: Avis::class)]
-    #[ORM\JoinColumn(name: "idAvis", referencedColumnName: "idAvis")]
+    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
     private $idAvis;
 
     public function getNom(): ?string
