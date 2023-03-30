@@ -25,39 +25,15 @@ class Avis
 
     #[ORM\Column(type: "date")]
     private  $date = null;
+    #[ORM\ManyToOne(targetEntity: Produit::class)]
+    #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProuit")]
+    private $idproduit;
 
-    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: "avis")]
-    private  $idproduit = null; 
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "avis")]
-    private  $idevaluateuruser = null; 
-
-<<<<<<< HEAD
-    #[ORM\Column]
-    private ?Date $date = null;
-
-    /**
-     * @var \Produit
-     *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idProduit", referencedColumnName="idProduit")
-     * })
-     */
-    #[ORM\Column]
-    private ?int $idproduit = null;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEvaluateurUser", referencedColumnName="idUser")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idevaluateuruser", referencedColumnName: "idUser")]
     private $idevaluateuruser;
-=======
->>>>>>> 47f32dd5e6441bea120348dcf142d53176e00e71
+ 
 
     public function getId(): ?int
     {
