@@ -1,6 +1,81 @@
-{{form_start(f,{attr:{'novalidate':'novalidate'}})}} {#<form>#}
-  {{form_label(f.nom,'Nom Produit')}} {# <label>#}
-    {{form_widget(f.nom)}} {#<input>#}
-    {{form_errors(f.nom)}} {#le msg d'erreur#}
-   
-    {{form_end(f)}} {#</form>#}
+{% block stylesheets %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="assets/css/form.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+
+  
+
+{% endblock %}
+{% block body %}
+
+   <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <h1 class="text-center mb-5">Add Product</h1>
+        <div class="form-container">
+          {{ form_start(form) }}
+          <div class="form-group">
+            {{ form_label(form.categorie, 'Category', {label_attr: {'class': 'form-label'}}) }}
+            <div class="input-group">
+              <select class="form-control" id="{{ form.categorie.vars.id }}" name="{{ form.categorie.vars.full_name }}">
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+                <option value="Option 3">Option 3</option>
+              </select>
+            </div>
+            {{ form_errors(form.categorie, {attr: {'class': 'invalid-feedback'}}) }}
+          </div>
+          <div class="form-group">
+            {{ form_label(form.nom, 'Product Name', {label_attr: {'class': 'form-label'}}) }}
+            {{ form_widget(form.nom, {attr: {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom, {attr: {'class': 'invalid-feedback'}}) }}
+          </div>
+          <div class="form-group">
+            {{ form_label(form.description, 'Description', {label_attr: {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {attr: {'class': 'form-control'}}) }}
+            {{ form_errors(form.description, {attr: {'class': 'invalid-feedback'}}) }}
+          </div>
+          <div class="form-group">
+            {{ form_label(form.image, 'Image', {label_attr: {'class': 'form-label'}}) }}
+            <div class="custom-file">
+              <input type="file" id="{{ form.image.vars.id }}" name="{{ form.image.vars.full_name }}" class="custom-file-input" accept="image/*" onchange="previewImage(event)">
+              <label class="custom-file-label" for="{{ form.image.vars.id }}">Choose file</label>
+            </div>
+            {{ form_errors(form.image, {attr: {'class': 'invalid-feedback'}}) }}
+            <div class="text-center">
+              <img id="image-preview" class="img-thumbnail mt-3" style="display: none; width: 100px; height: 150px;">
+            </div>
+          </div>
+
+        <div class="form-group">
+          {{ form_label(form.prix, 'Price', {label_attr: {'class': 'form-label'}}) }}
+          {{ form_widget(form.prix, {attr: {'class': 'form-control'}}) }}
+          {{ form_errors(form.prix, {attr: {'class': 'invalid-feedback'}}) }}
+        </div>
+   <div class="form-group">
+  {{ form_label(form.date, 'Date', {label_attr: {'class': 'form-label'}}) }}
+  {{ form_widget(form.date, {attr: {'class': 'form-control', 'type': 'date', 'placeholder': 'Select date'}}) }}
+  {{ form_errors(form.date, {attr: {'class': 'invalid-feedback'}}) }}
+</div>
+
+
+
+
+
+        <div class="form-group">
+          {{ form_label(form.vendeur, 'Vendor', {label_attr: {'class': 'form-label'}}) }}
+          {{ form_widget(form.vendeur, {attr: {'class': 'form-control'}}) }}
+          {{ form_errors(form.vendeur, {attr: {'class': 'invalid-feedback'}}) }}
+        </div>
+        <div class="form-group text-center">
+          {{ form_widget(form.save, {attr: {'class': 'btn btn-primary'}}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

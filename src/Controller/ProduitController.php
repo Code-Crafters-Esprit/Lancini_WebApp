@@ -14,6 +14,7 @@ use App\Form\ProduitType;
 
 class ProduitController extends AbstractController
 {
+    
     #[Route('/produit', name: 'app_produit')]
     public function index(): Response
     {
@@ -21,8 +22,8 @@ class ProduitController extends AbstractController
             'controller_name' => 'ProduitController',
         ]);
     }
-    #[Route('/add', name: 'add')]
-    public function addSt(Request $req,ManagerRegistry $mr): Response
+    #[Route('/addproduit', name: 'addproduit')]
+    public function addproduit(Request $req,ManagerRegistry $mr): Response
     {
 $Produit=new Produit();
 $form=$this->createForm(ProduitType::class,$Produit);
@@ -33,7 +34,8 @@ $em->persist($Produit);
 $em->flush();
 }
         return $this->render('Produit/add.html.twig', [
-            'f' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
+    
 }
