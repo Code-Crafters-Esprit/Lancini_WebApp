@@ -6,7 +6,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
 use Symfony\Component\Validator\Constraints\Date;
-use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 
@@ -25,9 +24,10 @@ class Avis
 
     #[ORM\Column(type: "date")]
     private  $date = null;
+
     #[ORM\ManyToOne(targetEntity: Produit::class)]
     #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProduit")]
-    private $idproduit;
+    private $idProduit;
 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -76,14 +76,14 @@ class Avis
         return $this;
     }
 
-    public function getIdproduit(): ?Produit
+    public function getIdProduit(): ?Produit
     {
-        return $this->idproduit;
+        return $this->idProduit;
     }
 
-    public function setIdproduit(?Produit $idproduit): self
+    public function setIdProduit(?Produit $idProduit): self
     {
-        $this->idproduit = $idproduit;
+        $this->idProduit = $idProduit;
 
         return $this;
     }

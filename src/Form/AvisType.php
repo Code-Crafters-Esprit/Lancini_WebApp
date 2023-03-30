@@ -15,7 +15,7 @@ class AvisType extends AbstractType
             ->add('description')
             ->add('note')
             ->add('date')
-            ->add('idproduit')
+            ->add('idProduit')
             ->add('idevaluateuruser')
         ;
     }
