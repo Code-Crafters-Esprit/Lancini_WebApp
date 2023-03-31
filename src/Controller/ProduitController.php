@@ -3,14 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
-use App\Form\ProduitType;
+use App\Form\Produit1Type;
 use App\Repository\ProduitRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -27,7 +25,7 @@ class ProduitController extends AbstractController
     public function new(Request $request, ProduitRepository $produitRepository): Response
     {
         $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
+        $form = $this->createForm(Produit1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +51,7 @@ class ProduitController extends AbstractController
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
-        $form = $this->createForm(ProduitType::class, $produit);
+        $form = $this->createForm(Produit1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,19 +75,5 @@ class ProduitController extends AbstractController
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/addproduit', name: 'addproduit')]
-    public function addproduit(Request $req,ManagerRegistry $mr): Response
-    {
-$Produit=new Produit();
-$form=$this->createForm(ProduitType::class,$Produit);
-$form->handleRequest($req);
-if($form->isSubmitted()&& $form->isValid()){
-$em=$mr->getManager();
-$em->persist($Produit);
-$em->flush();
-}
-        return $this->render('Produit/add.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
+    
 }

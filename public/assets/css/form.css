@@ -1,7 +1,9 @@
 .container {
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
 
   
   .form-group {
@@ -52,6 +54,8 @@
     background-color: #8860D0;
     border-color: #8860D0;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    display: block;
+    margin: 0 auto;
   }
   
   .btn-primary:hover {
@@ -172,4 +176,5 @@
     text-align: center !important;
     color: #8860D0; 
   }
-   
+ 
+ 

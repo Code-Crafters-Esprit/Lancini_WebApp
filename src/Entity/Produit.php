@@ -29,7 +29,7 @@ class Produit
     #[ORM\Column(name: "image", type: "string", length: 255, nullable: false)]
     private  $image;
 
-    #[ORM\Column(name: "prix", type: "decimal", precision: 10, scale: 2, nullable: false)]
+    #[ORM\Column(name: "prix", type: "decimal", precision: 10, scale: 2, nullable: true)]
     private  $prix;
 
     #[ORM\Column(name: "date", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
@@ -128,5 +128,7 @@ class Produit
         return $this;
     }
 
-
+    public function __toString() {
+        return $this->nom;
+    }
 }

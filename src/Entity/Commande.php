@@ -14,7 +14,7 @@ class Commande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private  $idCommande = null;
+    private  $idCommande ;
 
     #[ORM\Column(name: "dateCommande", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private $datecommande = null;
@@ -98,6 +98,8 @@ class Commande
 
         return $this;
     }
-
-
+    public function __toString() {
+        return $this->idCommande;
+    }
+ 
 }
