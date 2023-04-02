@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface
 {
     public $iduser;
 
@@ -49,15 +52,48 @@ class User
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->offre = new ArrayCollection();
         $this->badge = new ArrayCollection();
     }
 
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function getUserIdentifier(): ?int
+    {
+        return $this->idUser;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->prenom + " " + $this->nom;
+    }
+
+    public function getRoles(): ?string
+    {
+        return $this->role;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->motdepasse;
+    }
+
     public function getIduser(): ?int
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function getNom(): string
@@ -216,6 +252,18 @@ class User
         if ($this->badge->removeElement($badge) && $badge->getUserid() === $this) {
             $badge->setUserid(null);
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
