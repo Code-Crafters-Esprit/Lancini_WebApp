@@ -1,12 +1,13 @@
 
-{% block title %}New Commande{% endblock %}
-
 {% block body %}
-<link rel="stylesheet" href="assets/css/form.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
 
-    <h1>Create new Commande</h1>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+    <h1>List a new Sale</h1>
 
     {{ include('commande/_form.html.twig') }}
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
+    <a href="{{ path('app_commande_index') }}" class="btn btn-secondary">back to list</a>
 {% endblock %}

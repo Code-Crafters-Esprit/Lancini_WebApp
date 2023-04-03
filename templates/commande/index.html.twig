@@ -1,16 +1,20 @@
 
-{% block title %}Commande index{% endblock %}
+
 
 {% block body %}
-    <h1>Commande index</h1>
-<link rel="stylesheet" href="{{ asset('C:\Users\Daly\Lancini_WebApp\public\assets\css\form.css') }}">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
 
-    <table class="table">
-        <thead>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+    <h1 class="h1">Sales List</h1>
+
+    <table class="table table-striped">
+    <thead class="thead-dark">
             <tr>
-                <th>IdCommande</th>
-                <th>Datecommande</th>
-                <th>Montantpaye</th>
+                <th>Sale ID</th>
+                <th>Date</th>
+                <th>Amount paid</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,8 +25,8 @@
                 <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ commande.montantpaye }}</td>
                 <td>
-                    <a href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}">show</a>
-                    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}" class="btn btn-primary">show</a>
+                    <a class="btn btn-secondary" href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}" class="btn btn-secondary">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +37,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commande_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('app_commande_new') }}" class="btn btn-secondary">Create new</a>
+
 {% endblock %}

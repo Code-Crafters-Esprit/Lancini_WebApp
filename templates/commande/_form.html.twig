@@ -1,6 +1,42 @@
 {{ form_start(form) }}
-<link rel="stylesheet" href="assets/css/form.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
 
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+ <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <h1 class="text-center mb-5">Add Sale</h1>
+        <div class="form-container">
+   {{ form_start(form) }}
+    <div class="form-group">  
+        {{ form_label(form.datecommande, 'Date', {'label_attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.datecommande, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.montantpaye,  'Ammount paid', {'label_attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.montantpaye, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.produit,  'Product', {'label_attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.produit, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.acheteur,  'Buyer', {'label_attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.acheteur, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.vendeur,  'Seller', {'label_attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.vendeur, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
 {{ form_end(form) }}
+

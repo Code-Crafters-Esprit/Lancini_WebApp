@@ -1,29 +1,34 @@
 
-{% block title %}Commande{% endblock %}
+{% block title %}Sale{% endblock %}
 
 {% block body %}
-    <h1>Commande</h1>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+    <h1>Sale</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>IdCommande</th>
+                <th>Sale ID</th>
                 <td>{{ commande.idCommande }}</td>
             </tr>
             <tr>
-                <th>Datecommande</th>
+                <th>Date</th>
                 <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Montantpaye</th>
+                <th>Ammount paid</th>
                 <td>{{ commande.montantpaye }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
+    <a href="{{ path('app_commande_index') }}" class="btn btn-secondary">back to list</a>
 
-    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}">edit</a>
+    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}" class="btn btn-secondary">edit</a>
 
     {{ include('commande/_delete_form.html.twig') }}
 {% endblock %}

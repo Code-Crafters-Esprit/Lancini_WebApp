@@ -2,22 +2,27 @@
 {% block title %}Produit index{% endblock %}
 
 {% block body %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
     <h1>Produit index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Idproduit</th>
-                <th>Categorie</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Prix</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+   <table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Idproduit</th>
+            <th>Categorie</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Prix</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for produit in produits %}
             <tr>
                 <td>{{ produit.idproduit }}</td>
@@ -28,17 +33,20 @@
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.date ? produit.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_produit_show', {'idproduit': produit.idproduit}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'idproduit': produit.idproduit}) }}">edit</a>
+                    <a href="{{ path('app_produit_show', {'idproduit': produit.idproduit}) }}" class="btn btn-primary">Show</a>
+                    <a href="{{ path('app_produit_edit', {'idproduit': produit.idproduit}) }}" class="btn btn-secondary">Edit</a>
+                        {{ include('produit/_delete_form.html.twig') }}
+
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">No records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+<a href="{{ path('app_produit_new') }}" class="btn btn-success">Create new</a>
+
 {% endblock %}
