@@ -11,27 +11,31 @@ class Abonnement
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idAbonnement", type: "integer", nullable: false)]
-    private $idabonnement;
+    private $idAbonnement;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
-    private $useridfollowed=null;
+   
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "userid", referencedColumnName: "idUser")]
+    private $userid;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
-    private $userid=null;
+ 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "useridFollowed", referencedColumnName: "idUser")]
+    private $useridFollowed;
 
     public function getIdabonnement(): ?int
     {
-        return $this->idabonnement;
+        return $this->idAbonnement;
     }
 
     public function getUseridfollowed(): ?User
     {
-        return $this->useridfollowed;
+        return $this->useridFollowed;
     }
 
     public function setUseridfollowed(?User $useridfollowed): self
     {
-        $this->useridfollowed = $useridfollowed;
+        $this->useridFollowed = $useridfollowed;
 
         return $this;
     }

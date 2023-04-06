@@ -15,7 +15,7 @@ class Avis
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $idAvis = null;
+    private $id = null;
 
     #[ORM\Column(length:100)]
     private  $description = null;
@@ -26,16 +26,18 @@ class Avis
     #[ORM\Column(type: "date")]
     private  $date = null;
 
-    #[ORM\ManyToOne(targetEntity: "Produit", inversedBy: "avis")]
-    private  $idproduit = null; 
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "avis")]
-    private  $idevaluateuruser = null; 
+    #[ORM\ManyToOne(targetEntity: Produit::class)]
+    #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProduit")]
+    private $idProduit;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idEvaluateurUser", referencedColumnName: "idUser")]
+    private $idEvaluateurUser;
 
     public function getId(): ?int
     {
-        return $this->idAvis;
+        return $this->id;
     }
 
     public function getDescription(): ?string
@@ -76,31 +78,31 @@ class Avis
 
     public function getIdproduit(): ?Produit
     {
-        return $this->idproduit;
+        return $this->idProduit;
     }
 
-    public function setIdproduit(?Produit $idproduit): self
+    public function setIdproduit(?Produit $idProduit): self
     {
-        $this->idproduit = $idproduit;
+        $this->idProduit = $idProduit;
 
         return $this;
     }
 
     public function getIdevaluateuruser(): ?User
     {
-        return $this->idevaluateuruser;
+        return $this->idEvaluateurUser;
     }
 
-    public function setIdevaluateuruser(?User $idevaluateuruser): self
+    public function setIdevaluateuruser(?User $idEvaluateurUser): self
     {
-        $this->idevaluateuruser = $idevaluateuruser;
+        $this->idEvaluateurUser = $idEvaluateurUser;
 
         return $this;
     }
 
     public function getIdAvis(): ?string
     {
-        return $this->idAvis;
+        return $this->id;
     }
 
 

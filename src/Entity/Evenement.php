@@ -13,8 +13,8 @@ class Evenement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idevent = null;
+    #[ORM\Column (name :"idEvent")]
+    private ?int $idEvent = null;
 
     #[ORM\Column(length:30)]
     private ?string $titre = null;
@@ -31,12 +31,14 @@ class Evenement
     #[ORM\Column()]
     private ?Date $dateevent = null;
    
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'evenement')]
-    private ?User $proprietaire = null; 
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "proprietaire", referencedColumnName: "idUser")]
+    private $proprietaire;
 
     public function getIdevent(): ?int
     {
-        return $this->idevent;
+        return $this->idEvent;
     }
 
     public function getTitre(): ?string

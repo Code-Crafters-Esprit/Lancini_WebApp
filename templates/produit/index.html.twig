@@ -1,5 +1,4 @@
 
-{% block title %}Produit index{% endblock %}
 
 {% block body %}
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -7,17 +6,17 @@
 
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
-    <h1>Produit index</h1>
+    <h1>Product List</h1>
 
    <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
-            <th>Idproduit</th>
-            <th>Categorie</th>
-            <th>Nom</th>
+            <th>Product ID</th>
+            <th>Category</th>
+            <th>Product Name</th>
             <th>Description</th>
             <th>Image</th>
-            <th>Prix</th>
+            <th>Price</th>
             <th>Date</th>
             <th>Actions</th>
         </tr>
@@ -29,7 +28,7 @@
                 <td>{{ produit.categorie }}</td>
                 <td>{{ produit.nom }}</td>
                 <td>{{ produit.description }}</td>
-                <td>{{ produit.image }}</td>
+                <td>{{ produit.imageName }}</td>
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.date ? produit.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

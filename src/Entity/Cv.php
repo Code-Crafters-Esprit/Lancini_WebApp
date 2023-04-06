@@ -49,9 +49,9 @@ class Cv
     private ?string $education = null;
 
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Cv')]
-    private ?User $userid = null;
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
+    private $userId;
 
     public function getIdcv(): ?int
     {
@@ -180,12 +180,12 @@ class Cv
 
     public function getUserid(): ?User
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     public function setUserid(?User $userid): self
     {
-        $this->userid = $userid;
+        $this->userId = $userid;
 
         return $this;
     }

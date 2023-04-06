@@ -34,10 +34,10 @@ private $nom;
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $etat;
 
-    #[ORM\ManyToOne(targetEntity: "Avis", inversedBy: 'Reclamation')]
-
-    private $idAvis=null;
-
+  
+    #[ORM\ManyToOne(targetEntity: Avis::class)]
+    #[ORM\JoinColumn(name: "idAvis", referencedColumnName: "id")]
+    private $idAvis;
     public function getNom(): ?string
     {
         return $this->nom;

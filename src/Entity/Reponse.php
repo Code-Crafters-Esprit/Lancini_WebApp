@@ -3,48 +3,26 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReponseRepository;
 
-/**
- * Reponse
- *
- * @ORM\Table(name="reponse", indexes={@ORM\Index(name="questionId", columns={"questionId"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ReponseRepository::class)]
+
 class Reponse
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+{  #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="libelle", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $libelle;
 
-    /**
-     * @var bool|null
-     *
-     * @ORM\Column(name="estVrai", type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: "boolean", nullable: true)]
     private $estvrai;
 
-    /**
-     * @var \Question
-     *
-     * @ORM\ManyToOne(targetEntity="Question")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="questionId", referencedColumnName="id")
-     * })
-     */
-    private $questionid;
-
+    #[ORM\ManyToOne(targetEntity: Question::class)]
+    #[ORM\JoinColumn(name: "questionId", referencedColumnName: "id")]
+    private $questionId;
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -76,12 +54,12 @@ class Reponse
 
     public function getQuestionid(): ?Question
     {
-        return $this->questionid;
+        return $this->questionId;
     }
 
     public function setQuestionid(?Question $questionid): self
     {
-        $this->questionid = $questionid;
+        $this->questionId = $questionid;
 
         return $this;
     }

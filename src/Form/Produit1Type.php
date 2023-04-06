@@ -11,11 +11,10 @@ use DateTime;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
-
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class Produit1Type extends AbstractType
 { 
-    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -46,11 +45,14 @@ class Produit1Type extends AbstractType
                     ]),
                 ],
             ])
-            ->add('image')
+            ->add('imageFile', VichFileType::class, [
+                'label' => 'Image',
+                'required' => false,
+            ])
             ->add('prix', null,
-             ['attr' => [
-                'maxlength' => 4,
-            ],
+                ['attr' => [
+                    'maxlength' => 4,
+                ],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^\d{1,4}$/',
@@ -62,7 +64,6 @@ class Produit1Type extends AbstractType
                 'data' => new DateTime(),
             ])
             ->add('vendeur');
-            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

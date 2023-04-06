@@ -16,9 +16,10 @@ class Candidat
     #[ORM\Column(name: "secteur", type: "string", length: 255, nullable: false)]
     private $secteur;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Candidat')]
-    private $iduser=null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    private $idUser;
     public function getIdcandidat(): ?int
     {
         return $this->idcandidat;
@@ -38,12 +39,12 @@ class Candidat
 
     public function getIduser(): ?User
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->iduser = $iduser;
+        $this->idUser = $iduser;
 
         return $this;
     }

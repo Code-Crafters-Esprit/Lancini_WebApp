@@ -1,5 +1,4 @@
 
-{% block title %}Produit{% endblock %}
 
 {% block body %}
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -7,20 +6,20 @@
 
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
-    <h1>Produit</h1>
+    <h1>Product</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Idproduit</th>
+                <th>Product ID</th>
                 <td>{{ produit.idproduit }}</td>
             </tr>
             <tr>
-                <th>Categorie</th>
+                <th>Category</th>
                 <td>{{ produit.categorie }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
+                <th>Product Name</th>
                 <td>{{ produit.nom }}</td>
             </tr>
             <tr>
@@ -32,7 +31,7 @@
                 <td>{{ produit.image }}</td>
             </tr>
             <tr>
-                <th>Prix</th>
+                <th>Price</th>
                 <td>{{ produit.prix }}</td>
             </tr>
             <tr>

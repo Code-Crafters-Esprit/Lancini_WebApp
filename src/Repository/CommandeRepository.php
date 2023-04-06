@@ -22,7 +22,7 @@ class CommandeRepository extends ServiceEntityRepository
     }
 
     public function save(Commande $entity, bool $flush = false): void
-    {
+    { 
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {

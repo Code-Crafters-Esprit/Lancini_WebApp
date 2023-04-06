@@ -3,43 +3,25 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostulationRepository;
 
-/**
- * Postulation
- *
- * @ORM\Table(name="postulation", indexes={@ORM\Index(name="idUser", columns={"idUser", "idOffre"}), @ORM\Index(name="idOffre", columns={"idOffre", "idUser"}), @ORM\Index(name="IDX_DA7D4E9BB842C572", columns={"idOffre"}), @ORM\Index(name="IDX_DA7D4E9BFE6E88D7", columns={"idUser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: PostulationRepository::class)]
+
 class Postulation
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idPost", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idpost;
+    #[ORM\Column(name: 'idPost', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $idpost;
 
-    /**
-     * @var \Offre
-     *
-     * @ORM\ManyToOne(targetEntity="Offre")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idOffre", referencedColumnName="idOffre")
-     * })
-     */
-    private $idoffre;
+    #[ORM\ManyToOne(targetEntity: Offre::class)]
+    #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'idOffre')]
+    private Offre $idoffre;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="idUser")
-     * })
-     */
-    private $iduser;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
+    private User $iduser;
+
 
     public function getIdpost(): ?int
     {

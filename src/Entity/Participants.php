@@ -14,12 +14,12 @@ class Participants
     #[ORM\Column]
     private ?int $idparticipant = null;
 
-    #[ORM\ManyToOne(targetEntity: "Evenement", inversedBy: 'participants')]
-    private ?Evenement $idevent = null; 
-
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'participants')]
-    private ?User $iduser = null; 
-
+    #[ORM\ManyToOne(targetEntity: Evenement::class)]
+    #[ORM\JoinColumn(name: "idEvent", referencedColumnName: "idEvent")]
+    private $idEvent;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    private $idUser;
     public function getIdparticipant(): ?int
     {
         return $this->idparticipant;
@@ -27,24 +27,24 @@ class Participants
 
     public function getIdevent(): ?Evenement
     {
-        return $this->idevent;
+        return $this->idEvent;
     }
 
     public function setIdevent(?Evenement $idevent): self
     {
-        $this->idevent = $idevent;
+        $this->idEvent = $idevent;
 
         return $this;
     }
 
     public function getIduser(): ?User
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->iduser = $iduser;
+        $this->idUser = $iduser;
 
         return $this;
     }

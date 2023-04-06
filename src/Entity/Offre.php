@@ -4,85 +4,43 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OffreRepository;
 
-/**
- * Offre
- *
- * @ORM\Table(name="offre", indexes={@ORM\Index(name="proprietaire", columns={"proprietaire"}), @ORM\Index(name="offre_ibfk_21", columns={"idSecteur"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: OffreRepository::class)]
 class Offre
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idOffre", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(type: "integer", name: "idOffre")]
     private $idoffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(type: "string", length: 255, name: "nom")]
     private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeOffre", type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(type: "string", length: 50, name: "typeOffre")]
     private $typeoffre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
+    #[ORM\Column(type: "text", name: "description")]
     private $description;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateDebut", type="date", nullable=false)
-     */
+    #[ORM\Column(type: "date", name: "dateDebut")]
     private $datedebut;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="dateFin", type="date", nullable=true)
-     */
+    #[ORM\Column(type: "date", name: "dateFin", nullable: true)]
     private $datefin;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="competence", type="text", length=65535, nullable=false)
-     */
+    #[ORM\Column(type: "text", name: "competence")]
     private $competence;
 
-    /**
-     * @var \Secteur
-     *
-     * @ORM\ManyToOne(targetEntity="Secteur")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSecteur", referencedColumnName="IdSecteur")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "proprietaire", referencedColumnName: "idUser")]
+    private $proprietaire;
+
+    #[ORM\ManyToOne(targetEntity: Secteur::class)]
+    #[ORM\JoinColumn(name: "idSecteur", referencedColumnName: "IdSecteur")]
     private $idsecteur;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="idUser")
-     * })
-     */
-    private $proprietaire;
+
 
     public function getIdoffre(): ?int
     {

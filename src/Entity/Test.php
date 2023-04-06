@@ -11,8 +11,8 @@ class Test
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idtest = null;
+    #[ORM\Column(name: "idTest")]
+    private ?int $idTest = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nomtest = null;
@@ -24,7 +24,7 @@ class Test
 
     public function getIdtest(): ?int
     {
-        return $this->idtest;
+        return $this->idTest;
     }
 
     public function getNomtest(): ?string

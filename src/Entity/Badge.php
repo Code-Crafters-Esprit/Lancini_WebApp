@@ -11,8 +11,8 @@ class Badge
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idbadge = null;
+    #[ORM\Column(name: "idBadge")]
+    private ?int $idBadge = null;
     
     #[ORM\Column(length:255)]
     private ?string $nombadge = null;
@@ -21,17 +21,19 @@ class Badge
     private ?\DateTime $date = null;
 
     
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Badge')]
-    private ?User $userid = null;
-
+ 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
+    private $userId;
    
-    #[ORM\ManyToOne(targetEntity: "Test", inversedBy: 'Badge')]
-    private ?Test $testid = null;
+  
+    #[ORM\ManyToOne(targetEntity: Test::class)]
+    #[ORM\JoinColumn(name: "testId", referencedColumnName: "idTest")]
+    private $testId;
 
-
-    public function getIdbadge(): ?int
+    public function getIdBadge(): ?int
     {
-        return $this->idbadge;
+        return $this->idBadge;
     }
 
     public function getNombadge(): ?string
@@ -60,24 +62,24 @@ class Badge
 
     public function getUserid(): ?User
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     public function setUserid(?User $userid): self
     {
-        $this->userid = $userid;
+        $this->userId = $userid;
 
         return $this;
     }
 
     public function getTestid(): ?Test
     {
-        return $this->testid;
+        return $this->testId;
     }
 
     public function setTestid(?Test $testid): self
     {
-        $this->testid = $testid;
+        $this->testId = $testid;
 
         return $this;
     }
