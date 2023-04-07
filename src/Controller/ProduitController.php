@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -22,18 +25,37 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProduitRepository $produitRepository): Response
+    public function new(Request $request, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
     {
         $produit = new Produit();
         $form = $this->createForm(Produit1Type::class, $produit);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            /** @var UploadedFile $file */
+            $file = $form->get('image')->getData();
+    
+            if ($file) {
+                $fileName = uniqid() . '.' . $file->guessExtension();
+    
+                try {
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images/products',
+                        $fileName
+                    );
+    
+                    $produit->setImage($fileName);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
+            }
+    
             $produitRepository->save($produit, true);
-
+    
             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('produit/new.html.twig', [
             'produit' => $produit,
             'form' => $form,

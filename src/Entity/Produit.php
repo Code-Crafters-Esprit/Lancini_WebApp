@@ -2,38 +2,41 @@
 
 namespace App\Entity;
 
+use App\Repository\ProduitRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ProduitRepository;
-use App\Entity\User;
-
-
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
-{   #[ORM\Id]
+{
+    #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
-    private  $idproduit;
+    private $idproduit;
 
     #[ORM\Column(name: "categorie", type: "string", length: 255, nullable: false)]
-    private  $categorie;
+    private $categorie;
 
     #[ORM\Column(name: "nom", type: "string", length: 255, nullable: false)]
-    private  $nom;
+    private $nom;
 
     #[ORM\Column(name: "description", type: "text", length: 65535, nullable: false)]
-    private  $description;
+    private $description;
+    #[ORM\Column(name: "image", type:"string", length:255)]
+    #[Vich\UploadableField(mapping:"product_images", fileNameProperty:"image")]
+    private $image;
 
-    #[ORM\Column(name: "image", type: "string", length: 255, nullable: false)]
-    private  $image;
+    #[Vich\UploadableField(mapping: "product_image", fileNameProperty: "imageName")]
+    private $imageFile;
 
     #[ORM\Column(name: "prix", type: "decimal", precision: 10, scale: 2, nullable: true)]
-    private  $prix;
+    private $prix;
 
     #[ORM\Column(name: "date", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private  $date;
+    private $date;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
@@ -68,6 +71,7 @@ class Produit
         return $this;
     }
 
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -90,6 +94,20 @@ class Produit
         $this->image = $image;
 
         return $this;
+    }
+
+    public function setImageFile(File $image = null): void
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->date = new DateTime();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
     public function getPrix(): ?string
@@ -115,6 +133,7 @@ class Produit
 
         return $this;
     }
+
 
     public function getVendeur(): ?User
     {

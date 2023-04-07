@@ -11,6 +11,7 @@ use DateTime;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
 class Produit1Type extends AbstractType
@@ -46,7 +47,9 @@ class Produit1Type extends AbstractType
                     ]),
                 ],
             ])
-            ->add('image')
+            ->add('image', FileType::class, [
+                'mapped' => false,
+            ])
             ->add('prix', null,
              ['attr' => [
                 'maxlength' => 4,
