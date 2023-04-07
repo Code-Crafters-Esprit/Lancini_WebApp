@@ -21,49 +21,13 @@ class Produit1Type extends AbstractType
     {
         $builder
             ->add('categorie')
-            ->add('nom', null, [
-                'attr' => [
-                    'maxlength' => 30,
-                ],
-                'constraints' => [
-                    new Length([
-                        'max' => 30,
-                        'maxMessage' => 'The product name cannot be longer than {{ limit }} characters',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^[a-zA-Z\s]*$/',
-                        'message' => 'The product name can only contain letters',
-                    ]),
-                ],
-            ])
-            ->add('description', null, [
-                'attr' => [
-                    'maxlength' => 100,
-                ],
-                'constraints' => [
-                    new Length([
-                        'max' => 100,
-                        'maxMessage' => 'The product description cannot be longer than {{ limit }} characters',
-                    ]),
-                ],
-            ])
+            ->add('nom')
+            ->add('description')
             ->add('image', FileType::class, [
                 'mapped' => false,
             ])
-            ->add('prix', null,
-             ['attr' => [
-                'maxlength' => 4,
-            ],
-                'constraints' => [
-                    new Regex([
-                        'pattern' => '/^\d{1,4}$/',
-                        'message' => 'The price can only contain numbers up to 4 digits',
-                    ]),
-                ],
-            ])
-            ->add('date', null, [
-                'data' => new DateTime(),
-            ])
+            ->add('prix')
+           
             ->add('vendeur');
             
     }

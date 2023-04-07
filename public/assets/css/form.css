@@ -1,9 +1,41 @@
 .container {
-  max-width: 1000px;
+  max-width: 1500px;
+
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
+.container h1 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.container table th,
+.container table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.container table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.container table td {
+  text-align: left;
+}
 
   
   .form-group {

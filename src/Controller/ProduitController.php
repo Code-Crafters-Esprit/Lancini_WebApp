@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\Produit1Type;
 use App\Repository\ProduitRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,9 @@ class ProduitController extends AbstractController
     public function new(Request $request, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
     {
         $produit = new Produit();
+        $timezone = $this->getParameter('timezone');
+
+        $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
         $form = $this->createForm(Produit1Type::class, $produit);
         $form->handleRequest($request);
     
@@ -71,22 +75,42 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-    {
-        $form = $this->createForm(Produit1Type::class, $produit);
-        $form->handleRequest($request);
+    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
+{
+    $form = $this->createForm(Produit1Type::class, $produit);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $produitRepository->save($produit, true);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Handle file upload
+        /** @var UploadedFile $file */
+        $file = $form->get('image')->getData();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        if ($file) {
+            $fileName = uniqid() . '.' . $file->guessExtension();
+
+            try {
+                $file->move(
+                    $this->getParameter('kernel.project_dir') . '/public/images/products',
+                    $fileName
+                );
+
+                $produit->setImage($fileName);
+            } catch (FileException $e) {
+                // Handle exception
+            }
         }
 
-        return $this->renderForm('produit/edit.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
+        $produitRepository->save($produit, true);
+
+        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->renderForm('produit/edit.html.twig', [
+        'produit' => $produit,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{idproduit}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
