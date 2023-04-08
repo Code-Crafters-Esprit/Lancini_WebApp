@@ -1,6 +1,28 @@
-{{ form_start(form) }}
-<link rel="stylesheet" href="assets/css/form.css">
 
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% block stylesheets %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+<link href="path/to/select2.min.css" rel="stylesheet" />
+<script src="path/to/select2.min.js"></script>
+{% endblock %}
+{% block body %}
+
+
+    {{ form_start(form, { 'attr': {'class': 'form'} }) }}
+     <div class="form-group">
+  {{ form_label(form.produit, 'Produit', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.produit, {'attr': {'class': 'form-control', 'id': 'Produit'}}) }}
+</div>
+<div class="form-group">
+  {{ form_label(form.acheteur, 'Buyer', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.acheteur, {'attr': {'class': 'form-control', 'id': 'Buyer'}}) }}
+</div>
+    <button class="btn btn-primary" type="submit">Create</button>
+      <a href="{{ path('app_commande_index') }}" class="btn btn-secondary">back to list</a>
+
+    {{ form_end(form) }}
+ </div>
+{% endblock %}

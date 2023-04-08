@@ -1,29 +1,46 @@
+{% block stylesheets %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-{% block title %}Commande{% endblock %}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-{% block body %}
-    <h1>Commande</h1>
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdCommande</th>
-                <td>{{ commande.idCommande }}</td>
-            </tr>
-            <tr>
-                <th>Datecommande</th>
-                <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Montantpaye</th>
-                <td>{{ commande.montantpaye }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
-
-    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}">edit</a>
-
-    {{ include('commande/_delete_form.html.twig') }}
 {% endblock %}
+<div class="container mt-5">
+ <table class="table table-striped">
+
+    <tbody>
+        <tr>
+            <th>Sale ID</th>
+            <td>{{ commande.idCommande }}</td>
+        </tr>
+        <tr>
+            <th>Product Name</th>
+            <td>{{ commande.produit }}</td>
+        </tr>
+        <tr>
+            <th >Seller</th>
+            <td>{{ commande.vendeur }}</td>
+        </tr>
+
+        <tr>
+            <th >Buyer</th>
+            <td>{{ commande.acheteur }}</td>
+        </tr>
+        <tr>
+            <th >Date</th>
+            <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th >Ammount paid/to pay</th>
+            <td>{{ commande.montantpaye }} dt</td>
+        </tr>
+        
+    </tbody>
+</table>
+
+</div>
+
+
+

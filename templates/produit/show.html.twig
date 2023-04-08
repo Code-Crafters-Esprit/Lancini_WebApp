@@ -9,14 +9,11 @@
 
 {% endblock %}
 {% block body %}
-    <h1>Produit</h1>
 <div class="container mt-5">
+    <h1 class="text-center mb-5">{{ produit.nom }}</h1>
     <table class="table table-striped">
         <tbody>
-            <tr>
-                <th>Product ID</th>
-                <td>{{ produit.idproduit }}</td>
-            </tr>
+           
             <tr>
                 <th>Category</th>
                 <td>{{ produit.categorie }}</td>
@@ -31,11 +28,16 @@
             </tr>
             <tr>
                 <th>Image</th>
-                <td>{{ produit.image }}</td>
+                <td>
+                {% if produit.image %}
+    <img src="{{ vich_uploader_asset(produit, 'image') }}" alt="{{ produit.image }}" class="img-fluid" />
+{% endif %}</td>
+                
+
             </tr>
             <tr>
                 <th>Price</th>
-                <td>{{ produit.prix }}</td>
+                <td>{{ produit.prix }} dt</td>
             </tr>
             <tr>
                 <th>Date</th>

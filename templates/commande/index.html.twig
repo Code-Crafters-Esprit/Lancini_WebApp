@@ -1,37 +1,48 @@
 
-{% block title %}Commande index{% endblock %}
 
+{% block stylesheets %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% endblock %}
 {% block body %}
-    <h1>Commande index</h1>
-<link rel="stylesheet" href="{{ asset('C:\Users\Daly\Lancini_WebApp\public\assets\css\form.css') }}">
+<div class="container-md">
+    <h1 class="text-center mb-5">Sales List</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdCommande</th>
-                <th>Datecommande</th>
-                <th>Montantpaye</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for commande in commandes %}
-            <tr>
-                <td>{{ commande.idCommande }}</td>
-                <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ commande.montantpaye }}</td>
-                <td>
-                    <a href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}">show</a>
-                    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sale ID</th>
+            <th>Date</th>
+            <th>Amount paid/to pay</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for commande in commandes %}
+        <tr>
+            <td>{{ commande.idCommande }}</td>
+            <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ commande.montantpaye }}</td>
+            <td>
+             <div class="d-flex justify-content-between align-items-center">
+    <form method="post" action="{{ path('app_commande_delete', {'idCommande': commande.idCommande}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.idCommande) }}">
+        <a href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}" class="btn btn-primary mr-2">Show</a>
+                <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}" class="btn btn-warning mr-2">Edit</a>
+    <button class="btn btn-danger mr-2">Delete</button>
 
-    <a href="{{ path('app_commande_new') }}">Create new</a>
+</form>
+</div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">No records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<a href="{{ path('app_commande_new') }}" class="btn btn-success">Create new</a>
+
 {% endblock %}

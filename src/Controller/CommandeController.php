@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Form\Commande1Type;
 use App\Repository\CommandeRepository;
+use App\Repository\ProduitRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +24,22 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CommandeRepository $commandeRepository): Response
+    public function new(Request $request, CommandeRepository $commandeRepository, ProduitRepository $produitRepository): Response
     {
         $commande = new Commande();
+        $timezone = $this->getParameter('timezone');
+
+   
+        $commande->setDatecommande(new DateTime('now', new \DateTimeZone($timezone)));
         $form = $this->createForm(Commande1Type::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $produitId = $form->get('produit')->getData();
+        $produit = $produitRepository->find($produitId);
+        
+        $commande->setVendeur($produit->getVendeur());
+        $commande->setMontantpaye($produit->getPrix());
             $commandeRepository->save($commande, true);
 
             return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
