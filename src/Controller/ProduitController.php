@@ -75,7 +75,7 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
+    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
 {
     $form = $this->createForm(Produit1Type::class, $produit);
     $form->handleRequest($request);

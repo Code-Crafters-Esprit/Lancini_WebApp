@@ -1,13 +1,13 @@
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-REZseD8/ZKd57g6kuNNghxH+/39RPLh/6/XN+6N3U6q3NQlalhoj+U57fOw05zftGxRJlr8NT6+X02mgUO7OQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {% block body %}
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10">
-        <h1 class="text-center mb-5"> Add Sale Manually </h1>
-
+        <h1 class="text-center mb-5"> Add Sale manually </h1>
+        <div class="form-container">
     {{ include('commande/_form.html.twig') }}
+    <a href="{{ path('app_commande_index') }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Back to list</a>
+
 {% endblock %}
