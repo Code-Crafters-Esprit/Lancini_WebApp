@@ -74,7 +74,7 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
             //Trouver publication
             $repo = $doctrine->getRepository(Publication::class);
             $publication= $repo->find($idpub);
-            //Utiliser Manager pour supprimer le classroom trouvé
+            //Utiliser Manager pour supprimer la publication trouvé
             $em= $doctrine->getManager();
             $em->remove($publication);
             $em->flush();

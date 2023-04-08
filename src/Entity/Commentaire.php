@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Publication;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CommentaireRepository;
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
@@ -16,15 +17,19 @@ class Commentaire
 
     
     #[ORM\Column(length:100)]
+    #[Assert\NotBlank(message:"Please fill out this field and respect our ethics")]
+    #[Assert\Length(max: 30)]
     private ?string $commentaire = null;
 
 
-    #[ORM\ManyToOne(targetEntity: "Publication", inversedBy: 'commentaire')]
+    #[ORM\ManyToOne(targetEntity: Publication::class)]
+    #[ORM\JoinColumn(name: 'idpub', referencedColumnName: 'idpub', nullable: true)]
     private ?Publication $idpub = null; 
- 
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'commentaire')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'idUser', nullable: true)]
     private ?User $iduser = null; 
+
 
     public function getIdcomm(): ?int
     {

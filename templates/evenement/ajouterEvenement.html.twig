@@ -249,45 +249,76 @@
               
 
 
-
-
-
-
-
-
-
-
-
-
-<div class="main_blog text-center roomy-100">
-							<div class="col-sm-8 col-sm-offset-2">
-								<div class="head_title text-center">
-									<h2>Lancini Comunnity</h2>
-									<div class="separator_auto"></div>
-									<p> Bienvenure chér community, vous pouvez trouver ici differents événements
-									</p>
-								</div>
-							</div>
-
-                            {%for e in event %}
-                            
+<div class="main_contact roomy-100 text-black">
 							<div class="col-md-4">
-								<div class="blog_item m-top-20">
-									
-									<div class="blog_text roomy-40">
-										<h6>{{e.titre}}</h6>
-										<p>
-											<em>
-												<a>{{e.lieu}}</a>
-												/<a >{{e.dateevent}}</a>/<a>
-													     {{e.horaire}}</a>
-											</em>
-										</p>
+								<div class="rage_widget">
+									<div class="widget_head">
+										<h3 class="text-black">Nouveau Evenement ?</h3>
+										<div class="separator_small"></div>
+									</div>
+									<p> Créer un nouveau evenement  et partager la avec notre community		
+									</p>
+
+									<div class="widget_socail m-top-30">
+										
 									</div>
 								</div>
 							</div>
-						
-							{%endfor%}
+							<div class="col-md-8 sm-m-top-30">
+								{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.titre,"Titre : ")}}
+												{{form_widget(form.titre,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.titre,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.sujet,"Sujet : ")}}
+												{{form_widget(form.sujet,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.sujet,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.lieu,"Lieu : ")}}
+												{{form_widget(form.lieu,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.lieu,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.dateevent,"Date : ")}}
+												{{form_widget(form.dateevent,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.horaire,"Horaire : ")}}
+												{{form_widget(form.horaire,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+					
+									</div>
+
+								{{form_end(form)}}
+							</div>
+						</div>
+
+
+
+
+
+
+
+
+
 
 
 

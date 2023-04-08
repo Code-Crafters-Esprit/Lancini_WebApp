@@ -264,25 +264,19 @@
 								<div class="head_title text-center">
 									<h2>Lancini Comunnity</h2>
 									<div class="separator_auto"></div>
-									<p> Bienvenure chér community, vous pouvez trouver ici differents événements
+									<p> Bienvenure chér community, vous pouvez trouver ici differents publications 
 									</p>
 								</div>
 							</div>
 
-                            {%for e in event %}
+                            {%for c in comm %}
                             
 							<div class="col-md-4">
 								<div class="blog_item m-top-20">
 									
 									<div class="blog_text roomy-40">
-										<h6>{{e.titre}}</h6>
-										<p>
-											<em>
-												<a>{{e.lieu}}</a>
-												/<a >{{e.dateevent}}</a>/<a>
-													     {{e.horaire}}</a>
-											</em>
-										</p>
+										<h6>{{c.commentaire}}</h6>
+									
 									</div>
 								</div>
 							</div>

@@ -18,22 +18,27 @@ class Evenement
     private ?int $idevent = null;
 
     #[ORM\Column(length:30)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     #[Assert\Length(max: 30)]
     private ?string $titre = null;
 
     #[ORM\Column(length:100)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     #[Assert\Length(max: 100)]
     private ?string $sujet = null;
     
     #[ORM\Column(length:50)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     #[Assert\Length(max: 50)]
     private ?string $lieu = null;
 
     #[ORM\Column(length:10)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     #[Assert\Length(max: 10)]
     private ?string $horaire = null;
     
     #[ORM\Column()]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     private ?string $dateevent = null;
    
     #[ORM\ManyToOne(targetEntity: User::class)]

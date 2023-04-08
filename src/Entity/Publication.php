@@ -6,7 +6,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PublicationRepository;
+use App\Entity\Commentaire;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
@@ -20,24 +22,32 @@ class Publication
     
 
     #[ORM\Column(length:30)]
-    #[Assert\NotBlank(message:"Please  fill out the title")]
+    #[Assert\Length(max:30)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     private ?string $libelle = null;
     
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     private ?string $datepub = null;
 
     #[ORM\Column(length:100)]
     #[Assert\Length(max:100)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     private ?string $description = null;
 
     #[ORM\Column(length:30)]
+    #[Assert\NotBlank(message:"Please fill out this field")]
     #[Assert\Length(max:30)]
     private ?string $cat = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser', nullable: true)]
     private ?User $proprietaire = null; 
+
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'idpub')]
+    private $commentaires;
+
 
     public function getIdpub(): ?int
     {
