@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PublicationRepository;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
@@ -15,20 +17,26 @@ class Publication
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $idpub = null;
+    
 
     #[ORM\Column(length:30)]
+    #[Assert\NotBlank(message:"Please  fill out the title")]
     private ?string $libelle = null;
+    
 
-    #[ORM\Column()]
-    private ?Date $datepub = null;
+    #[ORM\Column]
+    private ?string $datepub = null;
 
     #[ORM\Column(length:100)]
+    #[Assert\Length(max:100)]
     private ?string $description = null;
 
     #[ORM\Column(length:30)]
+    #[Assert\Length(max:30)]
     private ?string $cat = null;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'publication')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser', nullable: true)]
     private ?User $proprietaire = null; 
 
     public function getIdpub(): ?int
@@ -48,12 +56,12 @@ class Publication
         return $this;
     }
 
-    public function getDatepub(): ?\DateTimeInterface
+    public function getDatepub(): ?string
     {
         return $this->datepub;
     }
 
-    public function setDatepub(\DateTimeInterface $datepub): self
+    public function setDatepub(string $datepub): self
     {
         $this->datepub = $datepub;
 
