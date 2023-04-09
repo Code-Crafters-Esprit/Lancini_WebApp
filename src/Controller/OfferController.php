@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Offre;
 use App\Entity\User;
+use App\Form\OfferType;
 use App\Repository\OffreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,9 +12,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 
-#[Route('/offer')]
+
+   #[Route('/offer')]
 class OfferController extends AbstractController
 {
     public function __construct(
@@ -31,24 +34,46 @@ class OfferController extends AbstractController
             'offers' => $offer,
         ]);
     }
-
     #[Route('/add', name: 'addOffer')]
-    public function add(): Response
+    public function add(ManagerRegistry $mr, Request $request): Response
     {
+        $offer = new Offre();
+        $form = $this->createForm(OfferType::class, $offer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $mr->getManager();
+            $em->persist($offer);
+            $em->flush();
+
+            return $this->redirectToRoute('affOffer');
+        }
+
         return $this->render('offer/add.html.twig', [
-            'controller_name' => 'OfferController',
+            'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/update/{id}', name: 'OfferUpdate')]
-    public function update($id): Response
+    public function update(ManagerRegistry $doctrine,$id,  Request  $request): Response
     {
-        return $this->render('offer/update.html.twig', [
-            'controller_name' => $id,
-        ]);
-    }
+        {
+            $offer = $doctrine
+                ->getRepository(Offre::class)
+                ->find($id);
+            $form = $this->createForm(OfferType::class, $offer);
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                $em = $doctrine->getManager();
+                $em->flush();
 
+                return $this->redirectToRoute('affOffer');
+            }
+            return $this->renderForm(
+                "offer/update.html.twig",
+                ["form" => $form]);
+        }
+    }
 
     #[Route('/details/{id}', name: 'offerDetails')]
     public function details(ManagerRegistry $mg, $id): Response
@@ -68,10 +93,32 @@ class OfferController extends AbstractController
 
         $offer->setSecteur(null);
         $offer->setProprietaire(null);
-
         $this->em->remove($offer);
-
         $this->em->flush();
         return new RedirectResponse($this->generateUrl('affOffer'));
     }
+
+       public function Recherche(Request $request): Response
+       {
+           $searchForm = $this->createFormBuilder()
+               ->add('nom', TextType::class, ['required' => false])
+               ->getForm();
+
+           $searchForm->handleRequest($request);
+
+           if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+               $data = $searchForm->getData();
+               $nom = $data['nom'];
+
+               $offer = $this->getDoctrine()->getRepository(Offre::class)
+                   ->findBy(['nom' => $nom]);
+           } else {
+               $offer = [];
+           }
+
+           return $this->render('search/index.html.twig', [
+               'searchForm' => $searchForm->createView(),
+               '$offer' => $offer,
+           ]);
+       }
 }
