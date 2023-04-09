@@ -6,14 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public $iduser;
-
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -24,6 +26,9 @@ class User
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
     private string $prenom;
+
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
     private string $email;
@@ -49,15 +54,58 @@ class User
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
+    #[ORM\Column(name: "isVerified", type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->offre = new ArrayCollection();
         $this->badge = new ArrayCollection();
     }
 
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->motdepasse;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
     public function getIduser(): ?int
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function getNom(): string
@@ -216,6 +264,18 @@ class User
         if ($this->badge->removeElement($badge) && $badge->getUserid() === $this) {
             $badge->setUserid(null);
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
