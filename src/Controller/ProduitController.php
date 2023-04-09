@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Handler\UploadHandler;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 #[Route('/produit')]
@@ -31,14 +30,31 @@ class ProduitController extends AbstractController
     {
         $produit = new Produit();
         $timezone = $this->getParameter('timezone');
-    
+
         $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
         $form = $this->createForm(Produit1Type::class, $produit);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
             // Handle file upload
-            $produit = $form->getData();
+            /** @var UploadedFile $file */
+            $file = $form->get('image')->getData();
+    
+            if ($file) {
+                $fileName = uniqid() . '.' . $file->guessExtension();
+    
+                try {
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images/products',
+                        $fileName
+                    );
+    
+                    $produit->setImage($fileName);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
+            }
+    
             $produitRepository->save($produit, true);
     
             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
@@ -49,6 +65,7 @@ class ProduitController extends AbstractController
             'form' => $form,
         ]);
     }
+
     #[Route('/{idproduit}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
     {
@@ -58,7 +75,7 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
+    public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
 {
     $form = $this->createForm(Produit1Type::class, $produit);
     $form->handleRequest($request);
@@ -66,7 +83,7 @@ class ProduitController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
         // Handle file upload
         /** @var UploadedFile $file */
-        $file = $form->get('imageFile')->getData();
+        $file = $form->get('image')->getData();
 
         if ($file) {
             $fileName = uniqid() . '.' . $file->guessExtension();

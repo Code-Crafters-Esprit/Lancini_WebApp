@@ -33,13 +33,13 @@ class Produit
     #[Assert\NotBlank(message: 'Please enter a description')]
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
-
     #[ORM\Column(name: "image", type:"string", length:255)]
+    #[Vich\UploadableField(mapping:"product_images", fileNameProperty:"image")]
     private $image;
 
-    #[Vich\UploadableField(mapping: "product_image", fileNameProperty: "imageFile")]
-    
+    #[Vich\UploadableField(mapping: "product_image", fileNameProperty: "imageName")]
     private $imageFile;
+
 
     #[ORM\Column(name: 'prix', type: 'decimal', precision: 10, scale: 2, nullable: false)]
     #[Assert\PositiveOrZero(message: 'Price should be a positive value')]
@@ -81,6 +81,7 @@ class Produit
         return $this;
     }
 
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -89,17 +90,6 @@ class Produit
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -115,6 +105,7 @@ class Produit
 
         return $this;
     }
+
     public function setImageFile(File $image = null): void
     {
         $this->imageFile = $image;
@@ -129,17 +120,6 @@ class Produit
         return $this->imageFile;
     }
 
-    public function getVendeur(): ?User
-    {
-        return $this->vendeur;
-    }
-
-    public function setVendeur(?User $vendeur): self
-    {
-        $this->vendeur = $vendeur;
-
-        return $this;
-    }
     public function getPrix(): ?string
     {
         return $this->prix;
@@ -152,8 +132,32 @@ class Produit
         return $this;
     }
 
-    public function __toString()
+    public function getDate(): ?\DateTimeInterface
     {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+
+    public function getVendeur(): ?User
+    {
+        return $this->vendeur;
+    }
+
+    public function setVendeur(?User $vendeur): self
+    {
+        $this->vendeur = $vendeur;
+
+        return $this;
+    }
+
+    public function __toString() {
         return $this->nom;
     }
 }

@@ -25,16 +25,13 @@ class Produit1Type extends AbstractType
             ->add('nom')
             ->add('description')
             ->add('image', FileType::class, [
-                'label' => 'Image',
-                'required' => false,
+                'mapped' => false,
             ])
-        
             ->add('prix')
            
             ->add('vendeur');
             
     }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
