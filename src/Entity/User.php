@@ -8,15 +8,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public $iduser;
-
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -27,6 +28,9 @@ class User implements UserInterface
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
     private string $prenom;
+
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
     private string $email;
@@ -52,7 +56,7 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(name: "isVerified", type: 'boolean')]
     private $isVerified = false;
 
     public function __construct()
@@ -61,34 +65,44 @@ class User implements UserInterface
         $this->badge = new ArrayCollection();
     }
 
-    public function eraseCredentials()
+    public function getUserIdentifier(): string
     {
-
+        return (string) $this->email;
     }
 
-    public function getSalt()
+    public function getRoles(): array
     {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
+        return array_unique($roles);
     }
 
-    public function getUserIdentifier(): ?int
+    public function setRoles(array $roles): self
     {
-        return $this->idUser;
+        $this->roles = $roles;
+
+        return $this;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->prenom + " " + $this->nom;
-    }
-
-    public function getRoles(): ?string
-    {
-        return $this->role;
-    }
-
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->motdepasse;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
     }
 
     public function getIduser(): ?int
