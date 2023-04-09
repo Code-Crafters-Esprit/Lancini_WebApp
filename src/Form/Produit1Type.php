@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 
 class Produit1Type extends AbstractType
@@ -24,8 +25,10 @@ class Produit1Type extends AbstractType
             ->add('nom')
             ->add('description')
             ->add('image', FileType::class, [
-                'mapped' => false,
+                'label' => 'Image',
+                'required' => false,
             ])
+        
             ->add('prix')
            
             ->add('vendeur');

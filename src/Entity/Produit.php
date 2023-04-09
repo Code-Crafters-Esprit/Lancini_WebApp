@@ -35,10 +35,10 @@ class Produit
     private $description;
 
     #[ORM\Column(name: "image", type:"string", length:255)]
-    #[Vich\UploadableField(mapping:"product_image", fileNameProperty:"image")]
     private $image;
 
     #[Vich\UploadableField(mapping: "product_image", fileNameProperty: "imageFile")]
+    
     private $imageFile;
 
     #[ORM\Column(name: 'prix', type: 'decimal', precision: 10, scale: 2, nullable: false)]
