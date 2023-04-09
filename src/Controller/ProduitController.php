@@ -26,7 +26,7 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
+    public function new(Request $request, ProduitRepository $produitRepository): Response
     {
         $produit = new Produit();
         $timezone = $this->getParameter('timezone');
@@ -49,7 +49,7 @@ class ProduitController extends AbstractController
                         $fileName
                     );
     
-                    $produit->setImage($fileName);
+                    $produit->setImageFile($file);
                 } catch (FileException $e) {
                     // Handle exception
                 }

@@ -34,10 +34,10 @@ class Produit
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
     #[ORM\Column(name: "image", type:"string", length:255)]
-    #[Vich\UploadableField(mapping:"product_images", fileNameProperty:"image")]
+    #[Vich\UploadableField(mapping:"products", fileNameProperty:"image")]
     private $image;
 
-    #[Vich\UploadableField(mapping: "product_image", fileNameProperty: "imageName")]
+    #[Vich\UploadableField(mapping: "products", fileNameProperty: "imageFile")]
     private $imageFile;
 
 
