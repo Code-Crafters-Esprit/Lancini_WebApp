@@ -1,9 +1,61 @@
-
-{% block title %}Avis{% endblock %}
-
 {% block body %}
-    <h1>Avis</h1>
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-ciel">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('app_avis_index') }}">Back to list</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_avis_edit', {'id': avi.id}) }}">Edit</a>
+                </li>
+                <li class="nav-item">
+                    {{ include('avis/_delete_form.html.twig') }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/vnioezyi.json"
+    trigger="loop"
+    delay="1501"
+    colors="outline:#110a5c,primary:#4bb3fd"
+    style="width:100px;height:100px">
+</lord-icon>
+<h1>FEEDBACK</h1>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/showav.css') }}">
     <table class="table">
         <tbody>
             <tr>
@@ -24,10 +76,4 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_avis_index') }}">back to list</a>
-
-    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
-
-    {{ include('avis/_delete_form.html.twig') }}
 {% endblock %}

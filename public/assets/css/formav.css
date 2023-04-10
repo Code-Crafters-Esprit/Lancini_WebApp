@@ -1,0 +1,68 @@
+/* Utilisation d'une palette de couleurs cohérente */
+body {
+    background-color: #F4F4F4;
+    color: #333333;
+  }
+  
+  /* Utilisation d'une police lisible et professionnelle pour le texte */
+  body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  
+  /* Utilisation d'images de haute qualité pour donner une impression professionnelle */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Utilisation d'espaces blancs pour séparer les éléments de la page */
+  section {
+    padding: 50px 0;
+  }
+  
+  /* Utilisation d'animations subtiles pour ajouter de l'intérêt à la page */
+  button {
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #333333;
+    color: #FFFFFF;
+  }
+  
+  /* Assurez-vous que le site Web est facile à naviguer */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 20px;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  nav ul li {
+    margin: 0 10px;
+  }
+  
+  /* Faites en sorte que le site Web s'adapte à différentes tailles d'écran */
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+    }
+  
+    nav ul {
+      flex-direction: column;
+    }
+  
+    nav ul li {
+      margin: 10px 0;
+    }
+  }
+  

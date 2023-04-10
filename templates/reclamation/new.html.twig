@@ -1,10 +1,57 @@
-
-{% block title %}New Reclamation{% endblock %}
-
 {% block body %}
-    <h1>Create new Reclamation</h1>
 
-    {{ include('reclamation/_form.html.twig') }}
+<nav class="navbar">
+  <a class="navbar-brand" href="#">
+    <img src="path/to/logo.png" width="30" height="30" alt="logo">
+  </a>
+  <a class="navbar-link" href="{{ path('app_reclamation_index') }}">back to list</a>
+</nav>
 
-    <a href="{{ path('app_reclamation_index') }}">back to list</a>
+<div class="container">
+  <h1>Create new claim</h1>
+
+  {{ include('reclamation/_form.html.twig') }}
+</div>
+
+<script>
+  // JavaScript code for animation
+  const h1 = document.querySelector('h1');
+  h1.addEventListener('mouseover', () => {
+    h1.style.color = 'red';
+  });
+  h1.addEventListener('mouseout', () => {
+    h1.style.color = 'black';
+  });
+</script>
+
 {% endblock %}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/formrec.css') }}">
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

@@ -1,10 +1,18 @@
 
-{% block title %}New Avis{% endblock %}
+
 
 {% block body %}
-    <h1>Create new Avis</h1>
+    <h1>Your feedback</h1>
+    <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/kjkiqtxg.json"
+    trigger="loop"
+    delay="1000"
+    style="width:100px;height:100px">
+</lord-icon>
 
     {{ include('avis/_form.html.twig') }}
 
     <a href="{{ path('app_avis_index') }}">back to list</a>
 {% endblock %}
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/formav.css') }}">

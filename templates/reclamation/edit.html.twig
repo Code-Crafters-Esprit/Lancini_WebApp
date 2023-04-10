@@ -1,12 +1,65 @@
-
-{% block title %}Edit Reclamation{% endblock %}
-
 {% block body %}
-    <h1>Edit Reclamation</h1>
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    {{ include('reclamation/_form.html.twig', {'button_label': 'Update'}) }}
+.navbar-brand img {
+  margin-right: 10px;
+}
 
-    <a href="{{ path('app_reclamation_index') }}">back to list</a>
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
 
-    {{ include('reclamation/_delete_form.html.twig') }}
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
+  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_index') }}">Back to List<span
+            class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
+      </div>
+    </div>
+  </nav>
+
+  <h1 class="title">Edit your details</h1>
+
+  {{ include('reclamation/_form.html.twig', {'button_label': 'Update'}) }}
+<h1><script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/bxxnzvfm.json"
+    trigger="loop"
+    delay="2000"
+    colors="primary:#1663c7,secondary:#ffc738,tertiary:#f9c9c0,quaternary:#ebe6ef"
+    state="hover-2"
+    style="width:100px;height:100px">
+</lord-icon></h1>
+  {{ include('reclamation/_delete_form.html.twig') }}
 {% endblock %}

@@ -20,7 +20,8 @@ class Avis
     private  $description = null;
 
     #[ORM\Column]
-    private $note = null;
+    #[Assert\Range(min: 0, max: 20)]
+      private $note = null;
 
     #[ORM\Column(type: "date")]
     private  $date = null;
