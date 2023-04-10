@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Publication;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,7 +19,14 @@ class PublicationType extends AbstractType
             ->add('libelle')
             ->add('datepub')
             ->add('description')
-            ->add('cat')
+            ->add('cat', ChoiceType::class, [
+                'choices' => [
+                    'Simple Blog' => 'Simple_blog',
+                    'Success Story' => 'Success_story',
+                    'Advice' => 'Advice'
+                ],
+                'placeholder' => 'Choose a category',
+            ])
             ->add('proprietaire',EntityType::class, ['class'=> User::class,
             'choice_label'=>'Nom',
             'multiple'=>false , 
