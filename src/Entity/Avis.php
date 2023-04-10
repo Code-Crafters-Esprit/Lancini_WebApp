@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 
@@ -17,6 +18,7 @@ class Avis
     private $id = null;
 
     #[ORM\Column(length:100)]
+    #[Assert\NotNull]
     private  $description = null;
 
     #[ORM\Column]
@@ -28,11 +30,13 @@ class Avis
 
     #[ORM\ManyToOne(targetEntity: Produit::class)]
     #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProduit")]
+    #[Assert\NotNull]
     private $idProduit;
 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "idevaluateuruser", referencedColumnName: "idUser")]
+    #[Assert\NotNull]
     private $idevaluateuruser;
  
 

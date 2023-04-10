@@ -43,7 +43,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_index') }}">Back to List<span
-            class="sr-only">(current)</span></a>
+            class="sr-only"></span></a>
         <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
       </div>
     </div>
@@ -62,4 +62,7 @@
     style="width:100px;height:100px">
 </lord-icon></h1>
   {{ include('reclamation/_delete_form.html.twig') }}
+    <footer class="bg-info text-center text-white py-2">
+  <p>&copy; 2023 Lancini. All rights reserved to Code Crafters <3.</p>
+</footer>
 {% endblock %}
