@@ -15,6 +15,13 @@ use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
 use App\Entity\Secteur;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+
+
+
 
 
 
@@ -27,31 +34,71 @@ class OfferType extends AbstractType
             ->add('nom' , TextType::class ,
                 [
             'label' => 'Name',
+                    'constraints' => [
+                        new Regex([
+                            'pattern' => '/^[a-zA-Z\s]*$/',
+                            'message' => 'The name must only contain letters.'
+                        ]),
+                        new Length([
+                            'min' => 2,
+                            'max' => 50,
+                            'minMessage' => 'The name must contain at least {{ limit }} characters.',
+                            'maxMessage' => 'The name cannot contain more than {{ limit }} characters.'
+                        ])
+                    ]
         ])
-            ->add('typeoffre' , TextType::class,
-                [
-                    'label' => 'type of offer',
+            ->add('typeoffre' , ChoiceType::class, [
+                'label' => 'Type of offer',
+                'choices' => [
+                    'Internship' => 'Internship',
+                    'Full-time' => 'Full-time',
+                    'Part-time' => 'Part-time',
+                    'Freelance' => 'Freelance',
+                    'Alternation' => 'Alternation',
+                    'CDD' => 'CDD',
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 ])
             ->add('description' , TextType::class,
             [
             'label' => 'Description',
+                    'constraints' => [
+                        new Regex([
+                            'pattern' => '/^[a-zA-Z\s]*$/',
+                            'message' => 'The name must only contain letters.'
+                        ])
+                    ]
         ])
-            ->add('datedebut' , DateType::class,
-                [
-                    'label' => 'Start date',
-                    'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                ])
-            ->add('datefin', DateType::class,
-                [
-                    'label' => 'End date',
-                    'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                ])
-            ->add('competence' , TextType::class,
-                [
-                    'label' => 'skills',
-                ])
+            ->add('datedebut', DateType::class, [
+                'label' => 'Start date',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'constraints' => [
+                ]
+            ])
+            ->add('datefin', DateType::class, [
+                'label' => 'End date',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'constraints' => [
+                    new GreaterThanOrEqual([
+                        'propertyPath' => 'parent.all[datedebut].data',
+                        'message' => 'The end date should be after or equal to the start date.'
+                    ])
+                ]
+            ])
+
+            ->add('competence', TextType::class, [
+                'label' => 'Compétences',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z\s,:;]*$/',
+                        'message' => 'Le champ ne doit contenir que des lettres.'
+                    ])
+                ]
+            ])
             ->add('secteur', EntityType::class, ['class'=> Secteur::class,
 
                     'label' => 'Sector',
