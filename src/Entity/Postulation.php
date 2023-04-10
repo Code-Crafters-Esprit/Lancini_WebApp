@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\PostulationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\PostulationRepository;
 
 #[ORM\Table(name: 'postulation')]
 #[ORM\Index(columns: ['idUser', 'idOffre'], name: 'idUser')]
