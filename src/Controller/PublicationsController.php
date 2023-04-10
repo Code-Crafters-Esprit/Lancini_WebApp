@@ -83,7 +83,7 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
         }
 
 
-        #[Route('/modifierPublication/{idpub}', name: 'modifierPublication')]
+        #[Route('/modifierPublicationId/{idpub}', name: 'modifierPublication')]
         public function modifierPublication(ManagerRegistry $doctrine , Request $request, $idpub)
         {
             $p = $doctrine  -> getRepository(Publication::class)-> find($idpub) ;
@@ -100,6 +100,8 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
                 'form' => $form->createView(),
             ]);
         }
+
+        
 
 
 
