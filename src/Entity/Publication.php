@@ -13,8 +13,8 @@ class Publication
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idpub = null;
+    #[ORM\Column(name :"idPub")]
+    private ?int $idPub = null;
 
     #[ORM\Column(length:30)]
     private ?string $libelle = null;
@@ -28,12 +28,13 @@ class Publication
     #[ORM\Column(length:30)]
     private ?string $cat = null;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'publication')]
-    private ?User $proprietaire = null; 
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "proprietaire", referencedColumnName: "idUser")]
+    private $proprietaire;
+    
     public function getIdpub(): ?int
     {
-        return $this->idpub;
+        return $this->idPub;
     }
 
     public function getLibelle(): ?string

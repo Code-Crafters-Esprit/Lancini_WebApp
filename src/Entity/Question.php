@@ -3,39 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\QuestionRepository;
 
-/**
- * Question
- *
- * @ORM\Table(name="question", indexes={@ORM\Index(name="testId", columns={"testId"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+{ #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="libelle", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(name: "libelle", type: "string", length: 255, nullable: false)]
     private $libelle;
 
-    /**
-     * @var \Test
-     *
-     * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="testId", referencedColumnName="idTest")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Test::class)]
+    #[ORM\JoinColumn(name: "testId", referencedColumnName: "idTest")]
     private $testid;
 
     public function getId(): ?int

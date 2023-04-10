@@ -36,9 +36,9 @@ class Experience
     #[ORM\Column(name: "dateFin", type: "date", nullable: true)]
     private $datefin;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Experience')]
-    private  $userid = null;
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
+    private $userId;
     public function getIdexperience(): ?int
     {
         return $this->idexperience;
@@ -130,12 +130,12 @@ class Experience
 
     public function getUserid(): ?User
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     public function setUserid(?User $userid): self
     {
-        $this->userid = $userid;
+        $this->userId = $userid;
 
         return $this;
     }

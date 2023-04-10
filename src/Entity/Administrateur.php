@@ -14,8 +14,10 @@ class Administrateur
 
     private $pseudo;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Experience')]
-    private $iduser = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    private $idUser;
 
     public function getPseudo(): ?string
     {
@@ -24,12 +26,12 @@ class Administrateur
 
     public function getIduser(): ?User
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->iduser = $iduser;
+        $this->idUser = $iduser;
 
         return $this;
     }

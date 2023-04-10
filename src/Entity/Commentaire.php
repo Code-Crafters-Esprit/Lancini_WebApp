@@ -19,13 +19,13 @@ class Commentaire
     private ?string $commentaire = null;
 
 
-    #[ORM\ManyToOne(targetEntity: "Publication", inversedBy: 'commentaire')]
-    private ?Publication $idpub = null; 
- 
+    #[ORM\ManyToOne(targetEntity: Publication::class)]
+    #[ORM\JoinColumn(name: "idPub", referencedColumnName: "idPub")]
+    private $idPub;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'commentaire')]
-    private ?User $iduser = null; 
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    private $idUser;
     public function getIdcomm(): ?int
     {
         return $this->idcomm;
@@ -45,24 +45,24 @@ class Commentaire
 
     public function getIdpub(): ?Publication
     {
-        return $this->idpub;
+        return $this->idPub;
     }
 
     public function setIdpub(?Publication $idpub): self
     {
-        $this->idpub = $idpub;
+        $this->idPub = $idpub;
 
         return $this;
     }
 
     public function getIduser(): ?User
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->iduser = $iduser;
+        $this->idUser = $iduser;
 
         return $this;
     }
