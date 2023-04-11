@@ -1,0 +1,57 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	<Title>Lancini</title>
+{% endblock %}
+{% block stylesheet %}
+	<link rel="stylesheet" href="{{ asset('admin/user.css') }}">
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+		<div class="card-body">
+			<h1>Experience List</h1>
+			<div class="table-responsive margin-bottom-24">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Idexperience</th>
+							<th>Titre</th>
+							<th>Description</th>
+							<th>Type</th>
+							<th>Lieu</th>
+							<th>Secteur</th>
+							<th>Datedebut</th>
+							<th>Datefin</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for experience in experiences %}
+							<tr>
+								<td>{{ experience.idexperience }}</td>
+								<td>{{ experience.titre }}</td>
+								<td>{{ experience.description }}</td>
+								<td>{{ experience.type }}</td>
+								<td>{{ experience.lieu }}</td>
+								<td>{{ experience.secteur }}</td>
+								<td>{{ experience.datedebut ? experience.datedebut|date('Y-m-d') : '' }}</td>
+								<td>{{ experience.datefin ? experience.datefin|date('Y-m-d') : '' }}</td>
+								<td>
+									<a class="btn btn-primary btn-icon-text" href="{{ path('app_experience_show', {'idexperience': experience.idexperience}) }}">
+										<i class="ti-user"></i>show</a>
+									<a class="btn btn-dark btn-icon-text" href="{{ path('app_experience_edit', {'idexperience': experience.idexperience}) }}">
+										<i class="ti-file btn-icon-append"></i>edit</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<a class="btn btn-primary" href="{{ path('app_experience_new') }}">Create new</a>
+		{% endblock %}

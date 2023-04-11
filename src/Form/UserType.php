@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class UserType extends AbstractType
 {
@@ -18,7 +20,14 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('email')
             ->add('motdepasse', PasswordType::class)
-            ->add('role')
+            ->add('role', ChoiceType::class, [
+                'choices' => [
+                    'Simple User' => 'Simple User',
+                    'Candidat' => 'Candidat',
+                    'Employeur' => 'Employeur',
+                    'Administrateur' => 'Administrateur',
+                ]
+            ])
             ->add('bio')
             ->add('photoFile', FileType::class, [
                 'label' => 'Profile Photo',
