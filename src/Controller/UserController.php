@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 #[Route('/user')]
@@ -35,7 +36,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $file = $form->get('photoFile')->getData();
             if ($file instanceof UploadedFile) {
                 $photoFilename = uniqid() . '.' . $file->guessExtension();
@@ -44,6 +45,7 @@ class UserController extends AbstractController
                     $photoFilename
                 );
                 $user->setPhotopath($photoFilename);
+                $user->setPhotoFile($file);
             }
 
             $entityManager->persist($user);
@@ -73,6 +75,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('photoFile')->getData();
+            if ($file instanceof UploadedFile) {
+                $photoFilename = uniqid() . '.' . $file->guessExtension();
+                $file->move(
+                    $this->getParameter('user_photo_directory'),
+                    $photoFilename
+                );
+                $user->setPhotopath($photoFilename);
+                $user->setPhotoFile($file);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);

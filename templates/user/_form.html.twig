@@ -1,4 +1,42 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'forms-sample'}}) }}
+<div class="form-group">
+	{{ form_label(form.nom) }}
+	{{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.prenom) }}
+	{{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.email) }}
+	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.motdepasse) }}
+	{{ form_widget(form.motdepasse, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.role) }}
+	{{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.bio) }}
+	{{ form_widget(form.bio, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.photoFile) }}
+	{{ form_widget(form.photoFile, {'attr': {'class': 'form-control-file'}}) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.numtel) }}
+	{{ form_widget(form.numtel, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-check form-check-flat form-check-primary" style="display: flex; flex-direction: row;">
+	<label class="form-check-label">
+		{{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
+		        is Verified?
+		<i class="input-helper"></i>
+	</label>
+</div>
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

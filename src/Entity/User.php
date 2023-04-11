@@ -62,7 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $bio;
 
     #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
-    #[Vich\UploadableField(mapping: 'user_profile_photos', fileNameProperty: 'photopath')]
     private ?string $photopath = null;
 
 
