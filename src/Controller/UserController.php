@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -33,6 +35,17 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $file = $form->get('photoFile')->getData();
+            if ($file instanceof UploadedFile) {
+                $photoFilename = uniqid() . '.' . $file->guessExtension();
+                $file->move(
+                    $this->getParameter('user_photo_directory'),
+                    $photoFilename
+                );
+                $user->setPhotopath($photoFilename);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -74,7 +87,7 @@ class UserController extends AbstractController
     #[Route('/{idUser}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getIdUser(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getIdUser(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
         }

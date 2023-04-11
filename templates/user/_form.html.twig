@@ -1,38 +1,4 @@
 {{ form_start(form) }}
-    {{ form_label(form.nom) }}
-    {{ form_widget(form.nom) }}
-    {{ form_errors(form.nom) }}
-
-    {{ form_label(form.prenom) }}
-    {{ form_widget(form.prenom) }}
-    {{ form_errors(form.prenom) }}
-
-    {{ form_label(form.roles) }}
-    {{ form_widget(form.roles, {'attr': {'class': 'form-control'}, 'multiple': true, 'expanded': true}) }}
-    {{ form_errors(form.roles) }}
-
-    {{ form_label(form.email) }}
-    {{ form_widget(form.email) }}
-    {{ form_errors(form.email) }}
-
-    {{ form_label(form.motdepasse) }}
-    {{ form_widget(form.motdepasse) }}
-    {{ form_errors(form.motdepasse) }}
-
-    {{ form_label(form.role) }}
-    {{ form_widget(form.role) }}
-    {{ form_errors(form.role) }}
-
-    {{ form_label(form.bio) }}
-    {{ form_widget(form.bio) }}
-    {{ form_errors(form.bio) }}
-
-    {{ form_label(form.photopath) }}
-    {{ form_widget(form.photopath) }}
-    {{ form_errors(form.photopath) }}
-
-    {{ form_label(form.numtel) }}
-    {{ form_widget(form.numtel) }}
-    {{ form_errors(form.numtel) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_widget(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

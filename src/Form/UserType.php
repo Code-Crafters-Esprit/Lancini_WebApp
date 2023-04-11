@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
 {
@@ -14,14 +16,17 @@ class UserType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('roles')
             ->add('email')
-            ->add('motdepasse')
+            ->add('motdepasse', PasswordType::class)
             ->add('role')
             ->add('bio')
-            ->add('photopath')
+            ->add('photoFile', FileType::class, [
+                'label' => 'Profile Photo',
+                'required' => false,
+            ])
             ->add('numtel')
             ->add('isVerified')
+            // ->add('roles')
         ;
     }
 

@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\Collection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -14,6 +17,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
@@ -22,29 +26,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private int $idUser;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Please enter a name')]
+    #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
     private string $nom;
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Please enter a prename')]
+    #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
     private string $prenom;
 
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: "Please enter an email")]
+    #[Assert\Email(message: "Please enter a valid email address")]
     private string $email;
 
+    #[Assert\NotBlank(message: "Please enter a password")]
+    #[Assert\Length(min: 8, max: 255, minMessage: "Password should be at least {{ limit }} characters long", maxMessage: "Password should not exceed {{ limit }} characters")]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
+        message: "Password must contain at least one letter and one number"
+    )]
     #[ORM\Column(name: 'motDePasse', type: 'string', length: 255, nullable: false)]
     private string $motdepasse;
 
+    #[Assert\NotBlank(message: "Please enter a role")]
+    #[Assert\Length(max: 255, maxMessage: "Role should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'role', type: 'string', length: 255, nullable: false)]
     private string $role;
 
+    #[Assert\Length(max: 65535, maxMessage: "Bio should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'bio', type: 'text', length: 65535, nullable: true)]
     private ?string $bio;
 
     #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
-    private ?string $photopath;
+    #[Vich\UploadableField(mapping: 'user_profile_photos', fileNameProperty: 'photopath')]
+    private ?string $photopath = null;
 
+
+    /**
+     * @var File|null
+     * @Assert\Image(
+     *     maxSize = "5M",
+     *     maxSizeMessage = "The maximum allowed file size is {{ limit }}",
+     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg", "image/gif"},
+     *     mimeTypesMessage = "Please upload a valid image file"
+     * )
+     */
+    private ?File $photoFile;
+
+
+
+    #[Assert\Length(max: 255, maxMessage: "Phone number should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'numTel', type: 'string', length: 255, nullable: true)]
     private ?string $numtel;
 
@@ -101,6 +136,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getSalt(): ?string
     {
         return null;
+    }
+    public function getPhotoFile(): string
+    {
+        return $this->photoFile;
+    }
+
+    public function setPhotoFile(File $photoFile): self
+    {
+        $this->photoFile = $photoFile;
+
+        return $this;
     }
 
     public function getIduser(): ?int
