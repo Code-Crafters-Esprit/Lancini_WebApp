@@ -209,4 +209,24 @@
     color: #8860D0; 
   }
  
- 
+ .imgProduct {
+  width: 360px;
+  height: 360px;
+ }
+ td.description {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td.description:hover {
+  max-width: none;
+  overflow: visible;
+  white-space: normal;
+  z-index: 99999;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}

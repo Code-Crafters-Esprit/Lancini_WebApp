@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controller;
-
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Commande;
 use App\Form\Commande1Type;
 use App\Repository\CommandeRepository;
@@ -86,4 +88,33 @@ class CommandeController extends AbstractController
 
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/sales', name: 'app_commande_sales')]
+    public function commandesChart(): Response
+    {
+        $commandes = $this->getDoctrine()
+            ->getRepository(Commande::class)
+            ->findAll();
+
+        $data = [];
+
+        // Loop through each commande and add its information to the $data array
+        foreach ($commandes as $commande) {
+            $data[] = [
+                'dateCommande' => $commande->getDateCommande(),
+                'acheteur' => $commande->getAcheteur(),
+                'vendeur' => $commande->getVendeur(),
+                'produit' => $commande->getProduit(),
+                'montantPaye' => $commande->getMontantPaye(),
+            ];
+        }
+
+        // Pass the $data array to your charting library to create a chart
+
+        return $this->render('commande/sales.html.twig', [
+            'data' => $data,
+        ]);
+    }
+    
 }
+
+

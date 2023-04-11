@@ -1,4 +1,5 @@
 
+{% extends 'admin/index.html.twig' %}
 {% block body %}
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -9,4 +10,7 @@
 
     <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">back to list </a>
 
+{% endblock %}
+{% block footer %}
+  
 {% endblock %}

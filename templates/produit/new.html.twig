@@ -1,7 +1,9 @@
+{% extends 'admin/index.html.twig' %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-REZseD8/ZKd57g6kuNNghxH+/39RPLh/6/XN+6N3U6q3NQlalhoj+U57fOw05zftGxRJlr8NT6+X02mgUO7OQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-REZseD8/ZKd57g6kuNNghxH+/39RPLh/6/XN+6N3U6q3NQlalhoj+U57fOw05zftGxRJlr8NT6+X02mgUO7OQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10">
@@ -10,4 +12,7 @@
     {{ include('produit/_form.html.twig') }}
     <a href="{{ path('app_produit_index') }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Back to list</a>
 
+{% endblock %}
+{% block footer %}
+  
 {% endblock %}
