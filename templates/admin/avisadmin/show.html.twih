@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/vnioezyi.json"
+    trigger="loop"
+    delay="1501"
+    colors="outline:#110a5c,primary:#4bb3fd"
+    style="width:100px;height:100px">
+</lord-icon>
+<h1>FEEDBACK</h1>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/showav.css') }}">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ avi.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ avi.description }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ avi.note }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ avi.date ? avi.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% block footer %}
+      <!-- footer -->
+		<section id= "footer" class= "main-footer">
+			<div class= "row">
+				<div class= "logo text-center">
+					<h1>Lancini</h1>
+				</div>
+			</div>
+			<div class= "row">
+				<div class= "copyright text-center">
+					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
+				</div>
+			</div>
+
+{% endblock %}

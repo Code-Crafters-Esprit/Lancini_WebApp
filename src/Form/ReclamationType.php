@@ -19,6 +19,7 @@ class ReclamationType extends AbstractType
             ->add('email')
             ->add('tel')
             ->add('etat')
+            
         ;
     }
 

@@ -19,7 +19,6 @@ class AvisType extends AbstractType
             ])
             ->add('idProduit')
             ->add('idevaluateuruser')
-            ->add('idAvis')
         ;
     }
 

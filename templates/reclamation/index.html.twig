@@ -1,4 +1,4 @@
-
+{% extends 'template.html.twig' %}
 {% block body %}
     
 <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
@@ -80,7 +80,29 @@
     create.classList.remove('animated', 'pulse');
   });
 </script>
-  <footer class="bg-info text-center text-white py-2">
-  <p>&copy; 2023 Lancini. All rights reserved to Code Crafters <3.</p>
-</footer>
+ <div class= "row">
+					<div class= "col-md-6 col-md-offset-3 text-center">
+						<ul class="socials-icons">
+							<li>
+								<a href="#" data-toggle="tooltip" title="Share in Facebook" class="facebook"><i class="fa fa-facebook"></i></a>
+							</li>
+							<li>
+								<a href="#" data-toggle="tooltip" title="Share in Twitter" class="twitter"><i class="fa fa-twitter"></i></a>
+							</li>
+							<li>
+								<a href="#" data-toggle="tooltip" title="Share in Google +" class="google-plus"><i class="fa fa-google-plus"></i></a>
+							</li>
+							<li>
+								<a href="#" data-toggle="tooltip" title="Share in Instagram" class="instagram"><i class="fa fa-instagram"></i></a>
+							</li>
+							<li>
+								<a href="#" data-toggle="tooltip" title="Share in Pinterest" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</li>
+							<li>
+								<a href="#" data-toggle="tooltip" title="Connect with Skype" class="skype"><i class="fa fa-skype"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 {% endblock %}

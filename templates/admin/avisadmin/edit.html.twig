@@ -1,0 +1,18 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+<div class="container my-4">
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/hiqmdfkt.json"
+    trigger="loop"
+    delay="1000"
+    style="width:150px;height:150px">
+</lord-icon>
+  <h1 class="mb-4">Edit Avis</h1>
+  <div class="card">
+    <div class="card-body">
+      {{ include('avis/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

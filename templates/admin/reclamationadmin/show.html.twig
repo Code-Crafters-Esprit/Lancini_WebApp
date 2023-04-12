@@ -1,0 +1,43 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Last name</th>
+        <th>Description</th>
+        <th>Reason for enquiry</th>
+        <th>Email address</th>
+        <th>Phone</th>
+        <th>State</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for reclamation in reclamations %}
+      <tr>
+        <td>{{ reclamation.id }}</td>
+        <td>{{ reclamation.nom }}</td>
+        <td>{{ reclamation.prenom }}</td>
+        <td>{{ reclamation.description }}</td>
+        <td>{{ reclamation.sujetdereclamations }}</td>
+        <td>{{ reclamation.email }}</td>
+        <td>{{ reclamation.tel }}</td>
+        <td>{{ reclamation.etat }}</td>
+        <td>
+          <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
+          <a href="{{ path('app_reclamation_editadmin', {'id': reclamation.id}) }}">edit</a>
+        </td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="9">No records found</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  
+</div>
+{% endblock %}
