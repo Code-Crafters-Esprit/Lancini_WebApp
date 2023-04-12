@@ -42,13 +42,14 @@
     {% endfor %}
   </div>
 </div>
- <script>
+<script>
     const contactSellerBtns = document.querySelectorAll('.contact-seller-btn');
     const contactSellerPopups = document.querySelectorAll('.contact-seller-popup');
 
     for (let i = 0; i < contactSellerBtns.length; i++) {
       contactSellerBtns[i].addEventListener('click', function(e) {
         e.stopPropagation();
+      
         contactSellerPopups[i].classList.toggle('show');
       });
     }
@@ -62,13 +63,14 @@
     });
   </script>
 <script>
-  const buyBtn = document.querySelector('.buy-btn');
-  buyBtn.addEventListener('click', function() {
+  const buyBtn = document.querySelectorAll('.buy-btn');
+  for(let i=0;i < buyBtn.length;i++){
+ buyBtn[i].addEventListener('click', function() {
     const confirmation = confirm('Are you sure you want to Buy this product? Your Email will be sent to the seller and they will deliver the ordered product. Stay tuned.');
     if (confirmation) {
-      // send email to seller using your preferred method (e.g. email API)
     }
-  });
+  
+  })};
 </script>
 {% endblock %}
 {% block footer %}

@@ -8,7 +8,7 @@
 
 
 
-{{ form_start(form, {'attr': {'class': 'form-group'}}) }}
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
     <div class="form-group">
   {{ form_label(form.nom, 'Product Name', {'label_attr': {'class': 'form-label'}}) }}
   {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'nom'}}) }}
@@ -51,7 +51,6 @@
 <div class="form-group">
   {{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
   {{ form_widget(form.image, {'attr': {'class': 'form-control', 'id': 'image', 'onchange': 'previewImage(event)'}}) }}
-  <small class="form-text text-muted">Enter Product image path</small>
   {{ form_errors(form.image, {attr: {'class': 'invalid-feedback'}}) }}
 </div>
 <div class="text-center mt-3">

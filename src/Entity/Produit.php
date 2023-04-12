@@ -34,15 +34,18 @@ class Produit
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
     #[ORM\Column(name: "image", type:"string", length:255)]
-    #[Vich\UploadableField(mapping:"products", fileNameProperty:"image")]
     private $image;
 
-    #[Vich\UploadableField(mapping: "products", fileNameProperty: "imageFile")]
+    
+    #[Assert\Image(maxSize :"5M",maxSizeMessage : "The maximum allowed file size is {{ limit }}", mimeTypes :["image/png", "image/jpeg", "image/jpg", "image/gif"], mimeTypesMessage :"Please upload a valid image file")]
+    #[Vich\UploadableField(mapping: "products", fileNameProperty: "image")]
     private $imageFile;
 
 
-    #[ORM\Column(name: 'prix', type: 'decimal', precision: 10, scale: 2, nullable: false)]
+    #[ORM\Column(name: 'prix', type: 'decimal', precision: 10, scale: 2)]
     #[Assert\PositiveOrZero(message: 'Price should be a positive value')]
+    #[Assert\Length(max: 4, maxMessage: 'Maximum 4 digits, only numbers allowed')]
+
     private $prix;
 
     #[ORM\Column(name: 'date', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
