@@ -20,6 +20,7 @@
   <label for="{{ form.categorie.vars.id }}" class="form-label">Category</label>
   <select class="form-control" id="{{ form.categorie.vars.id }}" name="{{ form.categorie.vars.full_name }}">
     <option value="Web Template" {% if form.categorie.vars.value == 'Web Template' %}selected{% endif %}>Web Template</option>
+    <option value="Mascott" {% if form.categorie.vars.value == 'Mascott' %}selected{% endif %}>Mascott</option>
     <option value="Wallpaper" {% if form.categorie.vars.value == 'Wallpaper' %}selected{% endif %}>Wallpaper</option>
     <option value="Logo Design" {% if form.categorie.vars.value == 'Logo Design' %}selected{% endif %}>Logo Design</option>
     <option value="Avatars" {% if form.categorie.vars.value == 'Avatars' %}selected{% endif %}>Avatars</option>

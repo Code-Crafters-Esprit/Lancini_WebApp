@@ -187,8 +187,7 @@ iframe
     z-index: 9999;
 }
 #wrapper
-{
- /*  background: url(../img/background.jpg);*/
+{    background: url('https://live.staticflickr.com/65535/52811513863_a94d570cba_k.jpg');
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

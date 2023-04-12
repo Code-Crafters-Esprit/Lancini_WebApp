@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -23,48 +25,54 @@ class ProduitController extends AbstractController
         return $this->render('produit/index.html.twig', [
             'produits' => $produitRepository->findAll(),
         ]);
-    }
-
-    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
+    } 
+  #[Route('/market', name: 'app_market_index', methods: ['GET'])]
+    public function list(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('LanciniMarket/index.html.twig', [
+            'produits' => $produitRepository->findAll(),
+        ]);
+    } 
+   #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProduitRepository $produitRepository): Response
     {
-    $produit = new Produit();
-    $timezone = $this->getParameter('timezone');
+        $produit = new Produit();
+        $timezone = $this->getParameter('timezone');
 
-    $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
-    $form = $this->createForm(Produit1Type::class, $produit);
-    $form->handleRequest($request);
+        $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
+        $form = $this->createForm(Produit1Type::class, $produit);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Handle file upload
-        /** @var UploadedFile $file */
-        $file = $form->get('image')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            /** @var UploadedFile $file */
+            $file = $form->get('image')->getData();
 
-        if ($file) {
-            $fileName = uniqid() . '.' . $file->guessExtension();
+            if ($file) {
+                $fileName = uniqid() . '.' . $file->guessExtension();
 
-            try {
-                $file->move(
-                    $this->getParameter('kernel.project_dir') . '/public/images/products',
-                    $fileName
-                );
+                try {
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images/products',
+                        $fileName
+                    );
 
-                $produit->setImage($fileName);
-            } catch (FileException $e) {
-                // Handle exception
+                    $produit->setImage($fileName);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
             }
+
+            $produitRepository->save($produit, true);
+
+            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $produitRepository->save($produit, true);
-
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->renderForm('produit/edit.html.twig', [
+            'produit' => $produit,
+            'form' => $form,
+        ]);
     }
-
-    return $this->renderForm('produit/edit.html.twig', [
-        'produit' => $produit,
-        'form' => $form,
-    ]);
-}
 
     #[Route('/{idproduit}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
@@ -76,40 +84,40 @@ class ProduitController extends AbstractController
 
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
-{
-    $form = $this->createForm(Produit1Type::class, $produit);
-    $form->handleRequest($request);
+    {
+        $form = $this->createForm(Produit1Type::class, $produit);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Handle file upload
-        /** @var UploadedFile $file */
-        $file = $form->get('image')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            /** @var UploadedFile $file */
+            $file = $form->get('image')->getData();
 
-        if ($file) {
-            $fileName = uniqid() . '.' . $file->guessExtension();
+            if ($file) {
+                $fileName = uniqid() . '.' . $file->guessExtension();
 
-            try {
-                $file->move(
-                    $this->getParameter('kernel.project_dir') . '/public/images/products',
-                    $fileName
-                );
+                try {
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images/products',
+                        $fileName
+                    );
 
-                $produit->setImage($fileName);
-            } catch (FileException $e) {
-                // Handle exception
+                    $produit->setImage($fileName);
+                } catch (FileException $e) {
+                    // Handle exception
+                }
             }
+
+            $produitRepository->save($produit, true);
+
+            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $produitRepository->save($produit, true);
-
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->renderForm('produit/edit.html.twig', [
+            'produit' => $produit,
+            'form' => $form,
+        ]);
     }
-
-    return $this->renderForm('produit/edit.html.twig', [
-        'produit' => $produit,
-        'form' => $form,
-    ]);
-}
 
 #[Route('/{idproduit}', name: 'app_produit_delete', methods: ['POST'])]
 public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
@@ -124,5 +132,6 @@ public function delete(Request $request, Produit $produit, ProduitRepository $pr
 
     return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
 }
+    
 
 }

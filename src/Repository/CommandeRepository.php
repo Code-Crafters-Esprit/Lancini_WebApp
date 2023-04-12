@@ -65,15 +65,14 @@ class CommandeRepository extends ServiceEntityRepository
 //    }
 public function findSalesByVendeur()
 {
-    $entityManager = $this->getEntityManager();
+    $qb = $this->createQueryBuilder('c')
+        ->select('v.nom as vendeurNom, COUNT(c.idCommande) as salesCount')
+        ->leftJoin('c.vendeur', 'v')
+        ->groupBy('v.idUser')
+        ->getQuery();
 
-    $query = $entityManager->createQuery(
-        'SELECT c.vendeur, COUNT(c.id_commande) as sales
-         FROM App\Entity\Commande c
-         GROUP BY c.vendeur'
-    );
-
-    return $query->getResult();
+    return $qb->getResult();
 }
 
 }
+

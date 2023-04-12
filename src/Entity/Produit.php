@@ -50,6 +50,7 @@ class Produit
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'vendeur', referencedColumnName: 'idUser')]
+    #[Assert\NotBlank(message: "You must pick a Seller.")]
     private $vendeur;
 
     public function getIdproduit(): ?int

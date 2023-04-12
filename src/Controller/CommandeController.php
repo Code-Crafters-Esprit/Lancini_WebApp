@@ -24,7 +24,18 @@ class CommandeController extends AbstractController
             'commandes' => $commandeRepository->findAll(),
         ]);
     }
-
+    #[Route('/chart', name: 'app_chart_index', methods: ['GET'])]
+    public function salesByVendeur(CommandeRepository $commandeRepository)
+    {
+        $data = $commandeRepository->findSalesByVendeur();
+    
+        // $data should be an array of vendeurs and their respective sales data
+        // Example: [['John', 10], ['Mary', 15], ['Peter', 8]]
+    
+        return $this->render('commande/sales.html.twig', [
+            'data' => $data,
+        ]);
+    }
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CommandeRepository $commandeRepository, ProduitRepository $produitRepository): Response
     {
@@ -88,32 +99,7 @@ class CommandeController extends AbstractController
 
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/sales', name: 'app_commande_sales')]
-    public function commandesChart(): Response
-    {
-        $commandes = $this->getDoctrine()
-            ->getRepository(Commande::class)
-            ->findAll();
 
-        $data = [];
-
-        // Loop through each commande and add its information to the $data array
-        foreach ($commandes as $commande) {
-            $data[] = [
-                'dateCommande' => $commande->getDateCommande(),
-                'acheteur' => $commande->getAcheteur(),
-                'vendeur' => $commande->getVendeur(),
-                'produit' => $commande->getProduit(),
-                'montantPaye' => $commande->getMontantPaye(),
-            ];
-        }
-
-        // Pass the $data array to your charting library to create a chart
-
-        return $this->render('commande/sales.html.twig', [
-            'data' => $data,
-        ]);
-    }
     
 }
 

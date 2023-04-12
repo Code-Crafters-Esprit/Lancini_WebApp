@@ -3,7 +3,7 @@
 	<head>
 	{% block title %}
 		
-		<title>Renessa</title>
+		<title>Lancini</title>
 	{% endblock %}
 
 		<!-- meta -->
@@ -12,34 +12,36 @@
        {% block stylesheets %}
 		
 	    <!-- css -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/ionicons.min.css">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/owl.carousel.css">
-		<link rel="stylesheet" href="css/owl.theme.css">
-		<link rel="stylesheet" href="css/owl.transitions.css">
-	    <link rel="stylesheet" href="css/animate.css">
-	    <link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+		<link rel="stylesheet" href="{{asset('css/ionicons.min.css')}}">
+		<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+		<link rel="stylesheet" href="{{asset('css/owl.carousel.css')}}">
+		<link rel="stylesheet" href="{{asset('css/owl.theme.css')}}">
+		<link rel="stylesheet" href="{{asset('css/owl.transitions.css')}}
+		">
+	    <link rel="stylesheet" href="{{asset('css/animate.css')}}">
+	    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
 	   {% endblock %}
 
 	    <!-- js -->
 		{% block scripts %}
 			
-	    <script src="js/jquery.min.js"></script>
-	    <script src="js/bootstrap.min.js"></script>
-	    <script src="js/owl.carousel.min.js"></script>
-	    <script src="js/isotope.pkgd.min.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/wow.min.js"></script>
-		<script src="js/jquery.actual.min.js"></script>
+	    <script src="{{asset('jquery.min.js')}}"></script>
+	    <script src="{{asset('bootstrap.min.js')}}"></script>
+	    <script src="{{asset('owl.carousel.min.js')}}"></script>
+	    <script src="{{asset('isotope.pkgd.min.js')}}"></script>
+		<script src="{{asset('script.js')}}"></script>
+		<script src="{{asset('wow.min.js')}}"></script>
+		<script src="{{asset('jquery.actual.min.js')}}"></script>
 		{% endblock %}
 
 	</head>
 
 	<body>
 		<div id="wrapper">
-			
+
 			<div id="overlay-1">
+
 				<section id= "navigation">
 		{% block navbar %}
 				
@@ -49,7 +51,7 @@
 	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					        		<span class="ion-navicon"></span>
 					      		</button>
-					      		<a class="navbar-brand" href="#">Renessa</a>
+					      		<a class="navbar-brand" href="{{ path('app_home') }}">Lancini</a>
 					    	</div>
 	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      					<ul class="nav navbar-nav navbar-right">
@@ -69,18 +71,20 @@
 
 				</section>	<!-- #navigation -->
 				<section id="starting">
-					<div class="text-center starting-text">
-						<h1 class="rene">RENESSA</h1>
-						<h2>Welcome to our world</h2>
-					</div>
+					<div class="text-center starting-text" style="background-image: url('https://live.staticflickr.com/65535/52811485745_d067ccd3f7_k.jpg')">
+    <h1 class="rene">LANCINI</h1>
+    <h2>Welcome to our world</h2>
+</div>
+
+
 				</section>
 				<div id="bottom" class="bottom text-center">
 			        <a href="#about"><i class="ion-ios7-arrow-down"></i></a>
 			    </div>
 			</div><!-- overlay-1 -->
 		</div>	<!-- wrapper -->		
-			{% block body %}
-				
+	{% block body %}
+			
 			
 		<!-- About Us -->
 		<section id="about">
@@ -95,7 +99,11 @@
 				</div>	<!-- row -->
 				<div class="row about-us-text">
 					<div class="col-md-8 col-md-offset-2">
-						<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+						<p class="text-center">At LANCINI, we understand that finding the right job or the right person for a project can be a daunting task. That's why we've created a user-friendly, intuitive platform that allows job seekers and employers to connect and collaborate with ease. Our website is home to a large and diverse pool of talented freelancers and employers, all with a variety of skills and experience levels.
+
+Whether you're a freelancer looking for your next gig or an employer looking to find the perfect person for your project, LANCINI has everything you need to succeed. Our platform features a robust set of tools that make it easy to post jobs, search for talent, and collaborate with others in real-time. In addition, we provide a wealth of contents and advice to help freelancers and employers succeed in today's ever-changing job market.
+
+At LANCINI, our mission is to empower people to achieve their professional goals and connect them with the right opportunities. Join us today and discover why we're the go-to destination for freelancers and employers alike.</p>
 					</div>
 				</div>	<!-- row -->
 				<div class="row main_content">
@@ -340,8 +348,8 @@
 	    	<div class="container">
 	    		<div class="row text-center" id="heading">
 	    			<div class="col-md-6 col-md-offset-3 wow animated zoomInDown" id="heading-text">
-	        			<h3>Our Works</h3>
-	                	<p>Take a look, Taste our cook</p>
+	        			<h3>LanciniMarket</h3>
+	                	<p>Everything you may ever need </p>
 	                	<hr class= "full">
 	                	<br/>
 	        		</div>
@@ -351,17 +359,26 @@
 		    			<div class="col-md-8 col-md-offset-2 text-center button-group" id="filters">
 		    				<button type="button" class="btn btn-default is-checked" data-filter="*">All</button>
 		    				<button type="button" class="btn btn-default" data-filter=".web">Web Design</button>
-		    				<button type="button" class="btn btn-default" data-filter=".game">Game</button>
-		    				<button type="button" class="btn btn-default" data-filter=".app">App</button>
+		    				<button type="button" class="btn btn-default" data-filter=".game">Wallpapers</button>
+		    				<button type="button" class="btn btn-default" data-filter=".app">Avatar</button>
+							<div class="row justify-content-center">
+<button type="button" class="btn btn-info mx-auto" data-filter=".app">
+  <a href="{{ path('app_market_index') }}" class="btn-link">see more</a>
+</button>
+</div>
 		    			</div>
+
 		    		</div>	<!-- row -->
+
+
+
 		    		<div class="row">
 		    			<div class="isotope" id="port-items">
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item web" data-category="web">
 		    					<img class="img-responsive" src="img/web-design-1.jpg" >
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item game" data-category="game">
-		    					<img class="img-responsive" src="img/game-2.jpg">
+		    					<img class="img-responsive" src="img/wallpaper2.jpg">
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item app" data-category="app">
 		    					<img class="img-responsive" src="img/app-1.jpg">
@@ -370,7 +387,7 @@
 		    					<img class="img-responsive" src="img/web-design-2.jpg">
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item game" data-category="game">
-		    					<img class="img-responsive" src="img/game-1.jpg">
+		    					<img class="img-responsive" src="img/wallpaper.jpg">
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item app" data-category="app">
 		    					<img class="img-responsive" src="img/app-2.jpg">
@@ -379,7 +396,7 @@
 		    					<img class="img-responsive" src="img/web-design-3.jpg">
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item game" data-category="game">
-		    					<img class="img-responsive" src="img/game-3.jpg">
+		    					<img class="img-responsive" src="img/wallpaper1.jpg">
 		    				</div>
 		    				<div class="col-md-4 col-sm-6 col-xs-6 element-item app" data-category="app">
 		    					<img class="img-responsive" src="img/app-3.jpg">
@@ -813,7 +830,7 @@
 		<section id= "footer" class= "main-footer">
 			<div class= "row">
 				<div class= "logo text-center">
-					<h1>Renessa</h1>
+					<h1>Lanicni</h1>
 				</div>
 			</div>
 			<div class= "row">
@@ -870,11 +887,11 @@
 			  
 			});
 		</script>
-        <script src="js/jquery-ui-1.10.3.min.js"></script>
-        <script src="js/jquery.knob.js"></script>
-        <script src="js/daterangepicker.js"></script>
-        <script src="js/bootstrap3-wysihtml5.all.min.js"></script>
-        <script src="js/dashboard.js"></script>
+        <script src="{{asset('jquery-ui-1.10.3.min.js')}}"></script>
+        <script src="{{asset('jquery.knob.js')}}"></script>
+        <script src="{{asset('daterangepicker.js')}}"></script>
+        <script src="{{asset('bootstrap3-wysihtml5.all.min.js')}}"></script>
+        <script src="{{asset('dashboard.js')}}"></script>
        
 	</body>
 </html>
