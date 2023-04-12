@@ -14,7 +14,7 @@ class Evenement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idevent = null;
+    private ?int $id = null;
 
     #[ORM\Column(length:30)]
     private ?string $titre = null;
@@ -34,9 +34,9 @@ class Evenement
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'evenement')]
     private ?User $proprietaire = null; 
 
-    public function getIdevent(): ?int
+    public function getId(): ?int
     {
-        return $this->idevent;
+        return $this->id;
     }
 
     public function getTitre(): ?string

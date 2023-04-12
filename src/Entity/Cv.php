@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CvRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CvRepository::class)]
 class Cv
@@ -15,37 +16,50 @@ class Cv
     private ?int $idcv = null;
 
     #[ORM\Column]
-    private ?int $cin = null;
+    #[Assert\Length(
+        min: 8,
+        max: 8
+    )]
+    private ?string $cin = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank]
     private ?string $sexe = null;
 
 
     #[ORM\Column()]
+    #[Assert\NotBlank]
     private ?\DateTime $datenaissance = null;
 
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $photo = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $adresse = null;
 
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $education = null;
 
 
@@ -58,12 +72,12 @@ class Cv
         return $this->idcv;
     }
 
-    public function getCin(): ?int
+    public function getCin(): ?string
     {
         return $this->cin;
     }
 
-    public function setCin(int $cin): self
+    public function setCin(string $cin): self
     {
         $this->cin = $cin;
 

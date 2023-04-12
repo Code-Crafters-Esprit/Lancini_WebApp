@@ -14,7 +14,7 @@ class Publication
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idpub = null;
+    private ?int $id = null;
 
     #[ORM\Column(length:30)]
     private ?string $libelle = null;
@@ -31,9 +31,9 @@ class Publication
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'publication')]
     private ?User $proprietaire = null; 
 
-    public function getIdpub(): ?int
+    public function getId(): ?int
     {
-        return $this->idpub;
+        return $this->id;
     }
 
     public function getLibelle(): ?string

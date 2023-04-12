@@ -12,10 +12,10 @@ use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
-{ #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
+{ #[ORM\Column(name: "id", type: "integer", nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    private  $idproduit;
+    private  $id;
 
     #[ORM\Column(name: "categorie", type: "string", length: 255, nullable: false)]
     private  $categorie;
@@ -39,9 +39,9 @@ class Produit
 
     private  $vendeur=null;
 
-    public function getIdproduit(): ?int
+    public function getId(): ?int
     {
-        return $this->idproduit;
+        return $this->id;
     }
 
     public function getCategorie(): ?string

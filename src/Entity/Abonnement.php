@@ -10,8 +10,8 @@ class Abonnement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "idAbonnement", type: "integer", nullable: false)]
-    private $idabonnement;
+    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    private $id;
 
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
     private $useridfollowed;
@@ -19,9 +19,9 @@ class Abonnement
     #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Abonnement')]
     private $userid;
 
-    public function getIdabonnement(): ?int
+    public function getId(): ?int
     {
-        return $this->idabonnement;
+        return $this->id;
     }
 
     public function getUseridfollowed(): ?User

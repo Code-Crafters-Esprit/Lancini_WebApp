@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tests{% endblock %}
+
+{% block body %}
+    <h1>Tests</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nomtest</th>
+                <th>Difficulte</th>
+                <th>Questions</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for test in tests %}
+            <tr>
+                <td>{{ test.nomtest }}</td>
+                <td>{{ test.difficulte }}</td>
+                <td>
+                <ol>
+                {% for quiz in test.quizzes %}
+                    <li>{{ quiz.question }}</li>
+                    <ul>
+                        <li style="color: green;">{{ quiz.reponsecorrecte }}</li>
+                        <li style="color: red;">{{ quiz.reponsefausse1 }}</li>
+                        <li style="color: red;">{{ quiz.reponsefausse2 }}</li>
+                        <li style="color: red;">{{ quiz.reponsefausse3 }}</li>
+                    </ul>
+                {% endfor %}
+                </ol>
+                </td>
+                <td>
+                    <a href="{{ path('admin_test_show', {'id': test.id}) }}">show</a>
+                    <a href="{{ path('admin_test_edit', {'id': test.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_test_new') }}">Create new</a>
+{% endblock %}
