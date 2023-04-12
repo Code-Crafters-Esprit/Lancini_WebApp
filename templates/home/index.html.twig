@@ -1,6 +1,11 @@
 {% extends 'template.html.twig' %}
 {% block body %}
-<div id="setta">
- <h1>MENJI</h1>
- </div>
+	<div id="setta">
+		{% if user %}
+			<h1>Bonjour,
+				{{ user.nom }}</h1>
+			<a class="btn btn-default" href="{{ path('app_logout') }}">logout</a>
+		{% endif %}
+
+	</div>
 {% endblock %}
