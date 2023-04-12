@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\VarDumper\VarDumper;
+
 
 class RegistrationController extends AbstractController
 {
@@ -31,6 +33,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppCustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $user->setMotdepasse("AnyPassword4578");
         $form = $this->createForm(RegistrationFormType::class, $user, [
             'csrf_protection' => true,
         ]);
@@ -38,8 +41,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $plainPassword = $form->get('plainPassword')->getData();
+            $plainPassword = $form->get('motdepasse')->getData();
             $confirmPassword = $request->request->get('registration_form')['confirmPassword'];
+
+            VarDumper::dump($plainPassword);
+            VarDumper::dump($confirmPassword);
 
             if ($plainPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Passwords do not match');
@@ -48,7 +54,7 @@ class RegistrationController extends AbstractController
             $user->setMotdepasse(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('motdepasse')->getData()
                 )
             );
 
