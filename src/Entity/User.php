@@ -28,11 +28,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a name')]
     #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
+    #[Assert\Regex(
+        pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
+        message: "Name cannot contain only numbers"
+    )]
     private string $nom;
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a prename')]
     #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
+    #[Assert\Regex(
+        pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
+        message: "Last name cannot contain only numbers"
+    )]
     private string $prenom;
 
     #[ORM\Column]
