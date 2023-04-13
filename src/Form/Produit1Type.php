@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
+use AppBundle\Validator\Constraints\BadWords;
 
 class Produit1Type extends AbstractType
 { 
@@ -18,7 +19,16 @@ class Produit1Type extends AbstractType
         $builder
             ->add('categorie')
             ->add('nom')
-            ->add('description')
+            ->add('description', null, array(
+                'constraints' => array(
+                    new BadWords(),
+                ),
+                'label' => 'Description',
+                'attr' => array(
+                    'class' => 'form-control',
+                    'id' => 'description',
+                ),
+            ))
             ->add('image', FileType::class, [
                 'mapped' => false,
             ])
