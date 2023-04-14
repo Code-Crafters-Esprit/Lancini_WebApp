@@ -143,4 +143,44 @@
   .product-text .show-description:hover + .description {
     display: block;
   }
+  .like-btn {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+  }
   
+  .like-btn::before,
+  .like-btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .like-btn::before {
+    transform: rotate(-45deg);
+    top: -10px;
+    left: 10px;
+  }
+  
+  .like-btn::after {
+    transform: rotate(45deg);
+    top: -10px;
+    left: -10px;
+  }
+  .like-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background-image: url('path/to/like-icon.svg');
+    background-size: cover;
+  }  

@@ -33,7 +33,7 @@ class Produit
     #[Assert\NotBlank(message: 'Please enter a description')]
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
-    #[ORM\Column(name: "image", type:"string", length:255)]
+    #[ORM\Column(name: "image", type:"string", length:255, nullable: true, options: ["default" => "default_image.png"])]
     private $image;
 
     
