@@ -25,4 +25,25 @@ class StripeService
             'source' => $token,
         ]);
     }
+    public function createCheckoutSession($amount, $currency)
+{
+    $session = \Stripe\Checkout\Session::create([
+        'payment_method_types' => ['card'],
+        'line_items' => [[
+            'price_data' => [
+                'currency' => $currency,
+                'product_data' => [
+                    'name' => 'My Product',
+                ],
+                'unit_amount' => $amount,
+            ],
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+       
+    ]);
+
+    return $session->id;
+}
+
 }

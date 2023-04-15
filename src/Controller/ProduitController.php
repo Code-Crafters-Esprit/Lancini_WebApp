@@ -26,13 +26,53 @@ class ProduitController extends AbstractController
             'produits' => $produitRepository->findAll(),
         ]);
     } 
-  #[Route('/market', name: 'app_market_index', methods: ['GET'])]
-    public function list(ProduitRepository $produitRepository): Response
+    
+    #[Route('/market', name: 'app_market_index', methods: ['GET'])]
+    public function list(Request $request, ProduitRepository $produitRepository): Response
     {
+        $searchTerm = $request->query->get('search', '');
+        $categoryFilters = (array)$request->query->get('category', []);
+        $priceFilters = (array)$request->query->get('price', []);
+    
+        $produits = $produitRepository->findAll();
+    
+        // Apply search term filter
+        if (!empty($searchTerm)) {
+            $produits = array_filter($produits, function($produit) use ($searchTerm) {
+                $nomProduit = strtolower($produit->getNom());
+                $searchTerm = strtolower($searchTerm);
+                return strpos($nomProduit, $searchTerm) !== false || strpos($nomProduit, str_replace(' ', '', $searchTerm)) !== false;
+            });
+        }
+        // Apply category filters
+        if (!empty($categoryFilters)) {
+            $produits = array_filter($produits, function($produit) use ($categoryFilters) {
+                return in_array($produit->getCategorie(), $categoryFilters);
+            });
+        }
+    
+        // Apply price filters
+        if (!empty($priceFilters)) {
+            $produits = array_filter($produits, function($produit) use ($priceFilters) {
+                $prix = $produit->getPrix();
+                if (in_array('price1', $priceFilters) && $prix >= 0 && $prix <= 5) {
+                    return true;
+                } elseif (in_array('price2', $priceFilters) && $prix > 5 && $prix <= 15) {
+                    return true;
+                } elseif (in_array('price3', $priceFilters) && $prix > 15) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
+    
         return $this->render('LanciniMarket/index.html.twig', [
-            'produits' => $produitRepository->findAll(),
+            'produits' => $produits,
         ]);
-    } 
+    }
+    
+    
    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProduitRepository $produitRepository): Response
     {

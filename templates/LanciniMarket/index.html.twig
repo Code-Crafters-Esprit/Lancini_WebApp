@@ -1,60 +1,111 @@
 {% extends 'home/base.html.twig' %}
 
-
 {% block body %}
-<script src="{{asset('assets/js/cards.js')}}"></script>
-<script src="{{ asset('assets/js/cards.js') }}"></script>
+  {# include necessary scripts and styles #}
+  <script src="{{ asset('assets/js/cards.js') }}"></script>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ asset('assets/css/cards.css') }}">
 
-<link rel="stylesheet" href="{{asset('assets/css/cards.css')}}">
-<div class="wrapper">
-<div class="filter-container">
-
-  <div class="product-container">
-    {% for produit in produits %}
-    <div class="product">
-      <div class="product-img">
-        <img  src="{{ asset('images/products/' ~ produit.image) }}" alt="{{ produit.nom }}">
-      </div>
-      <div class="product-info">
-        <div class="product-text">
-          <h1>{{ produit.nom }}  <button type="submit" class="like-btn" style="margin-left: 10px; background-color: transparent; border: none;">
-  <i class="fa fa-heart" style="color: #ff6b6b; font-size: 24px;"></i>
-</button>
-</h1><h6> {{produit.categorie}}</h6>
-          
-          <div class="seller-info">
-            <div>
-             
-               <small> {{ produit.description }}</small>
-            </div>
-          
-            <small>By {{ produit.vendeur }} {{ produit.vendeur.prenom }}</small>
-          </div>
+  {# render the list of products #}
+ <div class="wrapper">
+  <form action="{{ path('app_market_index') }}" method="get" class="search-filter-form">
+    <div class="search-container">
+      <input type="text" placeholder="Search Products..." name="search" value="{{ app.request.query.get('search') }}">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="search-filter-container">
+      <div class="filter-container">
+        <div class="filter">
+          <h5>Category</h5>
+          <ul>
+            <li>
+              <input type="checkbox" id="category1" name="category[]" value="Avatars" {{ 'Avatars' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category1">Avatars</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category2" name="category[]" value="Mascott" {{ 'Mascott' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category2">Mascott</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category3" name="category[]" value="Wallpaper" {{ 'Wallpaper' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category3">Wallpaper</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category4" name="category[]" value="Backgrounds" {{ 'Backgrounds' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category4">Backgrounds</label>
+            </li>
+             <li>
+              <input type="checkbox" id="category5" name="category[]" value="Graphic Design" {{ 'Graphic Design' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category5">Graphic Design</label>
+            </li>
+          </ul>
         </div>
-        <div class="product-price-btn">
-          <p>{{ produit.prix }} dt</p>   
-          
-<span><button style="color:white" class="buy-btn">Buy</button></span>
-</form>
-<button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
-<div class="contact-seller-popup">
-  <p>Phone: {{ produit.vendeur.numtel }}</p>
-  <p>Email: {{ produit.vendeur.email }}</p>
-</div> 
+        <div class="filter">
+          <h5>Price</h5>
+          <ul>
+            <li>
+              <input type="checkbox" id="price1" name="price[]" value="price1" {{ 'price1' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price1">0dt - 5dt</label>
+            </li>
+            <li>
+              <input type="checkbox" id="price2" name="price[]" value="price2" {{ 'price2' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price2">5dt - 15dt</label>
+            </li>
+            <li>
+              <input type="checkbox" id="price3" name="price[]" value="price3" {{ 'price3' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price3">>15dt</label>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    {% endfor %}
-  </div>
+  </form>
+     <div class="product-container">
+
+        {% for produit in produits %}
+          <div class="product">
+            <div class="product-img">
+              <img src="{{ asset('images/products/' ~ produit.image) }}" alt="{{ produit.nom }}">
+            </div>
+            <div class="product-info">
+              <div class="product-text">
+                <h1>{{ produit.nom }}</h1>
+                <h6>{{ produit.categorie }}</h6>
+                <div class="seller-info">
+                  <div>
+                    <small>{{ produit.description }}</small>
+                  </div>
+                  <small>By {{ produit.vendeur }} {{ produit.vendeur.prenom }}</small>
+                </div>
+              </div>
+              <div class="product-price-btn">
+                <p>{{ produit.prix }} dt</p>
+                <button class="buy-btn">
+  <a href="{{ path('app_produit_show', {'idproduit': produit.idproduit}) }}">
+   
+    <i class="fa fa-shopping-cart"></i>
+  </a>
+</button>
+                <button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
+                <div class="contact-seller-popup">
+                  <p>Phone: {{ produit.vendeur.numtel }}</p>
+                  <p>Email: {{ produit.vendeur.email }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
 </div>
-<script>
+
+  {# handle click events of buttons to show or hide pop-ups #}
+  <script>
     const contactSellerBtns = document.querySelectorAll('.contact-seller-btn');
     const contactSellerPopups = document.querySelectorAll('.contact-seller-popup');
 
     for (let i = 0; i < contactSellerBtns.length; i++) {
       contactSellerBtns[i].addEventListener('click', function(e) {
         e.stopPropagation();
-      
         contactSellerPopups[i].classList.toggle('show');
       });
     }

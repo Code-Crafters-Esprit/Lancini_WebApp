@@ -6,20 +6,23 @@
         <title>Checkout</title>
     </head>
     <body>
-        <form action="/stripe/checkout" method="POST">
+        <form action="{{ path('pay') }}" method="POST">
             <script src="https://js.stripe.com/v3/"></script>
-            <input type="hidden" name="sessionId" value="{{ sessionId }}">
+            <input type="hidden" name="amount" value="{{ amount ?? '' }}">
+            <input type="hidden" name="stripeToken" value="{{ stripeToken ?? '' }}">
+            <input type="hidden" name="currency" value="usd">
             <button id="checkout-button">Checkout</button>
         </form>
         <script>
-            var stripe = Stripe('{{ stripePublicKey }}');
+            var stripe = Stripe('{{ stripePublicKey ?? ''}}');
+            var sessionId = '{{ sessionId ?? '' }}';
 
             var checkoutButton = document.getElementById('checkout-button');
 
             checkoutButton.addEventListener('click', function() {
                 stripe.redirectToCheckout({
-                    sessionId: '{{ sessionId }}'
-                }).then(function (result) {
+                    sessionId: sessionId
+                }).then(function(result) {
                     console.log(result.error.message);
                 });
             });
