@@ -29,3 +29,6 @@ services:
         resource: '../src/Entity/'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Menu\Builder:
+        class: App\Menu\Builder
+        autowire: true
