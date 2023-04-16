@@ -32,3 +32,9 @@ services:
     App\Menu\Builder:
         class: App\Menu\Builder
         autowire: true
+    # app/config/services.yaml
+
+    App\Service\StripeService:
+        arguments:
+            $stripePublicKey: '%env(STRIPE_PUBLIC_KEY)%'
+            $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
