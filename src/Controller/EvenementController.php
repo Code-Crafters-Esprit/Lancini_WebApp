@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EvenementController extends AbstractController
@@ -33,9 +34,24 @@ class EvenementController extends AbstractController
         ]);
     }
 
+    #[Route('/afficherEvenementAdmin', name: 'app_evenementAdmin')]
+    public function afficherEventAdmin(ManagerRegistry $doctrine): Response
+    {
+
+        $repository=$doctrine->getRepository(Evenement::class);
+            $event=$repository->findAll() ;
+
+
+        return $this->render('admin\adminEvenement\EvenementAdmin.html.twig',  [
+            'event' => $event,
+        ]);
+    }
+
     #[Route('/creerEvenement', name: 'creer_evenement')]
 public function ajouter(ManagerRegistry $mr, Request $request): Response
 {
+
+    
     $event = new Evenement;
     $form = $this->createForm(EvenementType::class,$event);
 
@@ -43,6 +59,12 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
 
     if ($form->isSubmitted() && $form->isValid()) {
         $em = $mr->getManager();
+        $selectedCountry = $form->get('lieu')->getData();
+        $selectedCountryName = Countries::getName($selectedCountry);
+
+
+        // Set the selected country name on the entity
+        $event->setLieu($selectedCountryName);
         $em->persist($event);
         $em->flush();
 
@@ -58,15 +80,37 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
         public function supprimerEvenement($idevent, ManagerRegistry $doctrine): Response
         {
             //Trouver Evenement
-            $repo = $doctrine->getRepository(Publication::class);
+            $repo = $doctrine->getRepository(Evenement::class);
             $evenement= $repo->find($idevent);
             //Utiliser Manager pour supprimer l'event trouvé
             $em= $doctrine->getManager();
             $em->remove($evenement);
             $em->flush();
-            return $this->redirectToRoute('affichage');
+            return $this->redirectToRoute('app_evenementAdmin');
         }
 
+        
+      
+        #[Route('/modifierEvenement', name: 'modifierEvenement')]
+        public function  modifierEvenement(ManagerRegistry $doctrine , Request $request)
+        {
 
+            $idevent = $request->query->get('event');      
+            $idp=((int)$idevent);
+
+            $evenement= $doctrine  -> getRepository(Evenement::class)-> find($idp) ;
+            $form = $this->createForm(EvenementType::class, $evenement);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted()) {
+                $em = $doctrine ->getManager();
+                
+                $em->flush();
+                return $this->redirectToRoute('app_evenementAdmin'); 
+            }
+            return $this->render('admin\adminEvenement\modifierEvenementAdmin.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
 
 }

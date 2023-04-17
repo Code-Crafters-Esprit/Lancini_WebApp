@@ -1,0 +1,74 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+
+	<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/CBack.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
+				
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color:#5ab9ea" class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;">Lancini Comunnity</h1>
+						<h2 style="color: white">Your opinion matter! Tell us more all while respecting our ethics</h2>
+					</div>
+				</section>
+
+
+<div> <br><br></div>
+<div class="main_blog text-center roomy-100">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="head_title text-center">
+                                    <h2>Be free</h2>
+                                    <div class="separator_auto"></div>
+                                    <p> But always respectful !
+                                    </p>
+                                </div>
+                            </div>
+
+<div> <br><br><br><br><br><br><br><br></div>
+
+<div class="main_contact roomy-100 text-black">
+                            <div class="col-md-4">
+                                <div class="rage_widget">
+                                    <div class="widget_head">
+                            
+                                        <h3 class="text-black" >Having thoughts?</h3>
+                                        <div class="separator_small"></div>
+                                    </div>
+                                    <p style="color:#5ab9ea" > Don't be shy and write us   
+                                    </p>
+
+                                    <div class="widget_socail m-top-30">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 sm-m-top-30">
+                                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                {{form_label(form.commentaire,"Tell us what you think : ")}}
+                                                {{form_widget(form.commentaire,{'att':{'class':'form-control'}})}}
+                                                {{form_errors(form.commentaire,{'attr':{'class':'text-danger'}})}}
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        
+
+                                        
+
+                                    </div>
+
+                                {{form_end(form)}}
+                            </div>
+                        </div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

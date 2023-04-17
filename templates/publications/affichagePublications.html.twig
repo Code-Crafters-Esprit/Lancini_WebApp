@@ -1,369 +1,118 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
-	<html
-	class="no-js" lang="en"> <!--<![endif]-->
-	<head>
-		<meta charset="utf-8">
-		<title>Home page</title>
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link
-		rel="icon" type="image/png" href="favicon.ico">
+{% extends 'template.html.twig'%}
 
-		<!--Google Font link-->
-		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+{% block body %}
 
-
-		<link rel="stylesheet" href="assets/css/slick.css">
-		<link rel="stylesheet" href="assets/css/slick-theme.css">
-		<link rel="stylesheet" href="assets/css/animate.css">
-		<link rel="stylesheet" href="assets/css/fonticons.css">
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-		<link rel="stylesheet" href="assets/css/bootstrap.css">
-		<link rel="stylesheet" href="assets/css/magnific-popup.css">
-		<link rel="stylesheet" href="assets/css/bootsnav.css">
-
-
-		<!--For Plugins external css-->
-		<!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
-
-		<!--Theme custom css -->
-		<link rel="stylesheet" href="assets/css/style.css"> <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
-
-		<!--Theme Responsive css-->
-		<link rel="stylesheet" href="assets/css/responsive.css"/> <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-	
-    
-    <nav
-				class="navbar navbar-default navbar-fixed white no-background bootsnav">
-				<!-- Start Top Search -->
-				<div class="top-search">
-					<div class="container">
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-search"></i>
-							</span>
-							<input type="text" class="form-control" placeholder="Search">
-							<span class="input-group-addon close-search">
-								<i class="fa fa-times"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-				<!-- End Top Search -->
-
-				<div
-					class="container">
-					<!-- Start Atribute Navigation -->
-					<div class="attr-nav">
-						<ul>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="fa fa-shopping-bag"></i>
-									<span class="badge">3</span>
-								</a>
-								<ul class="dropdown-menu cart-list">
-									<li>
-										<a href="#" class="photo"><img src="assets/images/thumb01.jpg" class="cart-thumb" alt=""/></a>
-										<h6>
-											<a href="#">Delica omtantur
-											</a>
-										</h6>
-										<p class="m-top-10">2x -
-											<span class="price">$99.99</span>
-										</p>
-									</li>
-									<li>
-										<a href="#" class="photo"><img src="assets/images/thumb01.jpg" class="cart-thumb" alt=""/></a>
-										<h6>
-											<a href="#">Delica omtantur
-											</a>
-										</h6>
-										<p class="m-top-10">2x -
-											<span class="price">$99.99</span>
-										</p>
-									</li>
-									<li>
-										<a href="#" class="photo"><img src="assets/images/thumb01.jpg" class="cart-thumb" alt=""/></a>
-										<h6>
-											<a href="#">Delica omtantur
-											</a>
-										</h6>
-										<p class="m-top-10">2x -
-											<span class="price">$99.99</span>
-										</p>
-									</li>
-									<!-- More List -->
-									<li class="total">
-										<span class="pull-right">
-											<strong>Total</strong>: $0.00</span>
-										<a href="#" class="btn btn-cart">Cart</a>
-									</li>
-								</ul>
-							</li>
-							<li class="search">
-								<a href="#">
-									<i class="fa fa-search"></i>
-								</a>
-							</li>
-							<li class="side-menu">
-								<a href="#">
-									<i class="fa fa-bars"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<!-- End Atribute Navigation -->
-
-					<!-- Start Header Navigation -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-							<i class="fa fa-bars"></i>
-						</button>
-						<a class="navbar-brand" href="#brand">
-
+<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/PubBack2.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
 				
-							
-
-						</a>
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color: black class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;""> Lancini Content</h1>
+						<h2 style="color: white">Create!</h2>
 					</div>
-					<!-- End Header Navigation -->
+				</section>
 
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="navbar-menu">
-						<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-							<li>
-								<a href="#hello">Hello</a>
-							</li>
-							<li>
-								<a href="#about">About</a>
-							</li>
-							<li>
-								<a href="#service">Services</a>
-							</li>
-							<li>
-								<a href="#portfolio">LanciniMarket</a>
-							</li>
-							<li>
-								<a href="#pricing">Pricing</a>
-							</li>
-							<li>
-								<a href="#blog">Blog</a>
-							</li>
-							<li>
-								<a href="#contact">Contact</a>
-							</li>
+<section id="blog">
+	    	<div class="container">
+	    		<div class="row text-center" id="heading">
+	    			<div class="bg-image">
+		    			<div class="col-md-6 col-md-offset-3 wow animated zoomInDown animated animated" id="heading-text" style="visibility: visible; animation-name: zoomInDown;">
+		        			<h3>Lancini Community</h3>
+		                	<p>Welcome dear community, here you can find the differenet content that our members post</p>
+		                	<hr class="full">
+		                	<br>
+		        		</div>
+		        	</div>
+	    		</div>
+				
+                   {%for p in pub %}
+		    	<div class="row post">
+		    		<div class="main_content">
+		    			<div class="post-thumbnail col-md-5">
+		    				<div class="frame">
+		    					<div class="post-format">
+		    						<span class="icon-picture">
+		    							<i class="fa fa-laptop"></i>
+		    						</span>
+		    					</div>
+		    					<a href="#"><img class="img-responsive" src="img/logo.png" alt=""></a>
+		    				</div>
+		    				<img class="hidden-xs post-shadow" src="img/post-shadow.png" alt="">
+		    			</div>
+
+		    			<div class="post-excerpt col-md-7">
+		    				<h2 class="title"><a href="#">{{p.libelle}}</a></h2>
+		    				<div class="line-dotted"></div>
+		    				<p>
+		    					{{p.description}}
+		    				</p> 
+		    				<div class="line-dotted"></div>
+		    				<p class="meta">
+		    					<strong>Date:</strong> {{p.datepub|date('Y-m-d')}}  <br>
+								<strong>  By:</strong> {{p.proprietaire.Nom}}  {{p.proprietaire.Prenom}}  <strong><br>
+								In: </strong><a href="#">{{p.cat}}</a>
+		    				</p>
+							{# <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('creer_commentaire',{'id': p.idpub})}}"> Comment !</a> #}
+							{#<a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('affichageCommentaire')}}"> Check what others think</a> #}
+
+							<form method="GET" action="{{ path('affichageCommentaireByPub')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ p.idpub }}>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Check what others think</button>
+                            </form>
+							<br> <br> 
+                            <form method="GET" action="{{ path('comment')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ p.idpub }}>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Comment !</button>
+                            </form>
+
+		    				<div class="line-dotted"></div>
+		    				<div class="post-share">
+		    					<p>Share this post:</p>
+		    					<ul>
+		    						<li>
+		    							<a href="https://www.facebook.com/" data-toggle="tooltip" title="Contact with Facebook" class="team-facebook">
+					        				<i class="fa fa-facebook"></i>
+					        			</a>
+		    						</li>
+		    						<li>
+		    							<a href="https://twitter.com/?lang=en" data-toggle="tooltip" title="Contact with Twitter" class="team-twitter">
+					        				<i class="fa fa-twitter"></i>
+					        			</a>
+		    						</li>
+		    						<li>
+                                      <a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Instagram" class="team-instagram">
+                                         <i class="fa fa-instagram"></i>
+                                      </a>
+                                    </li>
+
+		    					</ul>	
+		    				</div>
+		    			</div>
+		    		</div>
+		    	</div>
+               {%endfor%}
+
+    	
+	    		<div class="row">
+	    			<div class="col-md-6 col-md-offset-3 text-center">
+	    				<ul class="pagination">
+							<li class="disabled"><a href="#">&gt;&gt;</a></li>
+							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+						  	<li><a href="#">2</a></li>
+						  	<li><a href="#">3</a></li>
+						  	<li><a href="#">4</a></li>
+						  	<li><a href="#">5</a></li>
+						  	<li><a href="#">&gt;&gt;</a></li>
 						</ul>
-					</div>
-					<!-- /.navbar-collapse -->
-				</div>
+	    			</div>
+	    		</div>
+    		</div>	<!-- container -->
+	    </section>
 
+{% endblock %}
 
-				<!-- Start Side Menu -->
-				<div class="side">
-					<a href="#" class="close-side">
-						<i class="fa fa-times"></i>
-					</a>
-					<div class="widget">
-						<h6 class="title">Custom Pages</h6>
-						<ul class="link">
-							<li>
-								<a href="#">About</a>
-							</li>
-							<li>
-								<a href="#">Services</a>
-							</li>
-							<li>
-								<a href="#">Blog</a>
-							</li>
-							<li>
-								<a href="#">LanciniMarket</a>
-							</li>
-							<li>
-								<a href="#">Contact</a>
-							</li>
-						</ul>
-					</div>
-					<div class="widget">
-						<h6 class="title">Additional Links</h6>
-						<ul class="link">
-							<li>
-								<a href="#">Retina Homepage</a>
-							</li>
-							<li>
-								<a href="#">New Page Examples</a>
-							</li>
-							<li>
-								<a href="#">Parallax Sections</a>
-							</li>
-							<li>
-								<a href="#">Shortcode Central</a>
-							</li>
-							<li>
-								<a href="#">Ultimate Font Collection</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<!-- End Side Menu -->
 
-			</nav>
+{% block footer %}
 
-    </head>
-
-
-
-
-	<body
-		data-spy="scroll" data-target=".navbar-collapse">
-
-
-		<!-- Preloader -->
-		<div id="loading">
-			<div id="loading-center">
-				<div id="loading-center-absolute">
-					<div class="object" id="object_one"></div>
-					<div class="object" id="object_two"></div>
-					<div class="object" id="object_three"></div>
-					<div class="object" id="object_four"></div>
-				</div>
-			</div>
-		</div>
-		<!--End off Preloader -->
-
-
-		<div
-			class="culmn">
-			<!--Home page style-->
-
-
-			
-
-<!--                            kol wehed ihot el body elli newi yekhdmou           -->
-
-              
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="main_blog text-center roomy-100">
-							<div class="col-sm-8 col-sm-offset-2">
-								<div class="head_title text-center">
-									<h2>Lancini Comunnity</h2>
-									<div class="separator_auto"></div>
-									<p> Welcome dear community, here you can find the differenet content that our members post 
-									</p>
-								</div>
-							</div>
-
-                            {%for p in pub %}
-                            
-							<div class="col-md-4">
-								<div class="blog_item m-top-20">
-									
-									<div class="blog_text roomy-40">
-										<h6>{{p.libelle}}</h6>
-										<p>
-											<em>
-												<a>{{p.datepub}}</a>
-												/<a >{{p.cat}}</a>/<a>
-													     {{p.description}}</a>
-											</em>
-										</p>
-									</div>
-								</div>
-							</div>
-						
-							{%endfor%}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<!--Home Sections-->
-
-			
-
-			<!-- scroll up-->
-			<div class="scrollup">
-				<a href="#">
-					<i class="fa fa-chevron-up"></i>
-				</a>
-			</div>
-			<!-- End off scroll up -->
-
-
-			
-
-		</div>
-
-
-
-		<!-- JS includes -->
-
-		<script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
-		<script src="assets/js/vendor/bootstrap.min.js"></script>
-
-		<script src="assets/js/jquery.magnific-popup.js"></script>
-		<script src="assets/js/jquery.easing.1.3.js"></script>
-		<script src="assets/js/slick.min.js"></script>
-		<script src="assets/js/jquery.collapse.js"></script>
-		<script src="assets/js/bootsnav.js"></script>
-
-
-		<!-- paradise slider js -->
-
-
-		<script src="http://maps.google.com/maps/api/js?key=AIzaSyD_tAQD36pKp9v4at5AnpGbvBUsLCOSJx8"></script>
-		<script src="assets/js/gmaps.min.js"></script>
-
-		<script>
-			function showmap() {
-var mapOptions = {
-zoom: 8,
-scrollwheel: false,
-center: new google.maps.LatLng(-34.397, 150.644),
-mapTypeId: google.maps.MapTypeId.ROADMAP
-};
-var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-$('.mapheight').css('height', '350');
-$('.maps_text h3').hide();
-}
-		</script>
-
-
-		<script src="assets/js/plugins.js"></script>
-		<script src="assets/js/main.js"></script>
-
-	</body>
-</html>
+{% endblock %}

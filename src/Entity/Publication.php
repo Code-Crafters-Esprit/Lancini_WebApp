@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PublicationRepository;
 use App\Entity\Commentaire;
+use DateTime;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Date;
@@ -23,21 +24,21 @@ class Publication
 
     #[ORM\Column(length:30)]
     #[Assert\Length(max:30)]
-    #[Assert\NotBlank(message:"Please fill out this field")]
+    #[Assert\NotBlank(message:"Please fill out the title field")]
     private ?string $libelle = null;
     
 
-    #[ORM\Column]
-    #[Assert\NotBlank(message:"Please fill out this field")]
-    private ?string $datepub = null;
+    #[ORM\Column(name: "datePub", type: "date", length: 100, nullable: false)]
+    #[Assert\NotBlank(message:"Please fill out the date field")]
+    private ?\DateTimeInterface $datepub ;
 
     #[ORM\Column(length:100)]
     #[Assert\Length(max:100)]
-    #[Assert\NotBlank(message:"Please fill out this field")]
+    #[Assert\NotBlank(message:"Please fill out the description field")]
     private ?string $description = null;
 
     #[ORM\Column(length:30)]
-    #[Assert\NotBlank(message:"Please fill out this field")]
+    #[Assert\NotBlank(message:"Please fill out the category field")]
     #[Assert\Length(max:30)]
     private ?string $cat = null;
 
@@ -66,17 +67,20 @@ class Publication
         return $this;
     }
 
-    public function getDatepub(): ?string
-    {
-        return $this->datepub;
-    }
+    public function getDatepub(): ?DateTime
+{
+    return $this->datepub;
+}
+    
 
-    public function setDatepub(string $datepub): self
-    {
-        $this->datepub = $datepub;
+public function setDatepub(DateTime $datepub): self
+{
+    $this->datepub = $datepub;
 
-        return $this;
-    }
+    return $this;
+}
+
+    
 
     public function getDescription(): ?string
     {

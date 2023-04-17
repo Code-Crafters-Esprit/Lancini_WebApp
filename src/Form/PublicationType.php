@@ -10,6 +10,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 
 class PublicationType extends AbstractType
 {
@@ -18,6 +22,7 @@ class PublicationType extends AbstractType
         $builder
             ->add('libelle')
             ->add('datepub')
+            
             ->add('description')
             ->add('cat', ChoiceType::class, [
                 'choices' => [

@@ -1,0 +1,88 @@
+{% extends 'admin/base.html.twig' %}
+
+
+
+
+
+
+
+{% block body %}
+<div class="header bg-primary pb-6">
+<div class="container-fluid">
+<div class="header-body">
+<div class="row align-items-center py-4">
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="col" style =  "margin-top: -50px; ">
+<div class="card bg-default shadow">
+<div class="card-header bg-transparent border-0">
+<h3 class="text-white mb-0">content list</h3>
+ <div style="float: right" class="col-4 text-right">
+                  <a href="{{path('creer_evenement')}}"  class="btn btn-sm btn-primary">Add new Event</a>
+                </div>
+</div>
+
+<div class="table-responsive"   >
+<table class="table align-items-center table-dark table-flush">
+<thead class="thead-dark">
+<tr>
+<th scope="col" class="sort" data-sort="name">User</th>
+<th scope="col" class="sort" data-sort="name">ID Event</th>
+<th scope="col" class="sort" data-sort="name">Title</th>
+<th scope="col" class="sort" data-sort="name">Place</th>
+<th scope="col" class="sort" data-sort="status">Update</th>
+<th scope="col">delete</th>
+<th scope="col"></th>
+</tr>
+</thead>
+<tbody class="list">
+
+
+{%for e in event %}
+
+<tr>
+<td>{{e.proprietaire.Nom}} {{e.proprietaire.Prenom}}</td>  
+<td>{{e.idevent}}</td>
+<td>{{e.titre}}</td>
+<td>{{e.lieu}}</td> 
+
+<td>
+<form method="GET" action="{{ path('modifierEvenement')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ e.idevent }}>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Update</button>
+                            </form>
+                            </td> 
+
+{# <td> <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('modifierEvenement',{'idevent': e.idevent})}}"> update</a>  </td> #}
+<td> <a class="btn  btn-sm btn btn-outline-danger btn-info  mr-4 "  href="{{ path('supprimerEvenement',{'idevent': e.idevent})}}"> delete</a> </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+
+
+<div> <br><br></div>
+<div class="main_blog text-center roomy-100">
+							<div class="col-sm-8 col-sm-offset-2">
+								<div class="head_title text-center">
+									<h1>Welcome</h1>
+									<div class="separator_auto"></div>
+									<h3>Please make the necessary changes</h3>
+								</div>
+							</div>
+
+<div> <br><br><br><br><br><br><br><br></div>
+
+
+<div class="main_contact roomy-100 text-black">
+							<div class="col-md-4">
+								<div class="rage_widget">
+									
+
+									<div class="widget_socail m-top-30">
+										
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 sm-m-top-30">
+								{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.titre,"Title : ")}}
+												{{form_widget(form.titre,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.titre,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.sujet,"What is it about? : ")}}
+												{{form_widget(form.sujet,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.sujet,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.lieu,"Place : ")}}
+												{{form_widget(form.lieu,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.lieu,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.dateevent,"Date : ")}}
+												{{form_widget(form.dateevent,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.horaire,"Time : ")}}
+												{{form_widget(form.horaire,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+					
+									</div>
+
+								{{form_end(form)}}
+							</div>
+						</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

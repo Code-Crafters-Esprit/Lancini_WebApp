@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Publication;
 use App\Form\PublicationType;
-
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +41,7 @@ class PublicationsController extends AbstractController
             $pub=$repository->findAll() ;
 
 
-        return $this->render('publications/admin.html.twig',  [
+        return $this->render('admin\adminPublication\PublicationAdmin.html.twig',  [
             'pub' => $pub,
         ]);
     }
@@ -75,28 +74,33 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
             //Trouver publication
             $repo = $doctrine->getRepository(Publication::class);
             $publication= $repo->find($idpub);
-            //Utiliser Manager pour supprimer la publication trouvé
+            //Utiliser Manager pour supprimer le classroom trouvé
             $em= $doctrine->getManager();
             $em->remove($publication);
             $em->flush();
-            return $this->redirectToRoute('app_publications');
+            return $this->redirectToRoute('app_publicationsAdmin');
         }
 
 
-        #[Route('/modifierPublication/{idpub}', name: 'modifierPublication')]
-        public function modifierPublication(ManagerRegistry $doctrine , Request $request, $idpub)
+        #[Route('/modifierPublication', name: 'modifierPublication')]
+        public function modifierPublication(ManagerRegistry $doctrine , Request $request)
         {
-            $p = $doctrine  -> getRepository(Publication::class)-> find($idpub) ;
-            $form = $this->createForm(PublicationType::class, $p);
+
+
+            $idpub = $request->query->get('pub');      
+            $idp=((int)$idpub);
+
+            $publication= $doctrine  -> getRepository(Publication::class)-> find($idp) ;
+            $form = $this->createForm(PublicationType::class, $publication);
             $form->handleRequest($request);
             
             if ($form->isSubmitted()) {
                 $em = $doctrine ->getManager();
-                //$em->persist($p);
+                //$em->persist($publication);
                 $em->flush();
-                return $this->redirectToRoute('app_publications'); 
+                return $this->redirectToRoute('app_publicationsAdmin'); 
             }
-            return $this->render('publications/ajouterPublication.html.twig', [
+            return $this->render('admin\adminPublication\modifierPublicationAdmin.html.twig', [
                 'form' => $form->createView(),
             ]);
         }

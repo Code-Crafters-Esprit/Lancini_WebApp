@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Commentaire;
+use App\Entity\Publication;
 use App\Form\CommentaireType;
+use App\Form\PublicationType;
 use App\Repository\CommentaireRepository;
+
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,11 +37,12 @@ class CommentaireController extends AbstractController
         ]);
     }
 
-    #[Route('/afficherCommById/{id}', name: 'affichageCommentaireByPub')]
-    public function ListByPub(CommentaireRepository $repo , $id)
+    #[Route('/afficherCommById', name: 'affichageCommentaireByPub')]
+    public function ListByPub(CommentaireRepository $repo, Request $request)
     {
-          
-        $Commentaire=$repo->ListCommentaireByPub($id) ;
+        $idPub = $request->query->get('pub');      
+        $idp=((int)$idPub);
+        $Commentaire=$repo->ListCommentaireByPub($idp) ;
     
 
 
@@ -46,11 +50,23 @@ class CommentaireController extends AbstractController
             'comm' => $Commentaire,
         ]);
     }
-
-    #[Route('/creerCommentaire', name: 'creer_commentaire')]
-    public function ajouter(ManagerRegistry $mr, Request $request): Response
+    
+    #[Route('/creerCommentaire', name: 'comment')]
+    public function ajouterS(ManagerRegistry $mr, Request $request): Response
     {
+        $idPub = $request->query->get('pub');      
+        $idp=((int)$idPub);
+        
+
+        $em = $mr->getManager();
+        $publication = $em->getRepository(Publication::class)->find($idp);
+
+        if (!$publication) {
+            throw $this->createNotFoundException('La publication avec l\'identifiant '.$idp.' n\'existe pas.');
+        }
+
         $comm = new Commentaire;
+        $comm->setIdpub($publication);
         $form = $this->createForm(CommentaireType::class,$comm);
     
         $form->handleRequest($request);
@@ -60,10 +76,69 @@ class CommentaireController extends AbstractController
             $em->persist($comm);
             $em->flush();
     
-            return $this->redirectToRoute('affichageCommentaire');
+            return $this->redirectToRoute('app_publications');
         }
     
         return $this->render('commentaire\ajouterCommentaire.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+
+    #[Route('/{id}/creerCommentaire/test', name: 'creer_commentaire')]
+    public function ajouter(ManagerRegistry $mr, Request $request, $id): Response
+    {
+
+        $em = $mr->getManager();
+        $publication = $em->getRepository(Publication::class)->find($id);
+
+        if (!$publication) {
+            throw $this->createNotFoundException('La publication avec l\'identifiant '.$id.' n\'existe pas.');
+        }
+
+        $comm = new Commentaire;
+        $comm->setIdpub($publication);
+        $form = $this->createForm(CommentaireType::class,$comm);
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $mr->getManager();
+            $em->persist($comm);
+            $em->flush();
+    
+            return $this->redirectToRoute('affichageCommentaireByPub');
+        }
+    
+        return $this->render('commentaire\ajouterCommentaire.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    
+
+
+    #[Route('/creerPub', name: 'creerPub')]
+    public function ajouterpub(ManagerRegistry $mr, Request $request): Response
+    {
+        $pub = new Publication();
+        $form = $this->createForm(PublicationType::class,$pub);
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $mr->getManager();
+            $em->persist($pub);
+            $em->flush();
+    
+            return $this->redirectToRoute('app_publications');
+        }
+    
+        return $this->render('publications/ajouterPublication.html.twig', [
             'form' => $form->createView(),
         ]);
     }
