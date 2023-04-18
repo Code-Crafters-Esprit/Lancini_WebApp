@@ -26,11 +26,17 @@ class PublicationsController extends AbstractController
 
         $repository=$doctrine->getRepository(Publication::class);
             $pub=$repository->findAll() ;
+        $user = $this->getUser();
 
 
         return $this->render('publications/affichagePublications.html.twig',  [
             'pub' => $pub,
         ]);
+    }
+    public function ajouterCommentaire()
+    {
+
+
     }
 
     #[Route('/afficherPublicationsAdmin', name: 'app_publicationsAdmin')]
