@@ -24,18 +24,20 @@ class CommandeController extends AbstractController
             'commandes' => $commandeRepository->findAll(),
         ]);
     }
-    #[Route('/chart', name: 'app_chart_index', methods: ['GET'])]
-    public function salesByVendeur(CommandeRepository $commandeRepository)
-    {
-        $data = $commandeRepository->findSalesByVendeur();
+   #[Route('/chart', name: 'app_chart_index', methods: ['GET'])]
+public function salesByVendeur(CommandeRepository $commandeRepository)
+{ 
+    $data = $commandeRepository->findSalesByVendeur();
+    $sellers = $commandeRepository->SalesByVendeurCount();
+    // $data should be an array of vendeurs and their respective sales data
+    // Example: [['John', 10], ['Mary', 15], ['Peter', 8]]
     
-        // $data should be an array of vendeurs and their respective sales data
-        // Example: [['John', 10], ['Mary', 15], ['Peter', 8]]
-    
-        return $this->render('commande/sales.html.twig', [
-            'data' => $data,
-        ]);
-    }
+    return $this->render('commande/sales.html.twig', [
+        'salesData' => $data,
+        'sellers'   => $sellers,
+    ]);
+}
+
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CommandeRepository $commandeRepository, ProduitRepository $produitRepository): Response
     {

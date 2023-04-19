@@ -119,9 +119,35 @@ class ProduitRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+    public function findProductsByVendeur()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('v.nom as vendeurNom, COUNT(p.idproduit) as productCount')
+            ->leftJoin('p.vendeur', 'v')
+            ->groupBy('v.idUser')
+            ->getQuery();
     
+        $result = $qb->getResult();
+        $data = [];
+    
+        foreach ($result as $row) {
+            $data[] = [$row['vendeurNom'], (int) $row['productCount']];
+        }
+    
+        return $data;
+    }
 
-
+    public function findSellersByProductCount()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('v.nom as vendeurNom, v.prenom as vendeurPrenom, COUNT(p.idproduit) as productCount')
+            ->leftJoin('p.vendeur', 'v')
+            ->groupBy('v.idUser')
+            ->orderBy('productCount', 'DESC')
+            ->getQuery();
+    
+        return $qb->getResult();
+    }
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

@@ -1,5 +1,3 @@
-# config/packages/mailer.yaml
-
 framework:
     mailer:
-        dsn: 'smtp://lancinimarket%40gmail.com:Lancinipidev25@smtp.gmail.com:587?encryption=tls&auth_mode=login'
+        dsn: '%env(MAILER_DSN)%'

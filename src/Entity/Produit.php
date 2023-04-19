@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
+ 
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
@@ -33,7 +35,7 @@ class Produit
     #[Assert\NotBlank(message: 'Please enter a description')]
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
-    #[ORM\Column(name: "image", type:"string", length:255, nullable: true, options: ["default" => "default_image.png"])]
+    #[ORM\Column(name: "image", type:"string", length:255, nullable: false, options: ["default" => "default_image.png"])]
     private $image;
 
     
@@ -163,5 +165,9 @@ class Produit
 
     public function __toString() {
         return $this->nom;
+    }
+    public function __construct()
+    {
+        $this->image = 'default_image.png';
     }
 }

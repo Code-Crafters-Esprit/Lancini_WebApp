@@ -66,13 +66,33 @@ class CommandeRepository extends ServiceEntityRepository
 public function findSalesByVendeur()
 {
     $qb = $this->createQueryBuilder('c')
-        ->select('v.nom as vendeurNom, COUNT(c.idCommande) as salesCount')
+        ->select('v.idUser, v.nom as vendeurNom, COUNT(c.idCommande) as salesCount')
         ->leftJoin('c.vendeur', 'v')
         ->groupBy('v.idUser')
         ->getQuery();
 
-    return $qb->getResult();
+    $result = $qb->getResult();
+    $data = [];
+
+    foreach ($result as $row) {
+        $data[] = [$row['vendeurNom'], (int) $row['salesCount']];
+    }
+
+    return $data;
 }
+
+
+public function SalesByVendeurCount()
+{
+    $qb = $this->createQueryBuilder('c')
+        ->select('v.nom as vendeurNom, v.prenom as vendeurPrenom, COUNT(c.idCommande) as productCount')
+        ->join('c.vendeur', 'v')
+        ->groupBy('v.idUser')
+        ->orderBy('productCount', 'DESC');
+
+    return $qb->getQuery()->getResult();
+}
+
 
 }
 

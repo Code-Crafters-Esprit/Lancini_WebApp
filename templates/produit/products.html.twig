@@ -2,16 +2,17 @@
 
 {% block body %}
     <canvas id="myChart"></canvas>
-<link rel="stylesheet" href="{{ asset('assets/css/chartproduct.css') }}">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/chartproduct.css') }}">
     <script>
-        var data = {{ salesData|json_encode|raw }};
+        var data = {{ data|json_encode|raw }};
         var vendeurs = [];
-        var salesCount = [];
+        var productCounts = [];
 
         for (var i = 0; i < data.length; i++) {
             vendeurs.push(data[i][0]);
-            salesCount.push(data[i][1]);
+            productCounts.push(data[i][1]);
         }
 
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -20,10 +21,10 @@
             data: {
                 labels: vendeurs,
                 datasets: [{
-                    label: 'Number of Sales',
-                    data: salesCount,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    label: 'Number of products',
+                    data: productCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
             },
@@ -39,22 +40,21 @@
         });
     </script>
 
-<h2>List of sellers ordered by sales count:</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Seller Name</th>
-            <th>Sales Count</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for seller in sellers %}
+    <h2>List of sellers ordered by product count:</h2>
+    <table>
+        <thead>
             <tr>
-                <td>{{ seller.vendeurNom }}</td>
-                <td>{{ seller.productCount }}</td>
+                <th>Seller Name</th>
+                <th>Product Count</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table> 
-
+        </thead>
+        <tbody>
+            {% for seller in sellers %}
+                <tr>
+                    <td>{{ seller.vendeurNom }} {{ seller.vendeurPrenom }} </td>
+                    <td>{{ seller.productCount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
