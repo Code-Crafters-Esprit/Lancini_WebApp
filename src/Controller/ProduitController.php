@@ -73,7 +73,13 @@ class ProduitController extends AbstractController
             'produits' => $produits,
         ]);
     }
-    
+    #[Route('/{idproduit}', name: 'app_produit_show', methods: ['GET'])]
+    public function show(Produit $produit): Response
+    {
+        return $this->render('produit/show.html.twig', [
+            'produit' => $produit,
+        ]);
+    }
     
    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
    public function new(Request $request, ProduitRepository $produitRepository,MaillistRepository $MaillistRepository, MailerInterface $mailer): Response
