@@ -1,23 +1,35 @@
+{% extends 'home/base.html.twig' %}
+{% block body %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
         <title>Checkout</title>
+        
     </head>
     <body>
-        <form action="{{ path('pay') }}" method="POST">
+        <form action="{{ path('pay', {'idproduit': produit.idproduit}) }}" method="POST">
             <script src="https://js.stripe.com/v3/"></script>
             <input type="hidden" name="amount" value="{{ amount ?? '' }}">
             <input type="hidden" name="stripeToken" value="{{ stripeToken ?? '' }}">
             <input type="hidden" name="currency" value="usd">
-            <button id="checkout-button">Checkout</button>
+            <button id="checkout-button" disabled>Checkout</button>
+
         </form>
+        <div class="g-recaptcha" data-sitekey="6Le7AaMlAAAAAAsuzvgBUoPBavgIzTbo9t42cbBt" data-callback="enableCheckoutButton"></div>
         <script>
             var stripe = Stripe('{{ stripePublicKey ?? ''}}');
             var sessionId = '{{ sessionId ?? '' }}';
 
             var checkoutButton = document.getElementById('checkout-button');
+
+            function enableCheckoutButton() {
+                checkoutButton.removeAttribute('disabled');
+            }
 
             checkoutButton.addEventListener('click', function() {
                 stripe.redirectToCheckout({
@@ -27,5 +39,7 @@
                 });
             });
         </script>
+
     </body>
 </html>
+{% endblock %}

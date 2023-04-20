@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Produit;
+
 
 class StripeController extends AbstractController
 {
@@ -17,24 +19,31 @@ class StripeController extends AbstractController
             'controller_name' => 'StripeController',
         ]);
     }
-    #[Route('/pay', name: 'pay')]
-    public function pay(Request $request, StripeService $stripeService)
-{   
-    $amount = $request->request->get('amount');
-    $token = $request->request->get('stripeToken');
-    $successUrl ='https://example.com/success'; // Replace 'success' with your success route name
-    $cancelUrl = 'https://example.com/cancel'; // Replace 'cancel' with your cancel route name
-
+    #[Route('/pay/{idproduit}', name: 'pay')]
+    public function pay(Request $request, StripeService $stripeService, $idproduit)
+    {
+    // Retrieve the product from the database using the ID
+    $entityManager = $this->getDoctrine()->getManager();
+    $produit = $entityManager->getRepository(Produit::class)->find($idproduit);
+    
+    if (!$produit) {
+    throw $this->createNotFoundException('The product does not exist');
+    }
+    
+    $amount = $produit->getPrix() * 100; // Convert the price to cents
+    $successUrl = 'https://example.com/success';
+    $cancelUrl = 'https://example.com/cancel';
+    
     // create a Stripe Checkout Session and get the session ID
-    $sessionId = $stripeService->createCheckoutSession(100, 'usd', $successUrl, $cancelUrl);
-
+    $sessionId = $stripeService->createCheckoutSession($amount, 'eur', $successUrl, $cancelUrl, $produit->getNom());
+    
     return $this->render('stripe/pay.html.twig', [
-        'stripePublicKey' => 'pk_test_51Mw8MbH5U7t3MAmZHZDecnuVq8RUQPaVysHyP8OaDAEdQCRVGvPIFMtpIQ4v3ZcFbSSCuSQ8MMpNMSCjH2L3YkBS00jKd2WOxi',
-        'sessionId' => $sessionId,
-        'amount' => 100,
-        'stripeToken' => $token,
+    'stripePublicKey' => 'pk_test_51Mw8MbH5U7t3MAmZHZDecnuVq8RUQPaVysHyP8OaDAEdQCRVGvPIFMtpIQ4v3ZcFbSSCuSQ8MMpNMSCjH2L3YkBS00jKd2WOxi', // Replace with your Stripe public key
+    'sessionId' => $sessionId,
+        'produit' => $produit,
     ]);
-}
+    }
+   
 
     #[Route('/success', name: 'success')]
 

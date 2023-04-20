@@ -3,11 +3,12 @@
 {% extends 'home/base.html.twig' %}
 
 {% block body %}
+
   {# include necessary scripts and styles #}
   <script src="{{ asset('assets/js/cards.js') }}"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ asset('assets/css/cards.css') }}">
-
+   <script src="https://js.stripe.com/v3/"></script>
   {# render the list of products #}
  <div class="wrapper">
   <form action="{{ path('app_market_index') }}" method="get" class="search-filter-form">
@@ -81,13 +82,15 @@
                 </div>
               </div>
               <div class="product-price-btn">
-                <p>{{ produit.prix }} dt</p>
-                <button class="buy-btn">
-  <a href="{{ path('app_produit_show', {'idproduit': produit.idproduit}) }}">
-   
+      {% set amount = produit.prix * 100 %}
+
+<button id="buy-btn" class="buy-btn">
+  <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
     <i class="fa fa-shopping-cart"></i>
   </a>
+  {{ produit.prix }} dt
 </button>
+
                 <button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
                 <div class="contact-seller-popup">
                   <p>Phone: {{ produit.vendeur.numtel }}</p>
@@ -125,16 +128,37 @@
       }
     });
   </script>
+<script src="https://js.stripe.com/v3/"></script>
+
 <script>
-  const buyBtn = document.querySelectorAll('.buy-btn');
-  for(let i=0;i < buyBtn.length;i++){
- buyBtn[i].addEventListener('click', function() {
-    const confirmation = confirm('Are you sure you want to Buy this product? Your Email will be sent to the seller and they will deliver the ordered product. Stay tuned.');
-    if (confirmation) {
+const stripe = Stripe('your-stripe-public-key');
+
+document.getElementById('buy-btn').addEventListener('click', function(event) {
+  // Prevent the default behavior of the button click
+  event.preventDefault();
+
+  // Get the product details and price from the HTML
+  const productName = 'Product Name'; // Replace with your product name
+  const productPrice = document.querySelector('.buy-btn p').textContent;
+
+  // Send an AJAX request to your server with the product details and price
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/pay');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Redirect the user to Stripe Checkout
+      stripe.redirectToCheckout({
+        sessionId: xhr.response.sessionId
+      });
+    } else {
+      console.error(xhr.responseText);
     }
-  
-  })};
+  };
+  xhr.send(encodeURI('productName=' + productName + '&productPrice=' + productPrice));
+});
 </script>
+
 {% endblock %}
 {% block footer %}
   

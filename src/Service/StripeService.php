@@ -23,7 +23,7 @@ class StripeService
         Stripe::setApiKey($stripeSecretKey);
     }
 
-    public function createCheckoutSession($amount, $currency, $successUrl, $cancelUrl)
+    public function createCheckoutSession($amount, $currency, $successUrl, $cancelUrl, $productId)
     {
         // Convert the amount to cents
         $amountInCents = floatval($amount) * 100;
@@ -36,7 +36,7 @@ class StripeService
                     'currency' => $currency,
                     'unit_amount' => $amountInCents, // Stripe requires the amount to be in cents
                     'product_data' => [
-                        'name' => 'Product Name', // Replace with your product name
+                        'name' => $productId, // Replace with the product ID
                     ],
                 ],
                 'quantity' => 1,
