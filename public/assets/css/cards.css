@@ -311,5 +311,45 @@
     color: #fff;
     border: 1px solid #337ab7;
   }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .pagination a,
+  .pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #eee;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .pagination .current {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
 
+  @media (max-width: 576px) {
+    .pagination {
+      flex-wrap: wrap;
+    }
+  
+    .pagination a,
+    .pagination span {
+      margin: 5px 0;
+    }
+  }
   

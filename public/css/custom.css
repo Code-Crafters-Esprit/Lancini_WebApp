@@ -897,9 +897,6 @@ form
     border-color: #3acab1;
 }
 
-.pagination>li>a, .pagination>li>span {
-    color: #16a085;
-}
 
 #port-items .col-md-4 {
     padding: 0;
