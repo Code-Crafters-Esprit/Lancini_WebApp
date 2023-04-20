@@ -7,6 +7,7 @@ use App\Form\Produit1Type;
 use App\Repository\MaillistRepository;
 use App\Repository\ProduitRepository;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Mime\Email;
+
 
 
 #[Route('/produit')]
@@ -38,8 +40,7 @@ class ProduitController extends AbstractController
     }
     
    #[Route('/', name: 'app_produit_index', methods: ['GET'])]
-    public function index(ProduitRepository $produitRepository, MailerInterface $mailer): Response
-    {
+    public function index(ProduitRepository $produitRepository){
       
 
         return $this->render('produit/index.html.twig', [
@@ -47,49 +48,52 @@ class ProduitController extends AbstractController
         ]);
     } 
     #[Route('/market', name: 'app_market_index', methods: ['GET'])]
-    public function list(Request $request, ProduitRepository $produitRepository): Response
+    public function list(Request $request, ProduitRepository $produitRepository, PaginatorInterface $paginator): Response
     {
         $searchTerm = $request->query->get('search', '');
-        $categoryFilters = (array)$request->query->get('category', []);
-        $priceFilters = (array)$request->query->get('price', []);
+        $categoryFilters = (array) $request->query->get('category', []);
+        $priceFilters = (array) $request->query->get('price', []);
     
-        $produits = $produitRepository->findAll();
+        $produitsQuery = $produitRepository->createQueryBuilder('p');
     
         // Apply search term filter
         if (!empty($searchTerm)) {
-            $produits = array_filter($produits, function($produit) use ($searchTerm) {
-                $nomProduit = strtolower($produit->getNom());
-                $searchTerm = strtolower($searchTerm);
-                return strpos($nomProduit, $searchTerm) !== false || strpos($nomProduit, str_replace(' ', '', $searchTerm)) !== false;
-            });
+            $produitsQuery->andWhere('LOWER(p.nom) LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
         }
+    
         // Apply category filters
         if (!empty($categoryFilters)) {
-            $produits = array_filter($produits, function($produit) use ($categoryFilters) {
-                return in_array($produit->getCategorie(), $categoryFilters);
-            });
+            $produitsQuery->andWhere('p.categorie IN (:categories)')
+                ->setParameter('categories', $categoryFilters);
         }
     
         // Apply price filters
         if (!empty($priceFilters)) {
-            $produits = array_filter($produits, function($produit) use ($priceFilters) {
-                $prix = $produit->getPrix();
-                if (in_array('price1', $priceFilters) && $prix >= 0 && $prix <= 5) {
-                    return true;
-                } elseif (in_array('price2', $priceFilters) && $prix > 5 && $prix <= 15) {
-                    return true;
-                } elseif (in_array('price3', $priceFilters) && $prix > 15) {
-                    return true;
-                } else {
-                    return false;
+            $priceFilterQuery = $produitsQuery->expr()->orX();
+            foreach ($priceFilters as $filter) {
+                if ($filter === 'price1') {
+                    $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 0, 5));
+                } elseif ($filter === 'price2') {
+                    $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 5, 15));
+                } elseif ($filter === 'price3') {
+                    $priceFilterQuery->add($produitsQuery->expr()->gt('p.prix', 15));
                 }
-            });
+            }
+            $produitsQuery->andWhere($priceFilterQuery);
         }
+    
+        $produits = $paginator->paginate(
+            $produitsQuery->getQuery(),
+            $request->query->getInt('page', 1),
+            10 // limit of 10 items per page
+        );
     
         return $this->render('LanciniMarket/index.html.twig', [
             'produits' => $produits,
         ]);
     }
+    
    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProduitRepository $produitRepository,MaillistRepository $MaillistRepository, MailerInterface $mailer): Response
     {

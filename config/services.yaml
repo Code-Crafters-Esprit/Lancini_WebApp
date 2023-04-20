@@ -38,3 +38,8 @@ services:
         arguments:
             $stripePublicKey: '%env(STRIPE_PUBLIC_KEY)%'
             $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
+  
+    app.paginator:
+        class: Knp\Component\Pager\PaginatorInterface
+        arguments: ['@knp_paginator']
+

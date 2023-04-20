@@ -97,9 +97,14 @@
             </div>
           </div>
         {% endfor %}
-      </div>
-</div>
+        
 
+      </div>
+     
+</div>
+ <div class="pagination">
+    {{ knp_pagination_render(produits) }}
+</div>
   {# handle click events of buttons to show or hide pop-ups #}
   <script>
     const contactSellerBtns = document.querySelectorAll('.contact-seller-btn');
