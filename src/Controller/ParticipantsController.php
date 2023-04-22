@@ -33,6 +33,11 @@ class ParticipantsController extends AbstractController
         $em = $mr->getManager();
         $event = $em->getRepository(Evenement::class)->find($idp);
 
+        $nbParticipants = count($event->getParticipants());
+    if ($nbParticipants >= 5) {
+        return $this->redirectToRoute('affichage');
+    }
+
       #  if (!$event) {
            # throw $this->createNotFoundException('Cher Utilisateur Evenement avec l\'identifiant '.$idp.' n\'existe pas.');
          #}

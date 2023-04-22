@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EvenementRepository;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
@@ -46,6 +47,8 @@ class Evenement
     #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser', nullable: true)]
     private ?User $proprietaire = null; 
 
+    #[ORM\OneToMany(mappedBy: 'idevent', targetEntity: Participants::class)]
+    private $participants;
     
 
     public function getIdevent(): ?int
@@ -127,5 +130,12 @@ class Evenement
 
         return $this;
     }
+
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    
 
 }
