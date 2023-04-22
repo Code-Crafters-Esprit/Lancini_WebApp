@@ -12,11 +12,13 @@
   {# render the list of products #}
  <div class="wrapper">
   <form action="{{ path('app_market_index') }}" method="get" class="search-filter-form">
-    <div class="search-container">
+
+   
+    <div class="search-filter-container">
+     <div class="search-container">
       <input type="text" placeholder="Search Products..." name="search" value="{{ app.request.query.get('search') }}">
       <button type="submit"><i class="fa fa-search"></i></button>
     </div>
-    <div class="search-filter-container">
       <div class="filter-container">
         <div class="filter">
           <h5>Category</h5>
@@ -62,6 +64,7 @@
         </div>
       </div>
     </div>
+   
   </form>
      <div class="product-container">
 
@@ -86,6 +89,7 @@
 
 <button id="buy-btn" class="buy-btn">
   <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
+  
     <i class="fa fa-shopping-cart"></i>
   </a>
   {{ produit.prix }} dt
