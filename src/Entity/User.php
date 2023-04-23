@@ -96,8 +96,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
-    // #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Experience', cascade: ['persist'])]
-    // private Collection $experiences;
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: 'App\Entity\Experience', cascade: ['persist'])]
+    private Collection $experiences;
 
     #[ORM\Column(name: "isVerified", type: 'boolean')]
     private $isVerified = false;
@@ -106,6 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->offre = new ArrayCollection();
         $this->badge = new ArrayCollection();
+        $this->experiences = new ArrayCollection();
     }
 
     public function getUserIdentifier(): string
@@ -272,6 +273,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
     public function getOffre(): ArrayCollection
     {
         return $this->offre;
@@ -280,6 +286,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOffre(ArrayCollection $offre): self
     {
         $this->offre = $offre;
+
+        return $this;
+    }
+    public function addExperience(Experience $experience): self
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences[] = $experience;
+            $experience->setUserid($this);
+        }
+
+        return $this;
+    }
+    public function removeExperience(Experience $experience): self
+    {
+        if ($this->experiences->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getUserid() === $this) {
+                $experience->setUserid(null);
+            }
+        }
 
         return $this;
     }
