@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\Produit;
 use App\Form\Produit1Type;
 use App\Repository\MaillistRepository;
@@ -86,7 +87,7 @@ class ProduitController extends AbstractController
         $produits = $paginator->paginate(
             $produitsQuery->getQuery(),
             $request->query->getInt('page', 1),
-            10 // limit of 10 items per page
+            9 // limit of 10 items per page
         );
     
         return $this->render('LanciniMarket/index.html.twig', [
@@ -151,7 +152,18 @@ class ProduitController extends AbstractController
     }
     #[Route('/buy/{idproduit}', name: 'app_produit_buy', methods: ['GET'])]
     public function buy(Produit $produit): Response
-    {
+    {$entityManager = $this->getDoctrine()->getManager();
+
+        $commande = new Commande();
+        $commande->setProduit($produit);
+        $commande->setMontantpaye($produit->getPrix());
+        $commande->setDatecommande(new DateTime());
+        $commande->setVendeur($produit->getVendeur());
+        $commande->setAcheteur($produit->getVendeur());
+    
+        // Persist the Commande object to the database
+        $entityManager->persist($commande);
+        $entityManager->flush();
         return $this->render('produit/buy.html.twig', [
             'produit' => $produit,
         ]);
