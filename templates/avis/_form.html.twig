@@ -1,4 +1,6 @@
 {{ form_start(form) }}
+{{ form_label(form.note) }}
+{{ form_widget(form.note, { 'attr': { 'class': 'rating' } }) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+  {{ form_end(form) }}

@@ -34,7 +34,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reclamationRepository->save($reclamation, true);
 
-            return $this->redirectToRoute('app_reclamation_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamation_recadd', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/reclamationadmin/new.html.twig', [
@@ -140,7 +140,7 @@ class AdminController extends AbstractController
             $avisRepository->remove($avi, true);
         }
 
-        return $this->redirectToRoute('admin/avisadmin/delete.html.twig', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin/avisadmin/delete   .html.twig', [], Response::HTTP_SEE_OTHER);
     }
 
 }

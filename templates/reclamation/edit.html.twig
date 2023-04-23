@@ -1,4 +1,44 @@
 {% block body %}
+{% block stylesheets %}
+
+		   <!-- css -->
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.transitions.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+	   {% endblock %}
+{% block navbar %}
+
+			
+
+					<section id= "navigation">
+					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  					<div class="container-fluid">
+	    					<div class="navbar-header">
+	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        		<span class="ion-navicon"></span>
+					      		</button>
+					      		<a class="navbar-brand" href="{{ path('app_home') }}"> Lancini </a>
+					    	</div>
+	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      					<ul class="nav navbar-nav navbar-right">
+		      						<li><a href="{{ path('app_home') }}">Home</a></li>
+		      						<li><a href="{{path('app_avis_index')}}" >Feedback</a></li>
+		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
+		        					<li><a href="#Test">Get verified</a></li>
+		        					<li><a href="#blog">Community</a></li>
+		        					<li><a href="{{path('app_reclamation_index')}}">Support</a></li>
+							    </ul>
+	    					</div>	<!-- collapse navbar-collapse -->
+	  					</div>	<!-- container-fluid -->
+					</nav>	<!-- navbar -->
+                    </section>
+                
+				{% endblock %}
 <style>
 .navbar {
   background-color: #87CEEB;
@@ -62,7 +102,20 @@
     style="width:100px;height:100px">
 </lord-icon></h1>
   {{ include('reclamation/_delete_form.html.twig') }}
-    <footer class="bg-info text-center text-white py-2">
-  <p>&copy; 2023 Lancini. All rights reserved to Code Crafters <3.</p>
-</footer>
+   {% block footer %}
+	
+		<!-- footer -->
+		<section id= "footer" class= "main-footer">
+			<div class= "row">
+				<div class= "logo text-center">
+					<h1>Lancini</h1>
+				</div>
+			</div>
+			<div class= "row">
+				<div class= "copyright text-center">
+					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
+				</div>
+			</div>
+		</section><!-- footer -->
+{% endblock %}
 {% endblock %}
