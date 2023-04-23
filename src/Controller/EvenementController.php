@@ -13,7 +13,12 @@ use Symfony\Component\Intl\Countries;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Repository\EvenementRepository;
+use Swift_SmtpTransport;
+use Swift_Message;
+use Swift_Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 
 class EvenementController extends AbstractController
 {
@@ -60,9 +65,10 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/creerEvenement', name: 'creer_evenement')]
-public function ajouter(ManagerRegistry $mr, Request $request): Response
+public function ajouter(ManagerRegistry $mr, Request $request, ManagerRegistry $doctrine): Response
 {
-
+    $repository=$doctrine->getRepository(User::class);
+    $users=$repository->findAll() ;
     
     $event = new Evenement;
     $form = $this->createForm(EvenementType::class,$event);
@@ -78,6 +84,42 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
         // Set the selected country name on the entity
         $event->setLieu($selectedCountryName);
         $em->persist($event);
+
+
+    
+        $transport = new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+        $transport->setUsername('samar.gharsallah@esprit.tn');
+        $transport->setPassword('223AFT3476');
+        $mailer = new Swift_Mailer($transport);
+
+ 
+    foreach ($users as $user ) {
+        
+        $message = (new Swift_Message());
+    $message->setSubject('A new event is up');
+    $message->setFrom(['Lanciniofficial@gmail.com' => 'Lancini']);
+    $message->setTo($user->getEmail());
+    $message->setBody(
+        $this->renderView(
+            'mailEvenement.html.twig',
+            [
+                
+                'event' => $event->getTitre(),
+               
+            ]
+        ),
+        'text/html'
+    );
+
+    $mailer->send($message);
+}
+    $this->addFlash('success', 'Email to inform you current updates');
+
+
+
+
+
+
         $em->flush();
 
         return $this->redirectToRoute('affichage');
@@ -117,6 +159,8 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
             if ($form->isSubmitted()) {
                 $em = $doctrine ->getManager();
                 
+
+
                 $em->flush();
                 return $this->redirectToRoute('app_evenementAdmin'); 
             }

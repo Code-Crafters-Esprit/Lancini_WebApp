@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Publication;
 use App\Form\PublicationType;
+use App\Repository\CommentaireRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,6 +112,27 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
             ]);
         }
 
+        #[Route('/stats/commentaires', name: 'stats_commentaires')]
+public function statsCommentaires(CommentaireRepository $commentaireRepository)
+{
+    $publications = $this->getDoctrine()
+        ->getRepository(Publication::class)
+        ->findAll();
+
+    $publicationsWithComments = [];
+
+    foreach ($publications as $publication) {
+        $comments = $commentaireRepository->findBy(['idpub' => $publication->getIdpub()]);
+        $publicationsWithComments[] = [
+            'publication' => $publication,
+            'nombre_commentaires' => count($comments)
+        ];
+    }
+
+    return $this->render('stats/commentaires.html.twig', [
+        'publications' => $publicationsWithComments
+    ]);
+}
 
 
 
