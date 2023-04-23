@@ -96,6 +96,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
+    // #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Experience', cascade: ['persist'])]
+    // private Collection $experiences;
+
     #[ORM\Column(name: "isVerified", type: 'boolean')]
     private $isVerified = false;
 

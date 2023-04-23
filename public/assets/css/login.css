@@ -265,16 +265,16 @@
   }
   
   .animationRightLeft {
-    animation: animationRightLeft 2s ease-in-out infinite;
+    animation: animationRightLeft 2s ease-in-out 1;
   }
   .animationLeftRight {
-    animation: animationLeftRight 2s ease-in-out infinite;
+    animation: animationLeftRight 2s ease-in-out 1;
   }
   .tans3s {
-    animation: animationLeftRight 3s ease-in-out infinite;
+    animation: animationLeftRight 3s ease-in-out 1;
   }
   .tans4s {
-    animation: animationLeftRight 4s ease-in-out infinite;
+    animation: animationLeftRight 4s ease-in-out 1;
   }
   
   @keyframes animationLeftRight {

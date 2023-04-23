@@ -1,0 +1,18 @@
+{% extends 'user/login.html.twig' %}
+
+{% block title %}Reset your password
+{% endblock %}
+
+{% block form %}
+	<div class="formbg-inner padding-horizontal--48">
+		<h2 style="margin-bottom: 18px">Reset your password</h2>
+		{{ form_start(resetForm) }}
+		<div class="field padding-bottom--24">
+			{{ form_row(resetForm.plainPassword) }}
+		</div>
+		<div class="field padding-bottom--24 padding-top--24">
+			<input class="btn btn-primary" type="submit" value="Reset password">
+		</div>
+		{{ form_end(resetForm) }}
+	</div>
+{% endblock %}

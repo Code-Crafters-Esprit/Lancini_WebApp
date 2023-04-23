@@ -1,0 +1,9 @@
+swiftmailer:
+  transport: smtp
+  host: smtp.gmail.com
+  port: 587
+  encryption: ssl
+  username: "lancini.verify"
+  password: "jixaahkirmsloywt"
+#   spool: { type: "memory" } # use 'file' or 'queue' for other spool types*
+

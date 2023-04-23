@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	{% block title %}	
-		<title>Lancini</title>
-	{% endblock %}
+		{% block title %}
+			<title>Lancini</title>
+		{% endblock %}
 
 		<!-- meta -->
 		<meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-       {% block stylesheets %}
-		
-	    <!-- css -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/ionicons.min.css">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/owl.carousel.css">
-		<link rel="stylesheet" href="css/owl.theme.css">
-		<link rel="stylesheet" href="css/owl.transitions.css">
-	    <link rel="stylesheet" href="css/animate.css">
-	    <link rel="stylesheet" href="css/custom.css">
-	   {% endblock %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% block stylesheets %}
 
-	    <!-- js -->
+			<!-- css -->
+			<link rel="stylesheet" href="css/bootstrap.min.css">
+			<link rel="stylesheet" href="css/ionicons.min.css">
+			<link rel="stylesheet" href="css/font-awesome.min.css">
+			<link rel="stylesheet" href="css/owl.carousel.css">
+			<link rel="stylesheet" href="css/owl.theme.css">
+			<link rel="stylesheet" href="css/owl.transitions.css">
+			<link rel="stylesheet" href="css/animate.css">
+			<link rel="stylesheet" href="css/custom.css">
+		{% endblock %}
+		{% block StyleSheet %}{% endblock %}
+		<!-- js -->
 		{% block scripts %}
-			
-	    <script src="js/jquery.min.js"></script>
-	    <script src="js/bootstrap.min.js"></script>
-	    <script src="js/owl.carousel.min.js"></script>
-	    <script src="js/isotope.pkgd.min.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/wow.min.js"></script>
-		<script src="js/jquery.actual.min.js"></script>
+
+			<script src="js/jquery.min.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+			<script src="js/owl.carousel.min.js"></script>
+			<script src="js/isotope.pkgd.min.js"></script>
+			<script src="js/script.js"></script>
+			<script src="js/wow.min.js"></script>
+			<script src="js/jquery.actual.min.js"></script>
 		{% endblock %}
 
 	</head>
@@ -38,112 +38,115 @@
 	<body>
 		<div id="wrapper">
 
-{% block navbar %}
+			{% block navbar %}
 
-			
 
-					<section id= "navigation">
+				<section id="navigation">
 					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	  					<div class="container-fluid">
-	    					<div class="navbar-header">
-	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					        		<span class="ion-navicon"></span>
-					      		</button>
-					      		<a class="navbar-brand" href="#"> Lancini </a>
-					    	</div>
-	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      					<ul class="nav navbar-nav navbar-right">
-		      						<li><a href="#Home">Home</a></li>
-		      						<li><a href="#offres">Offers</a></li>
-		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
-		        					<li><a href="#Test">Get verified</a></li>
-		        					<li><a href="#blog">Community</a></li>
-		        					<li><a href="#Support">Support</a></li>
-							    </ul>
-	    					</div>	<!-- collapse navbar-collapse -->
-	  					</div>	<!-- container-fluid -->
-					</nav>	<!-- navbar -->
-                    </section>
-                
-				{% endblock %}
-	<body>
-    <div id="space"> </div>
-			{% block body %}
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+									<span class="ion-navicon"></span>
+								</button>
+								<a class="navbar-brand" href="#">
+									Lancini
+								</a>
+							</div>
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav navbar-right">
+									<li>
+										<a href="#Home">Home</a>
+									</li>
+									<li>
+										<a href="#offres">Offers</a>
+									</li>
+									<li>
+										<a href="#lancinimarket">LanciniMarket</a>
+									</li>
+									<li>
+										<a href="#Test">Get verified</a>
+									</li>
+									<li>
+										<a href="#blog">Community</a>
+									</li>
+									<li>
+										<a href="#Support">Support</a>
+									</li>
+								</ul>
+							</div>
+							<!-- collapse navbar-collapse -->
+						</div>
+						<!-- container-fluid -->
+					</nav>
+					<!-- navbar -->
+				</section>
 
-{% endblock %}
-
-{% block footer %}
-	
-		<!-- footer -->
-		<section id= "footer" class= "main-footer">
-			<div class= "row">
-				<div class= "logo text-center">
-					<h1>Lancini</h1>
-				</div>
+			{% endblock %}
 			</div>
-			<div class= "row">
-				<div class= "copyright text-center">
-					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
-				</div>
+			<div>
+				<div id="space"></div>
+				{% block body %}{% endblock %}
+
 			</div>
-		</section><!-- footer -->
-{% endblock %}
-		</div>	<!-- wrapper -->		
-			
+			{% block footer %}
+
+				<section id="footer" class="main-footer">
+					<div class="row">
+						<div class="logo text-center">
+							<h1>Lancini</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="copyright text-center">
+							<p>© 2023  Designed and Developed by Code Crafters
+							</p>
+						</div>
+					</div>
+				</section>
+
+			{% endblock %}
+			<script>
+				$(document).ready(function () {
+				$("#client-speech").owlCarousel({
+				autoPlay: 3000,
+				navigation: false, // Show next and prev buttons
+				slideSpeed: 700,
+				paginationSpeed: 1000,
+				singleItem: true
+				});
+				});
+							</script>
+							<script>
+								new WOW().init();
+							</script>
+							<script>
+								$(function () { // init Isotope
+				var $container = $('.isotope').isotope({itemSelector: '.element-item', layoutMode: 'fitRows'});
 
 
+				// bind filter button click
+				$('#filters').on('click', 'button', function () {
+				var filterValue = $(this).attr('data-filter');
+				// use filterFn if matches value
+				$container.isotope({filter: filterValue});
+				});
 
-		<!-- js -->
-		<script>
-			$(document).ready(function() {
-  				$("#client-speech").owlCarousel({
-  					autoPlay: 3000,
-      				navigation : false, // Show next and prev buttons
-      				slideSpeed : 700,
-      				paginationSpeed : 1000,
-      				singleItem:true
-  				});
-			});
-		</script>
-		<script>
- 			new WOW().init();
-		</script>
-		<script>
-			$( function() {
-				  // init Isotope
-			  	var $container = $('.isotope').isotope
-			  	({
-				    itemSelector: '.element-item',
-				    layoutMode: 'fitRows'
-			  	});
+				// change is-checked class on buttons
+				$('.button-group').each(function (i, buttonGroup) {
+				var $buttonGroup = $(buttonGroup);
+				$buttonGroup.on('click', 'button', function () {
+				$buttonGroup.find('.is-checked').removeClass('is-checked');
+				$(this).addClass('is-checked');
+				});
+				});
 
-
-  				// bind filter button click
-  				$('#filters').on( 'click', 'button', function() 
-  				{
-				    var filterValue = $( this ).attr('data-filter');
-				    // use filterFn if matches value
-				    $container.isotope({ filter: filterValue });
-				 });
-  
-			  // change is-checked class on buttons
-			  	$('.button-group').each( function( i, buttonGroup ) 
-			  	{
-			    	var $buttonGroup = $( buttonGroup );
-			    	$buttonGroup.on( 'click', 'button', function() 
-			    	{
-			      		$buttonGroup.find('.is-checked').removeClass('is-checked');
-			      		$( this ).addClass('is-checked');
-			    	});
-			  	});
-			  
-			});
-		</script>
-        <script src="js/jquery-ui-1.10.3.min.js"></script>
-        <script src="js/jquery.knob.js"></script>
-        <script src="js/daterangepicker.js"></script>
-        <script src="js/bootstrap3-wysihtml5.all.min.js"></script>
-        <script src="js/dashboard.js"></script>
-       
+				});
+			</script>
+			<script src="js/jquery-ui-1.10.3.min.js"></script>
+			<script src="js/jquery.knob.js"></script>
+			<script src="js/daterangepicker.js"></script>
+			<script src="js/bootstrap3-wysihtml5.all.min.js"></script>
+			<script src="js/dashboard.js"></script>
+		
 	</body>
 </html>

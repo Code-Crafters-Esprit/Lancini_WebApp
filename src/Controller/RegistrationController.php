@@ -18,6 +18,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\VarDumper\VarDumper;
+use App\Service\MailerService;
 
 
 class RegistrationController extends AbstractController
@@ -30,7 +31,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppCustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppCustomAuthenticator $authenticator, EntityManagerInterface $entityManager, MailerService $mailer): Response
     {
         $user = new User();
         $user->setMotdepasse("AnyPassword4578");
@@ -43,9 +44,6 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $plainPassword = $form->get('motdepasse')->getData();
             $confirmPassword = $request->request->get('registration_form')['confirmPassword'];
-
-            VarDumper::dump($plainPassword);
-            VarDumper::dump($confirmPassword);
 
             if ($plainPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Passwords do not match');
@@ -62,16 +60,18 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('lancini.verify@gmail.com', 'Lancini Mail Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // $this->emailVerifier->sendEmailConfirmation(
+            //     'app_verify_email',
+            //     $user,
+            //     (new TemplatedEmail())
+            //         ->from(new Address('lancini.verify@gmail.com', 'Lancini Mail Bot'))
+            //         ->to($user->getEmail())
+            //         ->subject('Please Confirm your Email')
+            //         ->htmlTemplate('registration/confirmation_email.html.twig')
+            // );
             // do anything else you need here, like send an email
+            $nom = $form->get('nom')->getData();
+            $mailer->sendEmailConfirmation($user->getEmail(),'app_verify_email',$user,$nom);
 
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -96,7 +96,7 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_home');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
