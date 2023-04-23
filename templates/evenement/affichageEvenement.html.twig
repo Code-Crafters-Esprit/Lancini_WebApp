@@ -48,16 +48,16 @@
 							 {# <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('creer_participant',{'id': e.idevent})}}"> Participate !</a> #}
 				        	<div class="row text-center wow animated fadeInDown animated animated" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s;">
 				        		<div class="team-member-contact">
-				        			<a href="#" data-toggle="tooltip" title="Contact with Facebook" class="team-facebook">
+				        			<a href="https://www.facebook.com/" data-toggle="tooltip" title="Contact with Facebook" class="team-facebook">
 				        				<i class="fa fa-facebook"></i>
 				        			</a>
 				        		
-				        			<a href="#" data-toggle="tooltip" title="Contact with Twitter" class="team-twitter">
+				        			<a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Twitter" class="team-twitter">
 				        				<i class="fa fa-twitter"></i>
 				        			</a>
 				        		
-				        			<a href="#" data-toggle="tooltip" title="Contact with Google-plus" class="team-google-plus">
-				        				<i class="fa fa-google-plus"></i>
+				        			<a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Google-plus" class="team-instagram">
+				        				<i class="fa fa-instagram"></i>
 				        			</a>
 				        		</div>	
 				        	</div>
@@ -66,29 +66,21 @@
 				    		<!-- col-md-4 -->
 					{% endfor %}
 			    </div>	<!-- team-members -->
-				
-		
+					
+	    	<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center">
+        <ul class="pagination custom-pagination">
+            {{ knp_pagination_render(event) }}
+        </ul>
+    </div>
+</div>
 
-
-
-
-
-
-
-    	
-	    		<div class="row">
-	    			<div class="col-md-6 col-md-offset-3 text-center">
-	    				<ul class="pagination">
-							<li class="disabled"><a href="#">&gt;&gt;</a></li>
-							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-						  	<li><a href="#">2</a></li>
-						  	<li><a href="#">3</a></li>
-						  	<li><a href="#">4</a></li>
-						  	<li><a href="#">5</a></li>
-						  	<li><a href="#">&gt;&gt;</a></li>
-						</ul>
-	    			</div>
-	    		</div>
+<style>
+    .custom-pagination activespan {
+        color: #5ab9ea;
+    }
+</style>
+           
     		</div>	<!-- container -->
 	    </section>
 

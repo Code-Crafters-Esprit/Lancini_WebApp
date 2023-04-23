@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+use App\Entity\Post;
+use App\Repository\EvenementRepository;
 
 class EvenementController extends AbstractController
 {
@@ -20,14 +24,22 @@ class EvenementController extends AbstractController
             'controller_name' => 'EvenementController',
         ]);
     }
+    
+
 
     #[Route('/afficherEvenement', name: 'affichage')]
-    public function afficher(ManagerRegistry $doctrine): Response
+    public function afficher(ManagerRegistry $doctrine, Request $request, EvenementRepository $EvenementsRepository, PaginatorInterface $paginator): Response
     {
 
         $repository=$doctrine->getRepository(Evenement::class);
             $event=$repository->findAll() ;
 
+
+            $event = $paginator->paginate(
+                $event, /* query NOT result */
+                $request->query->getInt('page', 1),
+                3
+            );
 
         return $this->render('evenement/affichageEvenement.html.twig', [
             'event' => $event,
@@ -112,5 +124,8 @@ public function ajouter(ManagerRegistry $mr, Request $request): Response
                 'form' => $form->createView(),
             ]);
         }
+
+
+       
 
 }
