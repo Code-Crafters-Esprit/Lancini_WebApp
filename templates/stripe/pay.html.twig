@@ -7,20 +7,25 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+        <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
         <title>Checkout</title>
         
     </head>
     <body>
+      <div class="container">
         <form action="{{ path('pay', {'idproduit': produit.idproduit}) }}" method="POST">
             <script src="https://js.stripe.com/v3/"></script>
             <input type="hidden" name="amount" value="{{ amount ?? '' }}">
             <input type="hidden" name="stripeToken" value="{{ stripeToken ?? '' }}">
             <input type="hidden" name="currency" value="usd">
-            <button id="checkout-button" disabled>Checkout</button>
+          
+         <div class="form-group">
+  <div class="g-recaptcha" data-sitekey="6Le7AaMlAAAAAAsuzvgBUoPBavgIzTbo9t42cbBt" data-callback="enableCheckoutButton"></div>
+  <button id="checkout-button" disabled>Complete Payment process to get download link</button>
+</div>
 
         </form>
-        <div class="g-recaptcha" data-sitekey="6Le7AaMlAAAAAAsuzvgBUoPBavgIzTbo9t42cbBt" data-callback="enableCheckoutButton"></div>
+           </div>
         <script>
             var stripe = Stripe('{{ stripePublicKey ?? ''}}');
             var sessionId = '{{ sessionId ?? '' }}';

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class StripeController extends AbstractController
@@ -30,8 +31,8 @@ class StripeController extends AbstractController
     throw $this->createNotFoundException('The product does not exist');
     }
     
-    $amount = $produit->getPrix() * 100; // Convert the price to cents
-    $successUrl = 'https://example.com/success';
+    $amount = $produit->getPrix() * 100; // Convert the price to cents'
+    $successUrl = $this->generateUrl('app_produit_buy', ['idproduit' => $produit->getIdproduit()], UrlGeneratorInterface::ABSOLUTE_URL);
     $cancelUrl = 'https://example.com/cancel';
     
     // create a Stripe Checkout Session and get the session ID

@@ -85,22 +85,22 @@
                 </div>
               </div>
               <div class="product-price-btn">
-      {% set amount = produit.prix * 100 %}
+  {% if produit.categorie == 'Wallpaper' or produit.categorie == 'Backgrounds' %}
+    {% set amount = produit.prix * 100 %}
+    <button id="buy-btn" class="buy-btn">
+      <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
+        <i class="fa fa-shopping-cart"></i>
+      </a>
+      {{ produit.prix }} dt
+    </button>
+  {% endif %}
+  <button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
+  <div class="contact-seller-popup">
+    <p>Phone: {{ produit.vendeur.numtel }}</p>
+    <p>Email: {{ produit.vendeur.email }}</p>
+  </div>
+</div>
 
-<button id="buy-btn" class="buy-btn">
-  <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
-  
-    <i class="fa fa-shopping-cart"></i>
-  </a>
-  {{ produit.prix }} dt
-</button>
-
-                <button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
-                <div class="contact-seller-popup">
-                  <p>Phone: {{ produit.vendeur.numtel }}</p>
-                  <p>Email: {{ produit.vendeur.email }}</p>
-                </div>
-              </div>
             </div>
           </div>
         {% endfor %}

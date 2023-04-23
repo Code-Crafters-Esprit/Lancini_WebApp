@@ -149,6 +149,13 @@ class ProduitController extends AbstractController
             'produit' => $produit,
         ]);
     }
+    #[Route('/buy/{idproduit}', name: 'app_produit_buy', methods: ['GET'])]
+    public function buy(Produit $produit): Response
+    {
+        return $this->render('produit/buy.html.twig', [
+            'produit' => $produit,
+        ]);
+    }
 
     #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response

@@ -1,0 +1,29 @@
+{% extends 'home/base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="text-center mb-5">{{ produit.nom }}</h1>
+<div class="container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    {% if produit.image %}
+      
+                        <a href="{{ vich_uploader_asset(produit, 'imageFile') }}" download>
+                            <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="{{ produit.image }}" class="img-fluid" style="width: 1300px; height: 700px;" />
+                        </a>
+                        
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ vich_uploader_asset(produit, 'imageFile') }}" class="btn btn-info" download>Download</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
