@@ -1,4 +1,6 @@
 {% block body %}
+<img src="{{ qr_code }}" alt="QR code">
+
 {% block stylesheets %}
 
 		   <!-- css -->
@@ -37,7 +39,31 @@
 	  					</div>	<!-- container-fluid -->
 					</nav>	<!-- navbar -->
                     </section>
-                
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+                <img src="{{ qr_code }}" alt="QR code">
+
 				{% endblock %}
 <style>
 .navbar {
@@ -146,7 +172,7 @@
 
 <script>
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "{{ qrCode|e('js') }}",
+        text: "{{ qr_code|e('js') }}",
         width: 200,
         height: 200,
         colorDark : "#000000",
