@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use Endroid\QrCode\QrCode;
+
 
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 
@@ -178,13 +178,5 @@ class Reclamation
 		$this->id = $id;
 		return $this;
 	}
-    public function __toString()
-    {
-        return $this->description;
-    }
-     public function generateQRCode(): string
-    {
-        $qrCode = new QrCode($this->toString()); 
-        return $qrCode->writeString();
-    }
+   
 }

@@ -6,7 +6,6 @@ use App\Entity\Avis;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Blackknight467\StarRatingBundle\Form\RatingType;
 
 use DateTime;
 class AvisType extends AbstractType

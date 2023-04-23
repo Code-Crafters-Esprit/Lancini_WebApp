@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 
@@ -21,9 +22,11 @@ class Avis
     #[Assert\NotNull]
     private  $description = null;
 
-    #[ORM\Column]
-    #[Assert\Range(min: 0, max: 20)]
-      private $note = null;
+     
+     #[ORM\Column(type:"decimal", precision:3, scale:1)]
+     #[assert\NotBlank]
+     #[Assert\Range(min:0, max:5)]
+    private $note;
 
     #[ORM\Column(type: "date")]
     private  $date = null;
@@ -57,12 +60,12 @@ class Avis
         return $this;
     }
 
-    public function getNote(): ?int
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
-    public function setNote(int $note): self
+    public function setNote(string $note): self
     {
         $this->note = $note;
 

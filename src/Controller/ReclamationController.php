@@ -33,10 +33,9 @@ class ReclamationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reclamationRepository->save($reclamation, true);
             
-            $qrCode = $reclamation->generateQRCode();
+            
 
-            return $this->redirectToRoute('app_reclamation_index', ['reclamations' => $reclamationRepository->findAll(),
-            'qrCode' => $qrCode], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamation_index', ['reclamations' => $reclamationRepository->findAll()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reclamation/new.html.twig', [

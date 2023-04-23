@@ -1,4 +1,0 @@
-blackknight467_star_rating:
-    star_template: "@Blackknight467StarRatingBundle/widget/rating.html.twig"
-    star_half_template: "@Blackknight467StarRatingBundle/widget/rating_half.html.twig"
-    star_new_template: "@Blackknight467StarRatingBundle/widget/rating_new.html.twig"

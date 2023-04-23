@@ -6,10 +6,10 @@ use App\Entity\Avis;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Blackknight467\StarRatingBundle\Form\RatingType;
-use Blackknight467\StarRatingBundle\Blackknight467StarRatingBundle;
-
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RatingType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class Avis1Type extends AbstractType
 {
@@ -17,18 +17,25 @@ class Avis1Type extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('note', RatingType::class, [
+            ->add('note', ChoiceType::class, [
                 'label' => 'Note',
-                'stars' => 5,
-                'expanded' => true,
                 'required' => true,
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'note',
+                ],
             ])
-                
             ->add('date')
             ->add('idProduit')
-            ->add('idevaluateuruser')
-            
-        ;
+            ->add('idevaluateuruser');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
