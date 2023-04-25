@@ -50,6 +50,10 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
             ])
+            ->add('captcha', ReCaptchaType::class, [
+                'type' => 'checkbox', // (invisible, checkbox),
+                'mapped' => false,
+             ])
             ->add('register', SubmitType::class);
     }
 

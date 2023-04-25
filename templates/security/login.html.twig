@@ -29,8 +29,8 @@
 						<a href="{{ path('app_forgot_password_request') }}">Forgot your password?</a>
 					</div>
 				</div>
-
 				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
 			</div>
 
 			<input
@@ -45,12 +45,19 @@
 					Remember me
 				</label>
 			</div>
+
 			{% if error %}
 				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
 			<div class="field padding-bottom--24 padding-top--24">
 				<input class="btn btn-lg btn-primary" type="submit" value="Sign in">
 			</div>
+			<div class="field padding-bottom--24 padding-top--24" >
+				<a href="{{ path('fcb-login')}}" style="display: flex;justify-content: center;align-items: center;width: 100%;">
+					<img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook logo" style="vertical-align:middle;margin-right:10px; width:40px; height: 40px"> Continue using Facebook
+				</a>
+			</div>
+
 		</form>
 	</div>
 {% endblock %}

@@ -26,10 +26,14 @@
 							{{ form_row(registrationForm.nom) }}
 							{{ form_row(registrationForm.prenom) }}
 							{{ form_row(registrationForm.email) }}
+							<div id="recaptcha" data-toggle="recaptcha" style="margin-top: 20px" >
+							</div>
+							{{ form_errors(registrationForm) }}
+							
 						</div>
-						{# <div class='field_checkbox'>
-																																																																																																																										{{ form_row(registrationForm.agreeTerms) }}
-																																																																																																																									</div> #}
+						{# <div class='field_checkbox'> #}
+							{# {{ form_row(registrationForm.agreeTerms) }} #}
+						{# </div> #}
 					</div>
 					<div class="formbg-inner padding-horizontal--48">
 						<div class='field'>
@@ -43,9 +47,9 @@
 					label: 'Confirm Password',
 				}) }}
 						</div>
-						{# <div class='field_checkbox'>
-																																																																																																																														{{ form_row(registrationForm.agreeTerms) }}
-																																																																																																																													</div> #}
+						{# <div class='field_checkbox'> #}
+							{# {{ form_row(registrationForm.agreeTerms) }} #}
+						{# </div> #}
 						<div class="field padding-bottom--24 padding-top--24">
 							<button type="submit" class="btn">Register</button>
 						</div>
