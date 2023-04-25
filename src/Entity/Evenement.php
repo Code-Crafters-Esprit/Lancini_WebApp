@@ -5,13 +5,19 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as CustomAssert;
 use App\Repository\EvenementRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints\Date;
+use App\Validator\Constraints\EventParticipantCount;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 
+
+ #[CustomAssert\EventParticipantCount]
+ 
 class Evenement
 {
     #[ORM\Id]
@@ -135,6 +141,11 @@ class Evenement
     {
         return $this->participants;
     }
+
+    public function countParticipants(): int
+{
+    return count($this->participants);
+}
 
     
 

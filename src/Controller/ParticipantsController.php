@@ -11,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CommentaireRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Validator\EventParticipantCountValidator;
 
 
 class ParticipantsController extends AbstractController
@@ -23,6 +25,14 @@ class ParticipantsController extends AbstractController
         ]);
     }
 
+
+    private $validator;
+
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
+
     #[Route('/creerParticipant', name: 'creer_participant')]
     public function ajouterParticipant(ManagerRegistry $mr, Request $request): Response
     {
@@ -33,16 +43,8 @@ class ParticipantsController extends AbstractController
         $em = $mr->getManager();
         $event = $em->getRepository(Evenement::class)->find($idp);
 
-        $nbParticipants = count($event->getParticipants());
-    if ($nbParticipants >= 5) {
-        return $this->redirectToRoute('affichage');
-    }
-
-      #  if (!$event) {
-           # throw $this->createNotFoundException('Cher Utilisateur Evenement avec l\'identifiant '.$idp.' n\'existe pas.');
-         #}
-
         $part = new Participants;
+
         $part->setIdevent($event);
         $form = $this->createForm(ParticipantsType::class,$part);
     

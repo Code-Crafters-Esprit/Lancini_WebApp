@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Evenement;
 use App\Entity\Participants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,6 +40,18 @@ class ParticipantsRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function countParticipantsForEvent(int $event): int
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->select('COUNT(p.idparticipant)');
+        $queryBuilder->Where('p.idevent = :event');
+        $queryBuilder->setParameter('event', $event);
+    
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+    
+
 //    /**
 //     * @return Participants[] Returns an array of Participants objects
 //     */
@@ -63,4 +76,5 @@ class ParticipantsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

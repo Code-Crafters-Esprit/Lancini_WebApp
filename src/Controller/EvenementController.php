@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\EvenementRepository;
+use App\Repository\ParticipantsRepository;
 use Swift_SmtpTransport;
 use Swift_Message;
 use Swift_Mailer;
@@ -33,22 +34,29 @@ class EvenementController extends AbstractController
 
 
     #[Route('/afficherEvenement', name: 'affichage')]
-    public function afficher(ManagerRegistry $doctrine, Request $request, EvenementRepository $EvenementsRepository, PaginatorInterface $paginator): Response
+    public function afficher(ManagerRegistry $doctrine, Request $request, ParticipantsRepository $rep, EvenementRepository $EvenementsRepository, PaginatorInterface $paginator): Response
     {
 
         $repository=$doctrine->getRepository(Evenement::class);
             $event=$repository->findAll() ;
 
-
+            $eventCounts = array();
+            foreach ($event as $e) {
+                $nb = $rep->countParticipantsForEvent($e->getIdevent());
+                $eventCounts[$e->getIdEvent()] = $nb;
+            }
+            
             $event = $paginator->paginate(
-                $event, /* query NOT result */
+                $event,
                 $request->query->getInt('page', 1),
                 3
             );
-
-        return $this->render('evenement/affichageEvenement.html.twig', [
-            'event' => $event,
-        ]);
+            
+            return $this->render('evenement/affichageEvenement.html.twig', [
+                'event' => $event,
+                'eventCounts' => $eventCounts
+            ]);
+            
     }
 
     #[Route('/afficherEvenementAdmin', name: 'app_evenementAdmin')]

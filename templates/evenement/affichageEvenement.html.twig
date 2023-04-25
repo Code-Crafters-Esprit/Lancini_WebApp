@@ -2,6 +2,20 @@
 
 {% block body %}
 
+
+<script>setTimeout(function() {
+    $('.alert').slideUp();
+}, 1000); 
+</script>
+
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
 <div id="wrapper">
 	 <div id="overlay-1" style="height: 900px; background-image: url('img/EventBack.jpg'); background-size: cover; background-position: center;">
 			{#<div id="overlay-1" style="height: 937px;">#}
@@ -42,9 +56,14 @@
 
 							 <form method="GET" action="{{ path('creer_participant')}}" style="display: inline-block;">
                             <input type="hidden" name="pub" value={{ e.idevent }}>
+							{% if eventCounts[e.idevent]  > 5 %} 
+
+							<p style="color:#5ab9ea">Unfortunaly this event is full !</p>
+							{% else %}
+
                             <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Participate !</button>
                             </form>
-							
+							 {% endif %}
 							 {# <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('creer_participant',{'id': e.idevent})}}"> Participate !</a> #}
 				        	<div class="row text-center wow animated fadeInDown animated animated" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s;">
 				        		<div class="team-member-contact">
