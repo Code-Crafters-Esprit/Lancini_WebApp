@@ -15,6 +15,7 @@
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
+        "dompdf/dompdf": "^2.0",
         "endroid/qrcode": "^4.8",
         "endroid/qrcode-bundle": "^4.3",
         "friendsofsymfony/rest-bundle": "^3.5",

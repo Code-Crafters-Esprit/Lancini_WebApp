@@ -5,16 +5,24 @@ namespace App\Controller;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use App\Repository\ReclamationRepository;
-use Endroid\QrCode\QrCode   ;
+use App\Service\PdfService;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use FOS\RestBundle\View\View;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Service\PdfService as MyPdfService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Endroid\QrCode\Writer\DataUriWriter;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use App\Service\QrcodeService;
+
 
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
@@ -48,26 +56,42 @@ class ReclamationController extends AbstractController
             'form' => $form,
         ]);
     }
+    
+    #[Route('/{id}/download-pdf', name: 'app_reclamation_download_pdf', methods: ['GET'])]
+public function downloadPdf(Reclamation $reclamation)
+{
+    // Créer une instance de Dompdf avec des options
+    $options = new Options();
+    $options->set('defaultFont', 'Arial');
+    $dompdf = new Dompdf($options);
+
+    // Générer le contenu HTML à partir du template Twig
+    $html = $this->renderView('reclamation/pdf.html.twig', [
+        'reclamation' => $reclamation,
+    ]);
+
+    // Charger le contenu HTML dans Dompdf
+    $dompdf->loadHtml($html);
+
+    // Rendre le PDF
+    $dompdf->render();
+
+    // Envoyer le PDF en tant que réponse HTTP
+    $response = new Response($dompdf->output());
+    $response->headers->set('Content-Type', 'application/pdf');
+    $response->headers->set('Content-Disposition', 'attachment;filename="' . $reclamation->getId() . '.pdf"');
+
+    return $response;
+}
+
 
     #[Route('/{id}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
     {
-        
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new \BaconQrCode\Renderer\Image\SvgImageBackEnd()
-        );
-        $writer = new Writer($renderer);
-        $data = $this->generateUrl('app_reclamation_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $qrCode = $writer->writeString($data);
-        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
         return $this->render('reclamation/show.html.twig', [
             'reclamation' => $reclamation,
-            'qr_code' => $dataUri,
-
         ]);
     }
-
     #[Route('/{id}/edit', name: 'app_reclamation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamation $reclamation, ReclamationRepository $reclamationRepository): Response
     {
@@ -95,19 +119,21 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
-    public function generateQrCode()
-    {
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new \BaconQrCode\Renderer\Image\SvgImageBackEnd()
-        );
-        $writer = new Writer($renderer);
-        $data = $this->generateUrl('app_reclamation_show', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $qrCode = $writer->writeString($data);
-        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
     
+    #[Route('/generate_qr_code/{id}', name:'qrCode')]
+   
+    public function qrCode( QrcodeService $qrcodeService,$id)
+    {
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+
+        $qrCode = $qrcodeService->qrcode($reclamation);
+
         return $this->render('reclamation/show.html.twig', [
-            'qr_code' => $dataUri,
+            'reclamation' => $reclamation,
+            'qrCode' => $qrCode
         ]);
     }
+    
+    
+    
 }

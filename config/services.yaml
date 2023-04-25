@@ -6,7 +6,9 @@
 parameters:
 
 services:
-
+    App\Service\QrcodeService:
+        arguments:
+            $urlGenerator: '@router'
 
     # default configuration for services in *this* file
     _defaults:

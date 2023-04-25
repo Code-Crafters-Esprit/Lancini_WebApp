@@ -52,6 +52,7 @@ class Reclamation
           pattern:"/^\+\d{1,3}\d{8,}$/",
           message:"Le numéro de téléphone '{{ value }}' n'est pas valide. Veuillez saisir un numéro de téléphone de la forme '+***' contenant au moins 8 chiffres."
       )]
+      
      
     private string $tel;
 
@@ -178,5 +179,11 @@ class Reclamation
 		$this->id = $id;
 		return $this;
 	}
-   
+    public function __toString()
+    {
+        return $this->getNom() . ' - ' . $this->getDescription(). ' - ' . $this->getPrenom(). ' - ' .$this->getSujetdereclamations() ;
+
+
+    }
+    
 }

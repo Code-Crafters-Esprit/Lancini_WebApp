@@ -13,35 +13,7 @@
 	    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 	    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 	   {% endblock %}
-       {% block navbar %}
-
-			
-
-					<section id= "navigation">
-					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	  					<div class="container-fluid">
-	    					<div class="navbar-header">
-	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					        		<span class="ion-navicon"></span>
-					      		</button>
-					      		<a class="navbar-brand" href="{{ path('app_home') }}"> Lancini </a>
-					    	</div>
-	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      					<ul class="nav navbar-nav navbar-right">
-		      						<li><a href="{{ path('app_home') }}">Home</a></li>
-		      						<li><a href="{{path('app_avis_index')}}" >Feedback</a></li>
-		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
-		        					<li><a href="#Test">Get verified</a></li>
-		        					<li><a href="#blog">Community</a></li>
-		        					<li><a href="{{path('app_reclamation_index')}}">Support</a></li>
-							    </ul>
-	    					</div>	<!-- collapse navbar-collapse -->
-	  					</div>	<!-- container-fluid -->
-					</nav>	<!-- navbar -->
-                    </section>
-               <img src="{{ qr_code }}" alt="QR code">
-
-				{% endblock %}
+      
 <style>
 .navbar {
   background-color: #87CEEB;
@@ -88,7 +60,11 @@
         </div>
     </div>
 </nav>
-
+ <div class="card-footer d-flex justify-content-end mt-auto">
+          {% if qrCode is defined and qrCode is not empty %}
+                  <img src="{{ qrCode }}" alt="QR Code">
+          {% endif %}
+  </div>
 <div class="container">
     <h1>Claim delivered</h1>
   <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
@@ -141,22 +117,12 @@
 
     {{ include('reclamation/_delete_form.html.twig') }}
 </div>
-<!-- inclure la bibliothèque qrcodejs -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs2@3.0.0/dist/qrcode.min.js"></script>
+<a href="{{ path('app_reclamation_download_pdf', {'id': reclamation.id}) }}" class="btn btn-primary">
+    Télécharger PDF
+</a>
 
-<!-- afficher le code QR -->
-<div id="qrcode"></div>
 
-<script>
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "{{ qr_code|e('js') }}",
-        width: 200,
-        height: 200,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
-</script>
+
 
   {% block footer %}
 	
@@ -173,5 +139,8 @@
 				</div>
 			</div>
 		</section><!-- footer -->
+        
 {% endblock %}
+
 {% endblock %}
+
