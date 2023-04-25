@@ -8,11 +8,14 @@ use App\Repository\AvisRepository;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
+#[ApiResource]
 
 class Avis
 {
+    #[ApiProperty]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,6 +23,7 @@ class Avis
 
     #[ORM\Column(length:100)]
     #[Assert\NotNull]
+    #[ApiProperty]
     private  $description = null;
 
      
