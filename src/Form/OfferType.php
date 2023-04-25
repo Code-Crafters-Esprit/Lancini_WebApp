@@ -20,12 +20,6 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
-
-
-
-
-
-
 class OfferType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

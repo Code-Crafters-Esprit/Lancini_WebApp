@@ -41,4 +41,40 @@ class OffreRepository extends ServiceEntityRepository
         }
     }
 
+    public function search(array $params): array
+    {
+        $qb = $this->createQueryBuilder('o');
+        $or = $qb->expr()->orX();
+
+        if (strlen($params['searchBar']) > 1 || (empty($params['secteur']) && $params['typeoffre'] === 'Choose an option') ) {
+            $or->add(
+                $qb->expr()->like('o.nom', ':search')
+            );
+
+            $or->add(
+                $qb->expr()->like('o.competence', ':search')
+            );
+
+            $qb->setParameter('search', '%' . $params['searchBar'] . '%');
+        }
+
+        return $qb->andWhere(
+            $or->add(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('o.secteur', ':secteur'),
+                    $qb->expr()->eq('o.typeoffre', ':typeoffre')
+            )
+            )
+        )
+            ->setParameter('secteur', $params['secteur'])
+            ->setParameter('typeoffre', $params['typeoffre'])
+            ->getQuery()
+            ->getArrayResult()
+        ;
+
+
+        
+        
+    }
+
 }

@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+    <div>
+        <h2>Add a new sector :</h2>
+    </div>
+    {{ form_start(form, {'attr': {'noValidate': 'noValidate'}}) }}
+    <div class="row " >
+        <div class="col">{{ form_row(form.nom) }}</div>
+        <div class="col">{{ form_row(form.description)}} </div>
+    </div>
+    <div class="row" >
+        <div class="col">{{ form_row(form.datecreation) }}</div>
+        <div class="col">{{ form_row(form.datemodification)}} </div>
+    </div>
+    <div class="text-center"> {{ form_row(form.Create) }} </div>
+    {{ form_rest(form) }}
+{% endblock %}

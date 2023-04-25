@@ -2,52 +2,54 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<nav  class="navbar navbar-expand-lg navbar-light"style="background: linear-gradient(to bottom right, #122b40, #5680E4, #5AB9EA , #122b40); height: 5rem" >
+<nav  class="navbar  navbar-expand-lg navbar-light"style="background: linear-gradient(to bottom right, #5680E4 , #5680E4 , #2e6da4, #8860D0); height: 4rem" >
 
-    <a class="navbar-brand" href="#"><img src="{{ asset('media/lancini.png') }}"  style="width: 170px"></a>
+    <a class="navbar-brand text-white" href="{{ path('app_home') }}"><strong><span style="font-weight: bold;">Lancini</span></strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path('app_home') }}">Home <span class="sr-only">(current)</span></a>
+    <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active mx-2">
+                <a class="nav-link text-white" href="{{ path('app_home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white" href="{{ path('affOffer') }}" >Offers</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+            <li class="nav-item dropdown mx-2">
+                <a class="nav-link text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    LanciniMarket
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Get Verified</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Community</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Support</a>
             </li>
         </ul>
-
-        <form class="form-inline my-2 my-lg-0" method="POST">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  style="width: 300px">
-            <button class="btn btn-group-sm my-2 my-sm-0" type="submit">Search</button>
-        </form>
-
     </div>
+
+
 </nav>
 <div class="container mt-3"  >
     <h1 >Offer {{ offer.nom }} details</h1>
+
+
 </div>
 <div class="container mt-3">
-    <a href="{{path('OfferUpdate',{'id':offer.idOffre})}}" class="btn btn-success btn-sm" style="background: #8860D0" data-toggle="tooltip" data-placement="top"  title="update this offer" > Update</a>
-    <a href="#" class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#confirmDeleteModal{{ offer.idOffre }}" data-placement="top"  title="Remove ?">Remove</a>
+    <div class="d-flex flex-row-reverse bd-highlight">
+        <a href="{{path('OfferUpdate',{'id':offer.idOffre})}}" class="btn  btn-link" style="color: #3a863a" data-toggle="tooltip" data-placement="top"  title="update this offer" > Update</a>
+        <a href="#" class="btn  btn-link" style="color: #fd2e0b"  data-toggle="modal" data-target="#confirmDeleteModal{{ offer.idOffre }}" data-placement="top"  title="Remove ?">Remove</a>
+
+    </div>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <body style="background-color: #E5EAF0;">
 
     <div class="modal fade" id="confirmDeleteModal{{ offer.idOffre }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -78,10 +80,17 @@
         })
       });
     </script>
-            <div class="card border-secondary mb-3 mt-5 card-element " style="width: 70rem; height: 40rem"  >
-                <div class="card-header">
-                    <h5>{{ offer.nom }}</h5>
+            <div class="card border-secondary mb-3 mt-5 card-element" style="width: 70rem; height: 40rem"  >
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="mr-auto">
+                        <h5>{{ offer.nom }}</h5>
+                    </div>
+                    <div>
+                        <a class="btn btn-link mr-3" href="{{ path('qrCode', {'idOffre': offer.idOffre}) }}" style="color: #0b0b0b;">QR code</a>
+                        <a class="btn btn-link" href="{{ path('Offer.pdf', {'id': offer.idOffre}) }}" style="color: #0b0b0b;" data-toggle="tooltip" data-placement="top" title="Export PDF">PDF</a>
+                    </div>
                 </div>
+
                 <div class="card-body text-secondary d-flex flex-column justify-content-between">
                     <div>
 
@@ -100,6 +109,11 @@
                         <h5 class="card-title">Compétence : </h5>
                         <p class="card-text">{{ offer.competence }}</p>
 
+                        <div class="card-footer d-flex justify-content-end mt-auto">
+                            {% if qrCode is defined and qrCode is not empty %}
+                                <img src="{{ qrCode }}" alt="QR Code">
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,6 +121,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    </body>
 </div>
 

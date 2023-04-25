@@ -49,7 +49,7 @@ class SecteurController extends AbstractController
             $em->persist($secteur);
             $em->flush();
 
-            return $this->redirectToRoute('affsecteur');
+            return $this->redirectToRoute('addOffer');
         }
         return $this->render('secteur/add.html.twig', [
             'form' => $form->createView(),
@@ -90,7 +90,4 @@ class SecteurController extends AbstractController
         $this->em->flush();
         return new RedirectResponse($this->generateUrl('affsecteur'));
     }
-
-
-
 }

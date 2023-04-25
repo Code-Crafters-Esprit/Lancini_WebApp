@@ -192,4 +192,10 @@ class Offre
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getNom() . ' - ' . $this->getDescription(). ' - ' . $this->getCompetence(). ' - ' .$this->getTypeoffre() ;
+
+
+    }
 }
