@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\Produit;
+use App\Entity\Maillist;
 use App\Form\Produit1Type;
 use App\Repository\MaillistRepository;
 use App\Repository\ProduitRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +18,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Mime\Email;
 
@@ -96,52 +99,60 @@ class ProduitController extends AbstractController
     }
     
    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProduitRepository $produitRepository,MaillistRepository $MaillistRepository, MailerInterface $mailer): Response
-    {
-        $produit = new Produit();
-        $timezone = $this->getParameter('timezone');
-
-        $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
-        $form = $this->createForm(Produit1Type::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Handle file upload
-            /** @var UploadedFile $file */
-            $file = $form->get('image')->getData();
-
-            if ($file) {
-                $fileName = uniqid() . '.' . $file->guessExtension();
-
-                try {
-                    $file->move(
-                        $this->getParameter('kernel.project_dir') . '/public/images/products',
-                        $fileName
-                    );
-
-                    $produit->setImage($fileName);
-                } catch (FileException $e) {
-                    // Handle exception
-                }
-            }
-            $email = (new Email())
-            ->from('lancinimarket@gmail.com')
-            ->to('mohamedali.naguez@esprit.tn')
-            ->subject('New Product Alert!')
-            ->html('<p>Check out our new product!</p>');
-        
-          $mailer->send($email);
-
-            $produitRepository->save($produit, true);
-
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('produit/new.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
-    }
+   public function new(Request $request, ProduitRepository $produitRepository, MaillistRepository $MaillistRepository, MailerInterface $mailer, EntityManagerInterface $entityManager, Environment $twig): Response
+   {
+       $produit = new Produit();
+       $timezone = $this->getParameter('timezone');
+   
+       $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
+       $form = $this->createForm(Produit1Type::class, $produit);
+       $form->handleRequest($request);
+   
+       if ($form->isSubmitted() && $form->isValid()) {
+           // Handle file upload
+           /** @var UploadedFile $file */
+           $file = $form->get('image')->getData();
+   
+           if ($file) {
+               $fileName = uniqid() . '.' . $file->guessExtension();
+   
+               try {
+                   $file->move(
+                       $this->getParameter('kernel.project_dir') . '/public/images/products',
+                       $fileName
+                   );
+   
+                   $produit->setImage($fileName);
+               } catch (FileException $e) {
+                   // Handle exception
+               }
+           }
+           $emailList = $entityManager->getRepository(MailList::class)->findAll();
+           $emailList = array_map(function($mailList) {
+               return $mailList->getEmail();
+           }, $emailList);
+           foreach ($emailList as $email) {
+            $html = $twig->render('LanciniMarket/mail.html.twig', [             
+                'produit' => $produit, ]);
+               $email = (new Email())
+                       ->from('lancinimarket@gmail.com')
+                       ->to($email)
+                       ->subject('New Product Alert!')
+                       ->html($html);
+                   
+               $mailer->send($email);
+           }
+           $produitRepository->save($produit, true);
+   
+           return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+       }
+   
+       return $this->renderForm('produit/new.html.twig', [
+           'produit' => $produit,
+           'form' => $form,
+       ]);
+   }
+   
 
     #[Route('/{idproduit}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response

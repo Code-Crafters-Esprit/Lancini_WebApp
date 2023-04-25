@@ -36,7 +36,7 @@ class Produit
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
     private $description;
     #[ORM\Column(name: "image", type:"string", length:255, nullable: false, options: ["default" => "default_image.png"])]
-    private $image;
+    private $image="img.jpg";
 
     
     #[Assert\Image(maxSize :"5M",maxSizeMessage : "The maximum allowed file size is {{ limit }}", mimeTypes :["image/png", "image/jpeg", "image/jpg", "image/gif"], mimeTypesMessage :"Please upload a valid image file")]
