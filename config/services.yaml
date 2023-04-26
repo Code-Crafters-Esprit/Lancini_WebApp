@@ -46,9 +46,14 @@ services:
         class: Knp\Component\Pager\PaginatorInterface
         arguments: ['@knp_paginator']
 
-    App\Controller\LanguageController:
-        arguments: ['%locale%']
-        tags: ['controller.service_arguments']
     Symfony\Component\HttpFoundation\Session\SessionInterface: '@session'
     App\Locale\LocaleResolver:
         arguments: ['%env(DEFAULT_LOCALE)%']
+
+    App\Controller\LanguageController:
+        class: App\Controller\LanguageController
+        autowire: true
+        arguments:
+            - '@session'
+            - '@App\Locale\LocaleResolver'
+        tags: ['controller.service_arguments']

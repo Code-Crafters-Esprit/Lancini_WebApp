@@ -14,12 +14,9 @@
   {# render the list of products #}
 <div class="wrapper">
   <form id="search-form" action="{{ path('app_market_index') }}" method="get">
-<form action="{{ path('language_switcher', {'locale': app.request.get('locale', app.session.get('locale', 'fr'))}) }}" method="get">
-    <select name="locale" onchange="this.form.submit()">
-        <option value="en" {% if app.request.get('locale', app.request.get('locale')) == 'en' %}selected{% endif %}>{{ 'English'|trans }}</option>
-        <option value="fr" {% if app.request.get('locale', app.request.get('locale')) == 'fr' %}selected{% endif %}>{{ 'Français'|trans }}</option>
-    </select>
-</form>
+<a href="{{ path('language_switcher', {'locale': 'en'}) }}">English</a>
+<a href="{{ path('language_switcher', {'locale': 'fr'}) }}">Français</a>
+
     <div class="search-filter-container">
      <div class="search-container">
 
