@@ -34,6 +34,8 @@ class UserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
+
+        $request->getSession()->set('disable_serialization', true);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
