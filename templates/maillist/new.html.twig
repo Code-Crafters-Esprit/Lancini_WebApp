@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New Maillist</title>
+
+{% block body %}
+    <h1>Create new Maillist</h1>
+
+    {{ include('maillist/_form.html.twig') }}
+
+    <a href="{{ path('app_maillist_index') }}">back to list</a>
+{% endblock %}

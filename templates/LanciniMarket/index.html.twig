@@ -9,52 +9,60 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ asset('assets/css/cards.css') }}">
    <script src="https://js.stripe.com/v3/"></script>
-  {# render the list of products #}
- <div class="wrapper">
-  <form action="{{ path('app_market_index') }}" method="get" class="search-filter-form">
-
    
+
+  {# render the list of products #}
+<div class="wrapper">
+  <form id="search-form" action="{{ path('app_market_index') }}" method="get">
+<form action="{{ path('language_switcher', {'locale': app.request.get('locale', app.session.get('locale', 'fr'))}) }}" method="get">
+    <select name="locale" onchange="this.form.submit()">
+        <option value="en" {% if app.request.get('locale', app.request.get('locale')) == 'en' %}selected{% endif %}>{{ 'English'|trans }}</option>
+        <option value="fr" {% if app.request.get('locale', app.request.get('locale')) == 'fr' %}selected{% endif %}>{{ 'Français'|trans }}</option>
+    </select>
+</form>
     <div class="search-filter-container">
      <div class="search-container">
-      <input type="text" placeholder="Search Products..." name="search" value="{{ app.request.query.get('search') }}">
+
+      <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{{ 'Search...' |trans }}">
+
       <button type="submit"><i class="fa fa-search"></i></button>
     </div>
       <div class="filter-container">
         <div class="filter">
-          <h5>Category</h5>
+          <h5>{{ 'Category'|trans }}</h5>
           <ul>
             <li>
               <input type="checkbox" id="category1" name="category[]" value="Avatars" {{ 'Avatars' in app.request.query.get('category', []) ? 'checked' : '' }}>
-              <label for="category1">Avatars</label>
+              <label for="category1">{{ 'Avatars'|trans }}</label>
             </li>
             <li>
               <input type="checkbox" id="category2" name="category[]" value="Mascott" {{ 'Mascott' in app.request.query.get('category', []) ? 'checked' : '' }}>
-              <label for="category2">Mascott</label>
+              <label for="category2">{{ 'Mascott'|trans }}</label>
             </li>
             <li>
               <input type="checkbox" id="category3" name="category[]" value="Wallpaper" {{ 'Wallpaper' in app.request.query.get('category', []) ? 'checked' : '' }}>
-              <label for="category3">Wallpaper</label>
+              <label for="category3">{{ 'Wallpaper'|trans }}</label>
             </li>
             <li>
               <input type="checkbox" id="category4" name="category[]" value="Backgrounds" {{ 'Backgrounds' in app.request.query.get('category', []) ? 'checked' : '' }}>
-              <label for="category4">Backgrounds</label>
+              <label for="category4">{{ 'Backgrounds'|trans }}</label>
             </li>
              <li>
               <input type="checkbox" id="category5" name="category[]" value="Graphic Design" {{ 'Graphic Design' in app.request.query.get('category', []) ? 'checked' : '' }}>
-              <label for="category5">Graphic Design</label>
+              <label for="category5">{{ 'Graphic Design'|trans }}</label>
             </li>
           </ul>
         </div>
         <div class="filter">
-          <h5>Price</h5>
+          <h5>{{ 'Price'|trans }}</h5>
           <ul>
             <li>
               <input type="checkbox" id="price1" name="price[]" value="price1" {{ 'price1' in app.request.query.get('price', []) ? 'checked' : '' }}>
-              <label for="price1">0dt - 5dt</label>
+              <label for="price1">{{ '0dt - 5dt'|trans }}</label>
             </li>
             <li>
               <input type="checkbox" id="price2" name="price[]" value="price2" {{ 'price2' in app.request.query.get('price', []) ? 'checked' : '' }}>
-              <label for="price2">5dt - 15dt</label>
+              <label for="price2">{{ '5dt - 15dt'|trans }}</label>
             </li>
             <li>
               <input type="checkbox" id="price3" name="price[]" value="price3" {{ 'price3' in app.request.query.get('price', []) ? 'checked' : '' }}>
@@ -86,7 +94,7 @@
               </div>
               <div class="product-price-btn">
   {% if produit.categorie == 'Wallpaper' or produit.categorie == 'Backgrounds' %}
-    {% set amount = produit.prix * 100 %}
+    {% set amount = produit.prix  %}
     <button id="buy-btn" class="buy-btn">
       <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
         <i class="fa fa-shopping-cart"></i>
@@ -137,13 +145,12 @@
 <script>
 const stripe = Stripe('your-stripe-public-key');
 
-document.getElementById('buy-btn').addEventListener('click', function(event) {
-  // Prevent the default behavior of the button click
-  event.preventDefault();
-
+const buyButtons = document.querySelectorAll('.buy-btn');
+buyButtons.forEach(button => {
+  button.addEventListener('click', function(event) {
   // Get the product details and price from the HTML
-  const productName = 'Product Name'; // Replace with your product name
-  const productPrice = document.querySelector('.buy-btn p').textContent;
+  const productName = 'Product Name'; 
+  const productPrice = document.querySelectorAll('.buy-btn p').textContent;
 
   // Send an AJAX request to your server with the product details and price
   const xhr = new XMLHttpRequest();
@@ -160,10 +167,95 @@ document.getElementById('buy-btn').addEventListener('click', function(event) {
     }
   };
   xhr.send(encodeURI('productName=' + productName + '&productPrice=' + productPrice));
+  });
 });
 </script>
 
 {% endblock %}
 {% block footer %}
-  
+<!-- footer -->
+<section id="footer" class="main-footer">
+  <div class="row">
+    <div class="logo text-center">
+      <h1>Lanicni</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="subscribe text-center">
+      <h3>Get exclusive content and deals</h3>
+      <p>Join our community and never miss a beat. Sign up to receive our newsletter and get access to insider content, early-bird deals, and more!</p>
+      <form id="join-form" action="{{ path('app_maillist_new') }}" method="post">
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary" data-url="{{ path('app_maillist_new') }}">Join Now</button>
+    </form>
+        <div id="success-message" style="display:none;">You have successfully joined our mailing list!</div>
+
+      <p class="small-text">We respect your privacy and won't share your email with anyone else.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="copyright text-center">
+      <p>© 2023 Technext. Designed and Developed by <a href="#"><span class="theme">CodeCrafters</span></a></p>
+    </div>
+  </div>
+</section><!-- footer -->
+<script>
+const form = document.querySelector('#join-form');
+const successMessage = document.querySelector('#success-message');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const url = form.getAttribute('data-url');
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      form.style.display = 'none';
+      successMessage.style.display = 'block';
+    } else {
+      alert('An error occurred while trying to join the mailing list.');
+    }
+  })
+  .catch(error => console.error(error));
+});
+
+</script>
+
+<script>
+document.querySelectorAll('.filter-input').forEach(input => {
+  input.addEventListener('change', updateSearchResults);
+});
+function updateSearchResults() {
+  // Get the values of all the filter inputs
+  const filters = {};
+  document.querySelectorAll('.filter-input').forEach(input => {
+    filters[input.name] = input.value;
+  });
+
+  // Send an AJAX request to the server with the filter values
+  fetch('/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(filters)
+  })
+  .then(response => response.json())
+  .then(results => {
+    // Update the search results on the page
+    document.querySelector('.search-results').innerHTML = results;
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
+</script>
 {% endblock %}

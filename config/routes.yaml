@@ -2,3 +2,6 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+language_switcher:
+    path: /language/{locale}
+    controller: App\Controller\LanguageController::switchLocale

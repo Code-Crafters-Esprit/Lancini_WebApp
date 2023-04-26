@@ -12,6 +12,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Mime\Email;
+use App\Form\MaillistType;
 
 
 
@@ -52,7 +54,7 @@ class ProduitController extends AbstractController
         ]);
     } 
     #[Route('/market', name: 'app_market_index', methods: ['GET'])]
-    public function list(Request $request, ProduitRepository $produitRepository, PaginatorInterface $paginator): Response
+    public function list(Request $request, ProduitRepository $produitRepository, PaginatorInterface $paginator, MaillistRepository $maillistRepository): Response
     {
         $searchTerm = $request->query->get('search', '');
         $categoryFilters = (array) $request->query->get('category', []);
@@ -93,10 +95,75 @@ class ProduitController extends AbstractController
             9 // limit of 10 items per page
         );
     
+        $maillist = new Maillist();
+        $form = $this->createForm(MaillistType::class, $maillist);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $maillistRepository->save($maillist, true);
+    
+            return new JsonResponse(['success' => true]);
+        }
+    
+       
+    
         return $this->render('LanciniMarket/index.html.twig', [
             'produits' => $produits,
+            'maillist' => $maillist,
+            'form' => $form->createView(),
+            'search' => $searchTerm,
         ]);
     }
+    #[Route('/market/search', name: 'app_market_search', methods: ['GET'])]
+public function search(Request $request, ProduitRepository $produitRepository): JsonResponse
+{
+    $searchTerm = $request->query->get('search', '');
+    $categoryFilters = (array) $request->query->get('category', []);
+    $priceFilters = (array) $request->query->get('price', []);
+
+    $produitsQuery = $produitRepository->createQueryBuilder('p');
+
+    // Apply search term filter
+    if (!empty($searchTerm)) {
+        $produitsQuery->andWhere('LOWER(p.nom) LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
+    }
+
+    // Apply category filters
+    if (!empty($categoryFilters)) {
+        $produitsQuery->andWhere('p.categorie IN (:categories)')
+            ->setParameter('categories', $categoryFilters);
+    }
+
+    // Apply price filters
+    if (!empty($priceFilters)) {
+        $priceFilterQuery = $produitsQuery->expr()->orX();
+        foreach ($priceFilters as $filter) {
+            if ($filter === 'price1') {
+                $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 0, 5));
+            } elseif ($filter === 'price2') {
+                $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 5, 15));
+            } elseif ($filter === 'price3') {
+                $priceFilterQuery->add($produitsQuery->expr()->gt('p.prix', 15));
+            }
+        }
+        $produitsQuery->andWhere($priceFilterQuery);
+    }
+
+    $produits = $produitsQuery->getQuery()->getResult();
+
+    $data = [];
+    foreach ($produits as $produit) {
+        $data[] = [
+            'nom' => $produit->getNom(),
+            'prix' => $produit->getPrix(),
+            'description' => $produit->getDescription(),
+            'categorie' => $produit->getCategorie(),
+        ];
+    }
+
+    return $this->json($data);
+}
     
    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
    public function new(Request $request, ProduitRepository $produitRepository, MaillistRepository $MaillistRepository, MailerInterface $mailer, EntityManagerInterface $entityManager, Environment $twig): Response

@@ -31,7 +31,7 @@ class StripeController extends AbstractController
     throw $this->createNotFoundException('The product does not exist');
     }
     
-    $amount = $produit->getPrix() * 100; // Convert the price to cents'
+    $amount = $produit->getPrix() ; // Convert the price to cents'
     $successUrl = $this->generateUrl('app_produit_buy', ['idproduit' => $produit->getIdproduit()], UrlGeneratorInterface::ABSOLUTE_URL);
     $cancelUrl = 'https://example.com/cancel';
     

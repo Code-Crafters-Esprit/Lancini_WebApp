@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     timezone: 'Africa/Tunis'
+    locale: '%env(DEFAULT_LOCALE)%'
 
 services:
 
@@ -12,6 +13,7 @@ services:
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
             - App\Entity\Produit
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -25,14 +27,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
     App\Entity\:
         resource: '../src/Entity/'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Menu\Builder:
         class: App\Menu\Builder
         autowire: true
-    # app/config/services.yaml
 
     App\Service\StripeService:
         arguments:
@@ -43,3 +46,9 @@ services:
         class: Knp\Component\Pager\PaginatorInterface
         arguments: ['@knp_paginator']
 
+    App\Controller\LanguageController:
+        arguments: ['%locale%']
+        tags: ['controller.service_arguments']
+    Symfony\Component\HttpFoundation\Session\SessionInterface: '@session'
+    App\Locale\LocaleResolver:
+        arguments: ['%env(DEFAULT_LOCALE)%']
