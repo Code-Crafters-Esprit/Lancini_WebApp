@@ -1098,8 +1098,8 @@
 									<button class="intro-menu"></button>
 								</div>
 								{% for person in following %}
-									<a href="{{ path('app_profile', {'idUser': person.useridfollowed.iduser}) }}">
-										<div class="user">
+									<a href="{{ path('app_profile', {'idUser': person.useridfollowed.iduser}) }}" style="margin-bottom: 15px">
+										<div class="user" style="padding-bottom: 8px">
 											<img src={{ asset('uploads/user_photos/' ~ person.useridfollowed.photopath) }} alt="" class="user-img">
 											<div class="username">{{ person.useridfollowed.nom ~ " " ~ person.useridfollowed.prenom }}</div>
 										</div>
@@ -1130,6 +1130,12 @@
 								{% if user.experiences is empty %}
 									<p>no experiences added</p>
 								{% endif %}
+							</div>
+							<div class="album box">
+								<div class="intro-title">
+									Products
+								</div>
+								<p>no products available</p>
 							</div>
 						</div>
 					</div>
