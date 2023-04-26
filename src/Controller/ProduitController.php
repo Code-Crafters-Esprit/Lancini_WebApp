@@ -60,37 +60,10 @@ class ProduitController extends AbstractController
         $categoryFilters = (array) $request->query->get('category', []);
         $priceFilters = (array) $request->query->get('price', []);
     
-        $produitsQuery = $produitRepository->createQueryBuilder('p');
-    
-        // Apply search term filter
-        if (!empty($searchTerm)) {
-            $produitsQuery->andWhere('LOWER(p.nom) LIKE :searchTerm')
-                ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
-        }
-    
-        // Apply category filters
-        if (!empty($categoryFilters)) {
-            $produitsQuery->andWhere('p.categorie IN (:categories)')
-                ->setParameter('categories', $categoryFilters);
-        }
-    
-        // Apply price filters
-        if (!empty($priceFilters)) {
-            $priceFilterQuery = $produitsQuery->expr()->orX();
-            foreach ($priceFilters as $filter) {
-                if ($filter === 'price1') {
-                    $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 0, 5));
-                } elseif ($filter === 'price2') {
-                    $priceFilterQuery->add($produitsQuery->expr()->between('p.prix', 5, 15));
-                } elseif ($filter === 'price3') {
-                    $priceFilterQuery->add($produitsQuery->expr()->gt('p.prix', 15));
-                }
-            }
-            $produitsQuery->andWhere($priceFilterQuery);
-        }
+        $produits = $produitRepository->findByFilters($searchTerm, $categoryFilters, $priceFilters);
     
         $produits = $paginator->paginate(
-            $produitsQuery->getQuery(),
+            $produits,
             $request->query->getInt('page', 1),
             9 // limit of 10 items per page
         );
@@ -105,8 +78,6 @@ class ProduitController extends AbstractController
             return new JsonResponse(['success' => true]);
         }
     
-       
-    
         return $this->render('LanciniMarket/index.html.twig', [
             'produits' => $produits,
             'maillist' => $maillist,
@@ -114,7 +85,7 @@ class ProduitController extends AbstractController
             'search' => $searchTerm,
         ]);
     }
-    #[Route('/market/search', name: 'app_market_search', methods: ['GET'])]
+     #[Route('/market/search', name: 'app_market_search', methods: ['GET'])]
 public function search(Request $request, ProduitRepository $produitRepository): JsonResponse
 {
     $searchTerm = $request->query->get('search', '');

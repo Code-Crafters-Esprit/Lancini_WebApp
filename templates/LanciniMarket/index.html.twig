@@ -228,34 +228,4 @@ form.addEventListener('submit', (event) => {
 
 </script>
 
-<script>
-document.querySelectorAll('.filter-input').forEach(input => {
-  input.addEventListener('change', updateSearchResults);
-});
-function updateSearchResults() {
-  // Get the values of all the filter inputs
-  const filters = {};
-  document.querySelectorAll('.filter-input').forEach(input => {
-    filters[input.name] = input.value;
-  });
-
-  // Send an AJAX request to the server with the filter values
-  fetch('/search', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(filters)
-  })
-  .then(response => response.json())
-  .then(results => {
-    // Update the search results on the page
-    document.querySelector('.search-results').innerHTML = results;
-  })
-  .catch(error => {
-    console.error(error);
-  });
-}
-
-</script>
 {% endblock %}
