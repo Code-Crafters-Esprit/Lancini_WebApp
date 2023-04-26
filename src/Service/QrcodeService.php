@@ -2,33 +2,32 @@
 
 namespace App\Service;
 
-use App\Entity\Reclamation;
-use BaconQrCode\Renderer\ImageRenderer;
-use BaconQrCode\Renderer\RendererStyle\RendererStyle;
-use BaconQrCode\Writer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Endroid\QrCode\Builder\BuilderInterface;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
-class QrcodeService
-{
-    private $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+class QrcodeService{
+    /**
+     * @var BuilderInterface
+     */
+    protected $builder;
+    public function __construct(BuilderInterface $builder)
     {
-        $this->urlGenerator = $urlGenerator;
+        $this->builder = $builder;
+
     }
+    public function qrcode($query){
+        $result=$this-> builder
+            ->data($query)
+            ->encoding(new Encoding('UTF-8'))
+            ->size(400)
+            ->margin(10)
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->build()
 
-    public function qrcode(Reclamation $reclamation)
-    {
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new \BaconQrCode\Renderer\Image\SvgImageBackEnd()
-        );
-        $writer = new Writer($renderer);
-        $data = $this->urlGenerator->generate('app_reclamation_show', ['id' => $reclamation->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $qrCode = $writer->writeString($data);
-        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
-
-        return $dataUri;
+        ;
+        $namePng = uniqid('','') . '.png';
+   
+        return $result->getDataUri();
     }
 }
-

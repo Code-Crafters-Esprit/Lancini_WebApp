@@ -1,0 +1,7 @@
+{% block body %}
+    <div class="card-footer d-flex justify-content-end mt-auto">
+        {% if qrCode is defined and qrCode is not empty %}
+            <img src="{{ qrCode }}" alt="QR Code">
+        {% endif %}
+    </div>
+{% endblock %}

@@ -60,23 +60,23 @@ class ReclamationController extends AbstractController
     #[Route('/{id}/download-pdf', name: 'app_reclamation_download_pdf', methods: ['GET'])]
 public function downloadPdf(Reclamation $reclamation)
 {
-    // Créer une instance de Dompdf avec des options
+    
     $options = new Options();
     $options->set('defaultFont', 'Arial');
     $dompdf = new Dompdf($options);
 
-    // Générer le contenu HTML à partir du template Twig
+    
     $html = $this->renderView('reclamation/pdf.html.twig', [
         'reclamation' => $reclamation,
     ]);
 
-    // Charger le contenu HTML dans Dompdf
+    
     $dompdf->loadHtml($html);
 
-    // Rendre le PDF
+    
     $dompdf->render();
 
-    // Envoyer le PDF en tant que réponse HTTP
+    
     $response = new Response($dompdf->output());
     $response->headers->set('Content-Type', 'application/pdf');
     $response->headers->set('Content-Disposition', 'attachment;filename="' . $reclamation->getId() . '.pdf"');
@@ -121,10 +121,9 @@ public function downloadPdf(Reclamation $reclamation)
     }
     
     #[Route('/generate_qr_code/{id}', name:'qrCode')]
-   
     public function qrCode( QrcodeService $qrcodeService,$id)
     {
-        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+        $reclamation = $this->getDoctrine()->getRepository(reclamation::class)->find($id);
 
         $qrCode = $qrcodeService->qrcode($reclamation);
 
@@ -133,6 +132,7 @@ public function downloadPdf(Reclamation $reclamation)
             'qrCode' => $qrCode
         ]);
     }
+
     
     
     
