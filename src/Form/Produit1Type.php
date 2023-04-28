@@ -36,7 +36,9 @@ class Produit1Type extends AbstractType
            
             ->add('vendeur', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'nom',
+                'choice_label' => function (User $user) {
+                    return $user->getNom() . ' ' . $user->getPrenom();
+                },
                 'placeholder' => 'Choose a seller',
             ]);
             

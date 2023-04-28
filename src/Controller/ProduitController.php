@@ -12,6 +12,8 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -257,17 +259,27 @@ public function search(Request $request, ProduitRepository $produitRepository): 
 
 #[Route('/{idproduit}', name: 'app_produit_delete', methods: ['POST'])]
 public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-{
-    if ($this->isCsrfTokenValid('delete'.$produit->getIdproduit(), $request->request->get('_token'))) {
-        // Check if the image is null and set it to a default image if it is
-        if ($produit->getImage() === null) {
-            $produit->setImage('default_image.png');
+{  
+    $filesystem= new Filesystem();
+    try {
+        $imagePath = $this->getParameter('kernel.project_dir') . '/public/images/products'.'/'.$produit->getImage();
+        if ($produit->getImage() !== null && $filesystem->exists($imagePath)) {
+            $filesystem->remove($imagePath);
         }
-        $produitRepository->remove($produit, true);
+        if ($this->isCsrfTokenValid('delete'.$produit->getIdproduit(), $request->request->get('_token'))) {
+            // Check if the image is null and set it to a default image if it is
+            if ($produit->getImage() === null) {
+                $produit->setImage('default_image.png');
+            }
+            $produitRepository->remove($produit, true);
+        }
+    } catch (\Exception $e) {
+        // handle the exception, for example:
+        $this->addFlash('error', 'An error occurred while deleting the item.');
+        return $this->redirectToRoute('app_produit_index');
     }
 
     return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
 }
-
 
 }

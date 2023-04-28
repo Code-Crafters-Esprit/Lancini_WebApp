@@ -164,8 +164,9 @@ class Produit
     }
 
     public function __toString() {
-        return $this->nom;
+        return $this->nom ;
     }
+    
     public function __construct()
     {
         $this->image = 'default_image.png';
