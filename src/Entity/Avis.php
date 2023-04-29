@@ -19,7 +19,7 @@ class Avis
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $id = null;
+    private $idavis = null;
 
     #[ORM\Column(length:100)]
     #[Assert\NotNull]
@@ -49,7 +49,7 @@ class Avis
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->idavis;
     }
 
     public function getDescription(): ?string
@@ -112,9 +112,9 @@ class Avis
         return $this;
     }
 
-    public function getIdAvis(): ?string
+    public function getIdAvis(): ?int
     {
-        return $this->id;
+        return $this->idavis;
     }
     public function __toString()
     {

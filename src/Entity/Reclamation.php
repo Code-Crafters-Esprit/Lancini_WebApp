@@ -17,7 +17,7 @@ class Reclamation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private  $id= null;
+    private  $id;
     #[ORM\Column(name: "nom", type: "string", length: 10, nullable: false)]     
       #[Assert\Regex( pattern:"/^[A-Za-z]+$/", message:"Le champ nom ne doit contenir que des lettres.")]
         private string $nom;    
@@ -63,8 +63,8 @@ class Reclamation
 
     
     #[ORM\ManyToOne(targetEntity: Avis::class)]
-    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
-    private $idAvis;
+    #[ORM\JoinColumn(name: "id", referencedColumnName: "idavis")]
+    private $idavis;
 
     public function getNom(): ?string
     {
@@ -152,13 +152,13 @@ class Reclamation
 
     public function getIdAvis(): ?Avis
     {
-        return $this->idAvis;
+        return $this->idavis;
     }
     
 
-    public function setIdAvis(?Avis $idAvis): self
+    public function setIdAvis(?Avis $idavis): self
     {
-        $this->idAvis = $idAvis;
+        $this->idavis = $idavis;
 
         return $this;
     }
