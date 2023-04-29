@@ -1,6 +1,6 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+download_pdf:
+  path: /download-pdf
+  controller: App\Controller\ReclamationController::downloadPdf
 
 language_switcher:
     path: /language/{locale}

@@ -1,0 +1,140 @@
+{% block body %}
+{% block stylesheets %}
+
+		   <!-- css -->
+           <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/yassbutt.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.transitions.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+	   {% endblock %}
+       <br>
+       <br>
+       <br>
+       <br>
+       
+{% block navbar %}
+
+			
+
+					<section id= "navigation">
+					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  					<div class="container-fluid">
+	    					<div class="navbar-header">
+	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        		<span class="ion-navicon"></span>
+					      		</button>
+					      		<a class="navbar-brand" href="{{ path('app_home') }}"> Lancini </a>
+					    	</div>
+	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      					<ul class="nav navbar-nav navbar-right">
+		      						<li><a href="{{ path('app_home') }}">Home</a></li>
+		      						<li><a href="{{path('app_avis_index')}}" >Feedback</a></li>
+		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
+		        					<li><a href="#Test">Get verified</a></li>
+		        					<li><a href="#blog">Community</a></li>
+		        					<li><a href="{{path('app_reclamation_index')}}">Support</a></li>
+							    </ul>
+	    					</div>	<!-- collapse navbar-collapse -->
+	  					</div>	<!-- container-fluid -->
+					</nav>	<!-- navbar -->
+                    </section>
+                
+				{% endblock %}
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-ciel">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('app_avis_index') }}">Back to list</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_avis_edit', {'id': avi.id}) }}">Edit</a>
+                </li>
+                <li class="nav-item">
+                    {{ include('avis/_delete_form.html.twig') }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/vnioezyi.json"
+    trigger="loop"
+    delay="1501"
+    colors="outline:#110a5c,primary:#4bb3fd"
+    style="width:100px;height:100px">
+</lord-icon>
+<h1>FEEDBACK</h1>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/showav.css') }}">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ avi.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ avi.description }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ avi.note }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ avi.date ? avi.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% block footer %}
+      <!-- footer -->
+		<section id= "footer" class= "main-footer">
+			<div class= "row">
+				<div class= "logo text-center">
+					<h1>Lancini</h1>
+				</div>
+			</div>
+			<div class= "row">
+				<div class= "copyright text-center">
+					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
+				</div>
+			</div>
+		</section><!-- footer -->
+{% endblock %}
+{% endblock %}

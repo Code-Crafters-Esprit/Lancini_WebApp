@@ -1,43 +1,71 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Produit;
+use App\Entity\User;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
-
+#[ApiResource]
 class Reclamation
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private  $id = null;
-    #[ORM\Column(type: "string", length: 10, nullable: false)]
-private $nom;
+    private  $id= null;
+    #[ORM\Column(name: "nom", type: "string", length: 10, nullable: false)]     
+      #[Assert\Regex( pattern:"/^[A-Za-z]+$/", message:"Le champ nom ne doit contenir que des lettres.")]
+        private string $nom;    
 
-    #[ORM\Column(type: "string", length: 10, nullable: false)]
-    private $prenom;
+
+    #[ORM\Column(name: "prenom", type: "string", length: 10, nullable: false)]
     
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    private $description;
-    
+     
+      #[Assert\Regex(pattern:"/^[A-Za-z]+$/",message:"Le champ prenom ne doit contenir que des lettres.")]
+     
+    private string $prenom;
+
+    #[ORM\Column(name: "description", type: "string", length: 255, nullable: false)]
+    private string $description;
+
     #[ORM\Column(name: "sujetdereclamations", type: "string", length: 255, nullable: false)]
-    private $sujetdereclamations;
-    
-    #[ORM\Column(type: "string", length: 150, nullable: false)]
-    private $email;
-    
-    #[ORM\Column(type: "string", length: 100, nullable: false)]
-    private $tel;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: false)]
-    private $etat;
 
-  
+  #[Assert\Regex(pattern:"/^[A-Za-z]+$/",message:"Le champ sujetdereclamations ne doit contenir que des lettres." )]
+ 
+    private string $sujetdereclamations;
+
+    #[ORM\Column(name: "email", type: "string", length: 150, nullable: false)]
+     
+     #[Assert\NotBlank()]
+      #[Assert\Regex( pattern:"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", message:"Le format de l'email '{{ value }}' n'est pas valide. Veuillez saisir une adresse email au format ****@***")]
+     
+    private string $email;
+
+    #[ORM\Column(name: "tel", type: "string", length: 100, nullable: false)]
+    
+     
+     #[Assert\Regex(
+          pattern:"/^\+\d{1,3}\d{8,}$/",
+          message:"Le numéro de téléphone '{{ value }}' n'est pas valide. Veuillez saisir un numéro de téléphone de la forme '+***' contenant au moins 8 chiffres."
+      )]
+      
+     
+    private string $tel;
+
+    #[ORM\Column(name: "etat", type: "string", length: 255, nullable: false)]
+    private string $etat;
+
+
+    
     #[ORM\ManyToOne(targetEntity: Avis::class)]
-    #[ORM\JoinColumn(name: "idAvis", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
     private $idAvis;
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -126,6 +154,7 @@ private $nom;
     {
         return $this->idAvis;
     }
+    
 
     public function setIdAvis(?Avis $idAvis): self
     {
@@ -151,4 +180,11 @@ private $nom;
 		$this->id = $id;
 		return $this;
 	}
+    public function __toString()
+    {
+        return $this->getNom() . ' - ' . $this->getDescription(). ' - ' . $this->getPrenom(). ' - ' .$this->getSujetdereclamations() ;
+
+
+    }
+    
 }

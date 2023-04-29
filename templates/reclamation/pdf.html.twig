@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<img src="img/logo.png">
+    <meta charset="UTF-8">
+    <title>{{ reclamation.nom }} - {{ reclamation.prenom }}</title>
+    <style>
+        /* Styles pour le header */
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        /* Styles pour le contenu */
+        main {
+            max-width: 600px;
+            margin: auto;
+            padding: 2em;
+        }
+        h1 {
+            font-size: 2em;
+            margin-top: 0;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        /* Styles pour le footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        img {
+            display: block;
+            margin: auto;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        
+        <h1>{{ reclamation.description }}</h1>
+        <p>{{ reclamation.sujetdereclamations }}</p>
+    </header>
+    <main>
+        <p>Nom: {{ reclamation.nom }}</p>
+        <p>Prénom: {{ reclamation.prenom }}</p>
+        <p>Email: {{ reclamation.email }}</p>
+        <p>Téléphone: {{ reclamation.tel }}</p>
+    </main>
+    <footer>
+        <p>Adresse: Esprit Rue de Code Crafters, Ariana, Tunis | Téléphone: +21658412611 | Email: lancini@gmail.com</p>
+    </footer>
+     Lancini.tn
+</body>
+</html>

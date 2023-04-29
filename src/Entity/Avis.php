@@ -6,34 +6,46 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
 use Symfony\Component\Validator\Constraints\Date;
-use App\Entity\User;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
+#[ApiResource]
 
 class Avis
 {
+    #[ApiProperty]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private $id = null;
 
     #[ORM\Column(length:100)]
+    #[Assert\NotNull]
+    #[ApiProperty]
     private  $description = null;
 
-    #[ORM\Column]
-    private $note = null;
+     
+     #[ORM\Column(type:"decimal", precision:3, scale:1)]
+     #[assert\NotBlank]
+     #[Assert\Range(min:0, max:5)]
+    private $note;
 
     #[ORM\Column(type: "date")]
     private  $date = null;
 
-
     #[ORM\ManyToOne(targetEntity: Produit::class)]
     #[ORM\JoinColumn(name: "idProduit", referencedColumnName: "idProduit")]
+    #[Assert\NotNull]
     private $idProduit;
 
+
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "idEvaluateurUser", referencedColumnName: "idUser")]
-    private $idEvaluateurUser;
+    #[ORM\JoinColumn(name: "idevaluateuruser", referencedColumnName: "idUser")]
+    #[Assert\NotNull]
+    private $idevaluateuruser;
+ 
 
     public function getId(): ?int
     {
@@ -52,12 +64,12 @@ class Avis
         return $this;
     }
 
-    public function getNote(): ?int
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
-    public function setNote(int $note): self
+    public function setNote(string $note): self
     {
         $this->note = $note;
 
@@ -76,12 +88,12 @@ class Avis
         return $this;
     }
 
-    public function getIdproduit(): ?Produit
+    public function getIdProduit(): ?Produit
     {
         return $this->idProduit;
     }
 
-    public function setIdproduit(?Produit $idProduit): self
+    public function setIdProduit(?Produit $idProduit): self
     {
         $this->idProduit = $idProduit;
 
@@ -104,6 +116,9 @@ class Avis
     {
         return $this->id;
     }
-
+    public function __toString()
+    {
+        return $this->description;
+    }
 
 }

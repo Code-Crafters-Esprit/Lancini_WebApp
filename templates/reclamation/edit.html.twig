@@ -1,0 +1,121 @@
+{% block body %}
+{% block stylesheets %}
+
+		   <!-- css -->
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.transitions.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+	   {% endblock %}
+{% block navbar %}
+
+			
+
+					<section id= "navigation">
+					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  					<div class="container-fluid">
+	    					<div class="navbar-header">
+	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        		<span class="ion-navicon"></span>
+					      		</button>
+					      		<a class="navbar-brand" href="{{ path('app_home') }}"> Lancini </a>
+					    	</div>
+	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      					<ul class="nav navbar-nav navbar-right">
+		      						<li><a href="{{ path('app_home') }}">Home</a></li>
+		      						<li><a href="{{path('app_avis_index')}}" >Feedback</a></li>
+		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
+		        					<li><a href="#Test">Get verified</a></li>
+		        					<li><a href="#blog">Community</a></li>
+		        					<li><a href="{{path('app_reclamation_index')}}">Support</a></li>
+							    </ul>
+	    					</div>	<!-- collapse navbar-collapse -->
+	  					</div>	<!-- container-fluid -->
+					</nav>	<!-- navbar -->
+                    </section>
+                
+				{% endblock %}
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
+  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_index') }}">Back to List<span
+            class="sr-only"></span></a>
+        <a class="nav-item nav-link active text-white" href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
+      </div>
+    </div>
+  </nav>
+
+  <h1 class="title">Edit your details</h1>
+
+  {{ include('reclamation/_form.html.twig', {'button_label': 'Update'}) }}
+<h1><script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/bxxnzvfm.json"
+    trigger="loop"
+    delay="2000"
+    colors="primary:#1663c7,secondary:#ffc738,tertiary:#f9c9c0,quaternary:#ebe6ef"
+    state="hover-2"
+    style="width:100px;height:100px">
+</lord-icon></h1>
+  {{ include('reclamation/_delete_form.html.twig') }}
+   {% block footer %}
+	
+		<!-- footer -->
+		<section id= "footer" class= "main-footer">
+			<div class= "row">
+				<div class= "logo text-center">
+					<h1>Lancini</h1>
+				</div>
+			</div>
+			<div class= "row">
+				<div class= "copyright text-center">
+					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
+				</div>
+			</div>
+		</section><!-- footer -->
+{% endblock %}
+{% endblock %}

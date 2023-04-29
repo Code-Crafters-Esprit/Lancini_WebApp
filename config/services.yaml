@@ -15,6 +15,10 @@ services:
         arguments:
             - App\Entity\Produit
 
+    App\Service\QrcodeService:
+        arguments:
+            $urlGenerator: '@router'
+
     # default configuration for services in *this* file
 # Register the EventParticipantCountValidator as a service
     App\Validator\EventParticipantCountValidator:

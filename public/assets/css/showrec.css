@@ -1,0 +1,59 @@
+
+body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+
+  h1, th {
+    color: #005A8C;
+  }
+  
+  td {
+    color: #333;
+  }
+  
+  .table {
+    margin-bottom: 30px;
+  }
+  
+  
+  .table td, .table th {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  
+  .table th {
+    background-color: #f5f5f5;
+  }
+  
+  
+  a {
+    color: #005A8C;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  .edit-icon {
+    background-image: url('https://cdn.icon-i   cons.com/icons2/875/PNG/512/editing-pencil_icon-icons.com_68219.png');
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .delete-icon {
+    background-image: url('delete_outline_icon_148544.png');
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .centered {
+    margin: 0 auto;
+  }
+    

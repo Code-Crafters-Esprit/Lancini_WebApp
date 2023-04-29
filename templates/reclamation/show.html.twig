@@ -1,0 +1,148 @@
+{% block body %}
+
+
+{% block stylesheets %}
+
+		   <!-- css -->
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.transitions.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+	    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+	   {% endblock %}
+      
+<style>
+.navbar {
+  background-color: #87CEEB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('app_reclamation_index') }}">Lancini Support</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_reclamation_index') }}">Back to List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+ <div class="card-footer d-flex justify-content-end mt-auto">
+          {% if qrCode is defined and qrCode is not empty %}
+                  <img src="{{ qrCode }}" alt="QR Code">
+          {% endif %}
+  </div>
+<div class="container">
+    <h1>Claim delivered</h1>
+  <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/vufjamqa.json"
+    trigger="loop"
+    delay="1500"
+    colors="primary:#1663c7"
+    style="width:100px;height:100px">
+</lord-icon>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/showrec.css') }}">
+
+    <table class="table centered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reclamation.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ reclamation.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ reclamation.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ reclamation.description }}</td>
+            </tr>
+            <tr>
+                <th>Sujetdereclamations</th>
+                <td>{{ reclamation.sujetdereclamations }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ reclamation.email }}</td>
+            </tr>
+            <tr>
+                <th>Tel</th>
+                <td>{{ reclamation.tel }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ reclamation.etat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('reclamation/_delete_form.html.twig') }}
+</div>
+<a href="{{ path('app_reclamation_download_pdf', {'id': reclamation.id}) }}" class="btn btn-primary">
+    Télécharger PDF
+</a>
+
+<a href="{{ path('qrCode', {'id': reclamation.id}) }}" class="btn btn-primary">Scanner le QR code</a>
+
+
+
+
+  {% block footer %}
+	
+		<!-- footer -->
+		<section id= "footer" class= "main-footer">
+			<div class= "row">
+				<div class= "logo text-center">
+					<h1>Lancini</h1>
+				</div>
+			</div>
+			<div class= "row">
+				<div class= "copyright text-center">
+					<p> © 2023  Designed and Developed by Code Crafters</span> </p>
+				</div>
+			</div>
+		</section><!-- footer -->
+        
+{% endblock %}
+
+{% endblock %}
+

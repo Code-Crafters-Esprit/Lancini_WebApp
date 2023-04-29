@@ -1,0 +1,49 @@
+{% block body %}
+{% block stylesheets %}
+<!-- CSS -->
+<link rel="stylesheet" href="{{ asset('css/yassbutt.css') }}">
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+<link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+<link rel="stylesheet" href="{{ asset('css/owl.transitions.css') }}">
+<link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{% endblock %}
+
+
+
+
+<h1>We would love to hear from you!</h1>
+
+
+<div class="d-flex justify-content-center">
+    <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+    <lord-icon src="https://cdn.lordicon.com/kjkiqtxg.json" trigger="loop" delay="1000" style="width:100px;height:100px"></lord-icon>
+</div>
+
+{{ include('avis/_form.html.twig') }}
+
+<a href="{{ path('app_avis_index') }}">Back to list</a>
+
+{% block footer %}
+    <!-- Footer -->
+    <section id="footer" class="main-footer">
+        <div class="row">
+            <div class="logo text-center">
+                <h1>Lancini</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="copyright text-center">
+                <p>© 2023 Designed and Developed by Code Crafters</p>
+            </div>
+        </div>
+    </section><!-- End of footer -->
+{% endblock %}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/formav.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/yassbutt.css') }}">
+{% endblock %}
