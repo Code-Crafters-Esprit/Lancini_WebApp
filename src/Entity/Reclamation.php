@@ -8,11 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
-
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 #[ApiResource]
 class Reclamation
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

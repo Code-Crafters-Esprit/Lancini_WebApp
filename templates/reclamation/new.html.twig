@@ -1,7 +1,10 @@
 {% block body %}
+
 {% block stylesheets %}
 
+
 		   <!-- css -->
+		
 		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -54,7 +57,7 @@
     delay="1500"
     style="width:150px;height:150px">
 </lord-icon>
-  <h1>Create new claim</h1>
+  <h1>What is your issue ?</h1>
 
   {{ include('reclamation/_form.html.twig') }}
 </div>
@@ -69,6 +72,7 @@
     h1.style.color = 'black';
   });
 </script>
+
 {% block footer %}
 	
 		<!-- footer -->
@@ -85,6 +89,7 @@
 			</div>
 		</section><!-- footer -->
 {% endblock %}
+
 {% endblock %}
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/formrec.css') }}">
