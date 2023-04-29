@@ -1,0 +1,4 @@
+knp_menu:
+    default_renderer: twig # Or use 'list' if you prefer the HTML ul/li list format
+    twig:
+        template: 'menu.html.twig' # Your custom template, if any

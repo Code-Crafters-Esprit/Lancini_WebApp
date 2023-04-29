@@ -1,0 +1,60 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block body %}
+{% block block_name %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+{% endblock %}
+
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5">{{ produit.nom }}</h1>
+    <table class="table table-striped">
+        <tbody>
+           
+            <tr>
+                <th>Category</th>
+                <td>{{ produit.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Product Name</th>
+                <td>{{ produit.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                {% if produit.image %}
+    <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="{{ produit.image }}" class="img-fluid" />
+{% endif %}</td>
+                
+
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ produit.prix }} dt</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ produit.date ? produit.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+      <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">back to list</a>
+
+    <a href="{{ path('app_produit_edit', {'idproduit': produit.idproduit}) }}" class="btn btn-warning">edit</a>
+
+    {{ include('produit/_delete_form.html.twig') }}
+</div>
+  
+{% endblock %}
+{% block footer %}
+    
+{% endblock %}

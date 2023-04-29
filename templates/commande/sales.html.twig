@@ -1,0 +1,60 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block body %}
+    <canvas id="myChart"></canvas>
+<link rel="stylesheet" href="{{ asset('assets/css/chartproduct.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var data = {{ salesData|json_encode|raw }};
+        var vendeurs = [];
+        var salesCount = [];
+
+        for (var i = 0; i < data.length; i++) {
+            vendeurs.push(data[i][0]);
+            salesCount.push(data[i][1]);
+        }
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: vendeurs,
+                datasets: [{
+                    label: 'Number of Sales',
+                    data: salesCount,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+<h2>List of sellers ordered by sales count:</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Seller Name</th>
+            <th>Sales Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for seller in sellers %}
+            <tr>
+                <td>{{ seller.vendeurNom }}</td>
+                <td>{{ seller.productCount }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+
+{% endblock %}

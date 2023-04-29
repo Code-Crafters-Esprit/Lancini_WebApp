@@ -1,0 +1,228 @@
+
+
+{% extends 'home/base.html.twig' %}
+
+{% block body %}
+
+  {# include necessary scripts and styles #}
+  <script src="{{ asset('assets/js/cards.js') }}"></script>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ asset('assets/css/cards.css') }}">
+   <script src="https://js.stripe.com/v3/"></script>
+   
+
+  {# render the list of products #}
+<div class="wrapper">
+  <form id="search-form" action="{{ path('app_market_index') }}" method="get">
+<a href="{{ path('language_switcher', {'locale': 'en'}) }}">English</a>
+<a href="{{ path('language_switcher', {'locale': 'fr'}) }}">Français</a>
+
+    <div class="search-filter-container">
+     <div class="search-container">
+
+      <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{{ 'Search...' |trans }}">
+
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </div>
+      <div class="filter-container">
+        <div class="filter">
+          <h5>{{ 'Category'|trans }}</h5>
+          <ul>
+            <li>
+              <input type="checkbox" id="category1" name="category[]" value="Avatars" {{ 'Avatars' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category1">{{ 'Avatars'|trans }}</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category2" name="category[]" value="Mascott" {{ 'Mascott' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category2">{{ 'Mascott'|trans }}</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category3" name="category[]" value="Wallpaper" {{ 'Wallpaper' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category3">{{ 'Wallpaper'|trans }}</label>
+            </li>
+            <li>
+              <input type="checkbox" id="category4" name="category[]" value="Backgrounds" {{ 'Backgrounds' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category4">{{ 'Backgrounds'|trans }}</label>
+            </li>
+             <li>
+              <input type="checkbox" id="category5" name="category[]" value="Graphic Design" {{ 'Graphic Design' in app.request.query.get('category', []) ? 'checked' : '' }}>
+              <label for="category5">{{ 'Graphic Design'|trans }}</label>
+            </li>
+          </ul>
+        </div>
+        <div class="filter">
+          <h5>{{ 'Price'|trans }}</h5>
+          <ul>
+            <li>
+              <input type="checkbox" id="price1" name="price[]" value="price1" {{ 'price1' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price1">{{ '0dt - 5dt'|trans }}</label>
+            </li>
+            <li>
+              <input type="checkbox" id="price2" name="price[]" value="price2" {{ 'price2' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price2">{{ '5dt - 15dt'|trans }}</label>
+            </li>
+            <li>
+              <input type="checkbox" id="price3" name="price[]" value="price3" {{ 'price3' in app.request.query.get('price', []) ? 'checked' : '' }}>
+              <label for="price3">>15dt</label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+   
+  </form>
+     <div class="product-container">
+
+        {% for produit in produits %}
+          <div class="product">
+            <div class="product-img">
+              <img src="{{ asset('images/products/' ~ produit.image) }}" alt="{{ produit.nom }}">
+            </div>
+            <div class="product-info">
+              <div class="product-text">
+                <h1>{{ produit.nom }}</h1>
+                <h6>{{ produit.categorie }}</h6>
+                <div class="seller-info">
+                  <div>
+                    <small>{{ produit.description }}</small>
+                  </div>
+                  <small>By {{ produit.vendeur }} {{ produit.vendeur.prenom }}</small>
+                </div>
+              </div>
+              <div class="product-price-btn">
+  {% if produit.categorie == 'Wallpaper' or produit.categorie == 'Backgrounds' %}
+    {% set amount = produit.prix  %}
+    <button id="buy-btn" class="buy-btn">
+      <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
+        <i class="fa fa-shopping-cart"></i>
+      </a>
+      {{ produit.prix }} dt
+    </button>
+  {% endif %}
+  <button class="contact-seller-btn" data-popup="contact-seller-popup">Contact Seller</button>
+  <div class="contact-seller-popup">
+    <p>Phone: {{ produit.vendeur.numtel }}</p>
+    <p>Email: {{ produit.vendeur.email }}</p>
+  </div>
+</div>
+
+            </div>
+          </div>
+        {% endfor %}
+        
+
+      </div>
+     
+</div>
+ <div class="knp-pagination">
+    {{ knp_pagination_render(produits) }}
+</div>
+  {# handle click events of buttons to show or hide pop-ups #}
+  <script>
+    const contactSellerBtns = document.querySelectorAll('.contact-seller-btn');
+    const contactSellerPopups = document.querySelectorAll('.contact-seller-popup');
+
+    for (let i = 0; i < contactSellerBtns.length; i++) {
+      contactSellerBtns[i].addEventListener('click', function(e) {
+        e.stopPropagation();
+        contactSellerPopups[i].classList.toggle('show');
+      });
+    }
+
+    window.addEventListener('click', function() {
+      for (let i = 0; i < contactSellerPopups.length; i++) {
+        if (contactSellerPopups[i].classList.contains('show')) {
+          contactSellerPopups[i].classList.remove('show');
+        }
+      }
+    });
+  </script>
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+const stripe = Stripe('your-stripe-public-key');
+
+const buyButtons = document.querySelectorAll('.buy-btn');
+buyButtons.forEach(button => {
+  button.addEventListener('click', function(event) {
+  // Get the product details and price from the HTML
+  const productName = 'Product Name'; 
+  const productPrice = document.querySelectorAll('.buy-btn p').textContent;
+
+  // Send an AJAX request to your server with the product details and price
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/pay');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Redirect the user to Stripe Checkout
+      stripe.redirectToCheckout({
+        sessionId: xhr.response.sessionId
+      });
+    } else {
+      console.error(xhr.responseText);
+    }
+  };
+  xhr.send(encodeURI('productName=' + productName + '&productPrice=' + productPrice));
+  });
+});
+</script>
+
+{% endblock %}
+{% block footer %}
+<!-- footer -->
+<section id="footer" class="main-footer">
+  <div class="row">
+    <div class="logo text-center">
+      <h1>Lanicni</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="subscribe text-center">
+      <h3>Get exclusive content and deals</h3>
+      <p>Join our community and never miss a beat. Sign up to receive our newsletter and get access to insider content, early-bird deals, and more!</p>
+      <form id="join-form" action="{{ path('app_maillist_new') }}" method="post">
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary" data-url="{{ path('app_maillist_new') }}">Join Now</button>
+    </form>
+        <div id="success-message" style="display:none;">You have successfully joined our mailing list!</div>
+
+      <p class="small-text">We respect your privacy and won't share your email with anyone else.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="copyright text-center">
+      <p>© 2023 Technext. Designed and Developed by <a href="#"><span class="theme">CodeCrafters</span></a></p>
+    </div>
+  </div>
+</section><!-- footer -->
+<script>
+const form = document.querySelector('#join-form');
+const successMessage = document.querySelector('#success-message');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const url = form.getAttribute('data-url');
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      form.style.display = 'none';
+      successMessage.style.display = 'block';
+    } else {
+      alert('An error occurred while trying to join the mailing list.');
+    }
+  })
+  .catch(error => console.error(error));
+});
+
+</script>
+
+{% endblock %}

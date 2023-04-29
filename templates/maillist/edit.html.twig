@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Maillist</title>
+
+{% block body %}
+    <h1>Edit Maillist</h1>
+
+    {{ include('maillist/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_maillist_index') }}">back to list</a>
+
+    {{ include('maillist/_delete_form.html.twig') }}
+{% endblock %}

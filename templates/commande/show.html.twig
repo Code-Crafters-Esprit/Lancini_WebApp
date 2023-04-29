@@ -1,0 +1,51 @@
+{% extends 'admin/index.html.twig' %}
+{% block body %}
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+
+<div class="container mt-5">
+ <table class="table table-striped">
+        <h1 class="text-center mb-5"> Sale {{ commande.idCommande }}  </h1>
+
+    <tbody>
+        <tr>
+            <th>Sale ID</th>
+            <td>{{ commande.idCommande }}</td>
+        </tr>
+        <tr>
+            <th>Product Name</th>
+            <td>{{ commande.produit }}</td>
+        </tr>
+        <tr>
+            <th >Seller</th>
+            <td>{{ commande.vendeur.nom }} {{ commande.vendeur.prenom }}</td>
+        </tr>
+
+        <tr>
+            <th >Buyer</th>
+            <td>{{ commande.acheteur.nom }} {{ commande.acheteur.prenom }}</td>
+        </tr>
+        <tr>
+            <th >Date</th>
+            <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th >Ammount paid/to pay</th>
+            <td>{{ commande.montantpaye }} dt</td>
+        </tr>
+        
+    </tbody>
+</table>
+    <a href="{{ path('app_commande_index') }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Back to list</a>
+
+</div>
+    
+{% endblock %}
+
+{% block footer %}
+    
+{% endblock %}

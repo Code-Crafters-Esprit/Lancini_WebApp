@@ -1,0 +1,69 @@
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-4NGd2l4e3sCFsZKo8iUHtwM7oBCPvKXgUW8fsUdfA6Uevdy6vBkPpW8NJ0y6ObdH6A9jQXWx0gYU6+REU6mBvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+
+
+
+
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+    <div class="form-group">
+  {{ form_label(form.nom, 'Product Name', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'nom'}}) }}
+  <small class="form-text text-muted">Maximum 30 characters, only letters allowed</small>
+  {{ form_errors(form.nom, {attr: {'class': 'invalid-feedback'}}) }}
+</div>
+
+<div class="form-group">
+  <label for="{{ form.categorie.vars.id }}" class="form-label">Category</label>
+  <select class="form-control" id="{{ form.categorie.vars.id }}" name="{{ form.categorie.vars.full_name }}">
+    <option value="Web Template" {% if form.categorie.vars.value == 'Web Template' %}selected{% endif %}>Web Template</option>
+    <option value="Mascott" {% if form.categorie.vars.value == 'Mascott' %}selected{% endif %}>Mascott</option>
+    <option value="Wallpaper" {% if form.categorie.vars.value == 'Wallpaper' %}selected{% endif %}>Wallpaper</option>
+    <option value="Logo Design" {% if form.categorie.vars.value == 'Logo Design' %}selected{% endif %}>Logo Design</option>
+    <option value="Avatars" {% if form.categorie.vars.value == 'Avatars' %}selected{% endif %}>Avatars</option>
+    <option value="Backgrounds" {% if form.categorie.vars.value == 'Backgrounds' %}selected{% endif %}>Backgrounds</option>
+    <option value="Graphic Design" {% if form.categorie.vars.value == 'Graphic Design' %}selected{% endif %}>Graphic Design</option>
+  </select>
+</div>
+
+<div class="form-group">
+  {{ form_label(form.prix, 'Price', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.prix, {'attr': {'class': 'form-control', 'id': 'prix'}}) }}
+  <small class="form-text text-muted">Maximum 4 digits, only numbers allowed</small>
+  {{ form_errors(form.prix, {attr: {'class': 'invalid-feedback'}}) }}
+</div>
+<div class="form-group">
+  {{ form_label(form.vendeur, 'Seller', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.vendeur, {'attr': {'class': 'form-control', 'id': 'vendeur'}}) }}
+</div>
+
+<div class="form-group">
+  {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.description, {'attr': {'class': 'form-control', 'id': 'description'}}) }}
+  <small class="form-text text-muted">Maximum 100 characters</small>
+  {{ form_errors(form.description, {attr: {'class': 'invalid-feedback'}}) }}
+</div>
+
+
+<div class="form-group">
+  {{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.image, {'attr': {'class': 'form-control', 'id': 'image', 'onchange': 'previewImage(event)'}}) }}
+  {{ form_errors(form.image, {attr: {'class': 'invalid-feedback'}}) }}
+</div>
+<div class="text-center mt-3">
+  <img id="image-preview" class="img-thumbnail" style="display: none; width: 150px; height: 150px;">
+  <div id="image-path" style="display: none;"></div>
+</div>
+
+{#<div class="form-group">
+  {{ form_label(form.date, 'Date', {'label_attr': {'class': 'form-label'}}) }}
+  {{ form_widget(form.date, {'attr': {'class': 'form-control', 'id': 'date'}}) }}
+</div>#}
+
+
+    {{ form_widget(form._token) }}
+
+    <button type="submit" class="btn btn-primary">Save</button>

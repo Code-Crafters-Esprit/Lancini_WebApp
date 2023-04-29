@@ -1,0 +1,16 @@
+
+{% extends 'admin/index.html.twig' %}
+{% block body %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <h1 class="text-center mb-5"> Edit Product </h1>
+        <div class="form-container">
+    {{ include('produit/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">back to list </a>
+
+{% endblock %}
+{% block footer %}
+  
+{% endblock %}

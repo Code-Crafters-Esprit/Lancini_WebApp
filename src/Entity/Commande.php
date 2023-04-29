@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
@@ -21,13 +22,15 @@ class Commande
 
     #[ORM\Column(name: "montantPaye", type: "decimal", precision: 10, scale: 2, nullable: false)]
     private $montantpaye=null;
-
     #[ORM\ManyToOne(targetEntity: Produit::class)]
     #[ORM\JoinColumn(name: "produit", referencedColumnName: "idProduit")]
+    #[Assert\NotBlank(message: "You must pick a product.")]
     private $produit;
+    
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "acheteur", referencedColumnName: "idUser")]
+    #[Assert\NotBlank(message: "You must pick a buyer.")]
     private $acheteur;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
