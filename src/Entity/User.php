@@ -13,6 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+/**
+ * User
+ */
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]

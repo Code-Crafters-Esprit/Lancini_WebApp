@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Offre;
@@ -39,28 +41,36 @@ class OffreRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Offre[] Returns an array of Offre objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function search(array $params): array
+    {
+        $qb = $this->createQueryBuilder('o');
+        $or = $qb->expr()->orX();
 
-//    public function findOneBySomeField($value): ?Offre
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (strlen($params['searchBar']) > 1 || (empty($params['secteur']) && $params['typeoffre'] === 'Choose an option') ) {
+            $or->add(
+                $qb->expr()->like('o.nom', ':search')
+            );
+
+            $or->add(
+                $qb->expr()->like('o.competence', ':search')
+            );
+
+            $qb->setParameter('search', '%' . $params['searchBar'] . '%');
+        }
+
+        return $qb->andWhere(
+            $or->add(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('o.secteur', ':secteur'),
+                    $qb->expr()->eq('o.typeoffre', ':typeoffre')
+            )
+            )
+        )
+            ->setParameter('secteur', $params['secteur'])
+            ->setParameter('typeoffre', $params['typeoffre'])
+            ->getQuery()
+            ->getArrayResult()
+        ;
+    }
+
 }

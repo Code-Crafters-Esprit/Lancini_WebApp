@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+    {{ form_start(f) }}
+    <div class="row ">
+        <div class="col">{{ form_row(f.nom) }}</div>
+        <div class="col">{{ form_row(f.description) }} </div>
+    </div>
+    <div class="row ">
+        <div class="col">{{ form_row(f.datecreation) }}</div>
+        <div class="col">{{ form_row(f.datemodification) }} </div>
+    </div>
+    <div class="text-center"> {{ form_row(f.Create) }} </div>
+
+    {{ form_rest(f) }}
+    {{ form_start(f) }}
+{% endblock %}

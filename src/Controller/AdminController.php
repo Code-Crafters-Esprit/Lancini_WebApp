@@ -2,7 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Offre;
+use App\Entity\Postulation;
+use App\Entity\Secteur;
+use App\Form\OfferType;
+use App\Form\SecteurType;
+use App\Repository\OffreRepository;
+use App\Repository\PostulationRepository;
+use App\Repository\SecteurRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +25,25 @@ use App\Entity\Avis;
 use App\Form\Avis1Type;
 use App\Repository\AvisRepository;
 
+#[Route('/admin')]
 class AdminController extends AbstractController
 
 {
-    #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
+    public function __construct(
+        private OffreRepository $offreRepository,
+        private SecteurRepository $secteurRepository,
+        private PostulationRepository $postRepository,
+        private EntityManagerInterface $em,
+    )
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+    }
+
+    #[Route('/offerList', name: 'app_admin_offerList')]
+    public function affOffer(ManagerRegistry $mg): Response
+    {
+        $offer = $mg->getRepository(Offre::class)->findAll();
+        return $this->render('admin/offerAdmin/offerList.html.twig', [
+            'offers' => $offer,
         ]);
     }
     

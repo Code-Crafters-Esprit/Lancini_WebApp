@@ -4,11 +4,17 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\BadgeRepository;
 
-#[ORM\Entity(repositoryClass: BadgeRepository::class)]
+/**
+ * Badge
+ */
+#[ORM\Table(name: 'badge')]
+#[ORM\Index(columns: ['userId'], name: 'userId')]
+#[ORM\Index(columns: ['testId'], name: 'testId')]
+#[ORM\Entity]
 class Badge
 {
+    #[ORM\Column(name: 'idBadge', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "idBadge")]
@@ -17,8 +23,8 @@ class Badge
     #[ORM\Column(length:255)]
     private ?string $nombadge = null;
 
-    #[ORM\Column()]
-    private ?\DateTime $date = null;
+    #[ORM\Column(name: 'nomBadge', type: 'string', length: 255, nullable: false)]
+    private string $nombadge;
 
     
  
@@ -83,6 +89,5 @@ class Badge
 
         return $this;
     }
-
 
 }

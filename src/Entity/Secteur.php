@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\SecteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'secteur')]
@@ -18,9 +18,11 @@ class Secteur
     private int $idsecteur;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $nom;
 
     #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $description;
 
     #[ORM\Column(name: 'DateCreation', type: 'date', nullable: false)]

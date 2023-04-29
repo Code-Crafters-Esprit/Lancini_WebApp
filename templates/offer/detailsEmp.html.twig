@@ -1,0 +1,95 @@
+<title>Offer details</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<nav  class="navbar  navbar-expand-lg navbar-light"style="background: linear-gradient(to bottom right, #5680E4 , #5680E4 , #2e6da4, #8860D0); height: 4rem" >
+
+    <a class="navbar-brand text-white" href="{{ path('app_home') }}"><strong><span style="font-weight: bold;">Lancini</span></strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active mx-2">
+                <a class="nav-link text-white" href="{{ path('app_home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white" href="{{ path('affOffer') }}" >Offers</a>
+            </li>
+            <li class="nav-item dropdown mx-2">
+                <a class="nav-link text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    LanciniMarket
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Get Verified</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Community</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link disabled text-white" href="#">Support</a>
+            </li>
+        </ul>
+    </div>
+
+
+</nav>
+
+{% include 'flashy.html.twig' %}
+
+<div class="container mt-3"  >
+    <h1 >Offer {{ offer.nom }} details</h1>
+</div>
+<div class="container mt-3">
+    <div class="d-flex flex-row-reverse bd-highlight">
+        <a href="{{path('offerDetailsEmp',{'id':offer.idOffre})}}" class="btn  btn-link" style="color: #3a863a" data-toggle="tooltip" data-placement="top"  title="Apply for this offer" > Apply</a>
+
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <body style="background-color: #E5EAF0;"> <!-- Ajoutez ceci pour changer la couleur de fond -->
+
+    <script>
+      $(document).ready(function () {
+        $('#confirmationModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var url = button.attr('href') // Extract url from href attribute
+          var modal = $(this)
+          modal.find('form').attr('action', url) // Set the form action to the extracted url
+        })
+      });
+    </script>
+    <div class="card border-secondary mb-3 mt-5 card-element " style="width: 70rem; height: 40rem"  >
+        <div class="card-header">
+            <h5>{{ offer.nom }}</h5>
+        </div>
+        <div class="card-body text-secondary d-flex flex-column justify-content-between">
+            <div>
+
+                <h5 class="card-title">Description :</h5>
+                <p class="card-text">{{ offer.description }}</p>
+                <h5 class="card-title">Sector : </h5>
+                <p class="card-text">{{ offer.secteur.nom }}</p>
+                <h5 class="card-title">Offre Type :</h5>
+                <p class="card-text">{{ offer.typeOffre }}</p>
+                <h5 class="card-title"> Start Date: </h5>
+                <p class="card-text">{{ offer.dateDebut|date }}</p>
+                <h5 class="card-title">End Date :</h5>
+                <p class="card-text">{{ offer.dateFin|date }}</p>
+                <h5 class="card-title">User :</h5>
+                <p class="card-text">{{ offer.proprietaire.nom }}</p>
+                <h5 class="card-title">Skills : </h5>
+                <p class="card-text">{{ offer.competence }}</p>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</div>
+

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OffreRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,12 +22,15 @@ class Offre
     private int $idOffre;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $nom;
 
     #[ORM\Column(name: 'typeOffre', type: 'string', length: 50, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $typeoffre;
 
     #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $description;
 
     #[ORM\Column(name: 'dateDebut', type: 'date', nullable: false)]
@@ -36,10 +40,12 @@ class Offre
     private ?DateTime $datefin;
 
     #[ORM\Column(name: 'competence', type: 'text', length: 65535, nullable: false)]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private string $competence;
 
     #[ORM\JoinColumn(name: 'idSecteur', referencedColumnName: 'IdSecteur')]
     #[ORM\ManyToOne(targetEntity: 'Secteur', cascade: ['all'], fetch: 'EAGER')]
+    #[Assert\NotBlank(message:'The field must not be empty.')]
     private ?Secteur $secteur;
 
     #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser')]
@@ -185,5 +191,11 @@ class Offre
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->getNom() . ' - ' . $this->getDescription(). ' - ' . $this->getCompetence(). ' - ' .$this->getTypeoffre() ;
+
+
     }
 }

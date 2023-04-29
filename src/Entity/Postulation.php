@@ -5,11 +5,14 @@ namespace App\Entity;
 use App\Repository\PostulationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Postulation
+ */
 #[ORM\Table(name: 'postulation')]
-#[ORM\Index(columns: ['idUser', 'idOffre'], name: 'idUser')]
-#[ORM\Index(columns: ['idOffre', 'idUser'], name: 'idOffre')]
-#[ORM\Index(columns: ['idOffre'], name: 'IDX_DA7D4E9BB842C572')]
-#[ORM\Index(columns: ['idUser'], name: 'IDX_DA7D4E9BFE6E88D7')]
+#[ORM\Index(name: 'idUser', columns: ['idUser', 'idOffre'])]
+#[ORM\Index(name: 'idOffre', columns: ['idOffre', 'idUser'])]
+#[ORM\Index(name: 'IDX_DA7D4E9BB842C572', columns: ['idOffre'])]
+#[ORM\Index(name: 'IDX_DA7D4E9BFE6E88D7', columns: ['idUser'])]
 #[ORM\Entity(PostulationRepository::class)]
 class Postulation
 {
@@ -55,4 +58,6 @@ class Postulation
 
         return $this;
     }
+
+
 }

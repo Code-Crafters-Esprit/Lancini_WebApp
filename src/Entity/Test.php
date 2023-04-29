@@ -3,24 +3,31 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\TestRepository;
 
-
-#[ORM\Entity(repositoryClass: TestRepository::class)]
+#[ORM\Table(name: 'test')]
+#[ORM\Entity]
 class Test
 {
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'idTest', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "idTest")]
     private ?int $idTest = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nomtest = null;
+    /**
+     * @var string
+     */
+    #[ORM\Column(name: 'nomTest', type: 'string', length: 255, nullable: false)]
+    private $nomtest;
 
-
-    #[ORM\Column]
-    private ?int $difficulte = null;
-
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'difficulte', type: 'integer', nullable: false)]
+    private $difficulte;
 
     public function getIdtest(): ?int
     {
