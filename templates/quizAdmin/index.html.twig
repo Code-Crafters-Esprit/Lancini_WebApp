@@ -1,0 +1,41 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Quizs{% endblock %}
+
+{% block body %}
+    <h1>Quizs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Reponsecorrecte</th>
+                <th>Reponsefausse1</th>
+                <th>Reponsefausse2</th>
+                <th>Reponsefausse3</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for quiz in quizzes %}
+            <tr>
+                <td>{{ quiz.question }}</td>
+                <td>{{ quiz.reponsecorrecte }}</td>
+                <td>{{ quiz.reponsefausse1 }}</td>
+                <td>{{ quiz.reponsefausse2 }}</td>
+                <td>{{ quiz.reponsefausse3 }}</td>
+                <td>
+                    <a href="{{ path('admin_quiz_show', {'id': quiz.id}) }}">show</a>
+                    <a href="{{ path('admin_quiz_edit', {'id': quiz.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_quiz_new') }}">Create new</a>
+{% endblock %}

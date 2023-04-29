@@ -16,9 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Offre
 {
     #[ORM\Id]
-    #[ORM\Column(name: 'idOffre', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private int $idOffre;
+    private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     private string $nom;
@@ -42,11 +42,11 @@ class Offre
     #[ORM\ManyToOne(targetEntity: 'Secteur', cascade: ['all'], fetch: 'EAGER')]
     private ?Secteur $secteur;
 
-    #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser')]
+    #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'User', cascade: ['all'], fetch: 'EAGER')]
     private ?User $proprietaire;
 
-    #[ORM\OneToMany(mappedBy: 'idoffre', targetEntity: 'App\Entity\Postulation', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'id', targetEntity: 'App\Entity\Postulation', cascade: ['persist', 'remove'])]
     private Collection $postulation;
 
     public function __construct()
@@ -54,9 +54,9 @@ class Offre
         $this->postulation = new ArrayCollection();
     }
 
-    public function getIdOffre(): ?int
+    public function getId(): ?int
     {
-        return $this->idOffre;
+        return $this->id;
     }
 
     public function getNom(): ?string

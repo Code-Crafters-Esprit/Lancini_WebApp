@@ -33,6 +33,66 @@
 				<span class="m">S</span>
 			</h3>
 		</section>
+		<section id="test" class="pricing lightbg">
+				<div class="container">
+					<div class="row">
+						<div class="main_pricing roomy-100">
+							<div class="col-md-8 col-md-offset-2 col-sm-12">
+								<div class="head_title text-center">
+									<h2>SOME OF OUR TESTS</h2>
+									<div class="separator_auto"></div>
+									<p>Choose the test you want to pass</p>
+								</div>
+							</div>
+
+        {% for test in randomTests %}
+							<div style="margin: 20px 0; border-top: 1px solid #58d8a3; border-bottom: 1px solid #58d8a3" class="col-md-4 col-sm-12">
+								<div class="pricing_item">
+									<div class="pricing_head p-top-30 p-bottom-100 text-center">
+										<h3 style="text-transform: uppercase;" class="text-uppercase">{{ test.nomtest }}</h3>
+									</div>
+									<div class="pricing_price_border text-center">
+										<div class="pricing_price">
+											<h3 class="text-white">{{ test.difficulte }}</h3>
+											<p class="text-white">Difficulté</p>
+										</div>
+									</div>
+
+									<div style="display: flex;" class="pricing_body bg-white p-top-110 p-bottom-60">
+										<ul>
+											<li>
+												<i class="fa fa-check-circle text-primary"></i>
+												{{ test.quizzes|length }} question(s)
+											</li>
+											<li>
+												<i class="fa fa-check-circle text-primary"></i>
+												4 Fausses, 1 Correcte
+											</li>
+											<li>
+												<i class="fa fa-check-circle text-primary"></i>
+												Score > 50%
+											</li>
+
+										</ul>
+										<div class="pricing_btn text-center m-top-40">
+											<a href="{{ path('test_take', {'id': test.id}) }}" class="btn btn-primary">PASSER TEST</a>
+										</div>
+									</div>
+								</div>
+							</div>
+        {% else %}
+							<div class="col-md-4 col-sm-12">
+                <td colspan="4">no tests available for the moment.</td>
+            </div>
+        {% endfor %}
+							
+						</div>
+					</div>
+					<!--End off row-->
+                        <a style="margin: 50px auto; display: block; width: 160px;" href="{{ path('app_test_index') }}" class="btn btn-primary">SHOW MORE</a>
+				</div>
+				<!--End off container -->
+			</section>
 		<canvas class="background-canvas"></canvas>
 		{% if user %}
 			<h1>Bonjour,
@@ -206,3 +266,6 @@
 		<!-- navbar -->
 	</section>
 {% endblock %}
+
+			
+

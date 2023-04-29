@@ -1,0 +1,64 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+
+{{form_label(form.cin,'Cin : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.cin,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.cin,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.nom,'Nom : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.nom,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.nom,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.prenom,'prenom : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.prenom,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.prenom,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.sexe,'sexe : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.sexe,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.sexe,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.datenaissance,'date naissance : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.datenaissance)}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.datenaissance,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.photo,'photo : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.photo,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.photo,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.adresse,'adresse : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.adresse,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.adresse,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.email,'email : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.email,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.email,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.langue,'langue : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.langue,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.langue,{'attr':{'class':'form-control'}}) }}
+</div>
+
+{{form_label(form.education,'education : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.education,{'attr':{'class':'form-control'}})}}
+<div style="color: red; font-size: 18px;">
+	{{ form_errors(form.education,{'attr':{'class':'form-control'}}) }}
+</div>
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

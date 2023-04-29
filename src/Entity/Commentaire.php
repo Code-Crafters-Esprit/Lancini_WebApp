@@ -13,7 +13,7 @@ class Commentaire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idcomm = null;
+    private ?int $id = null;
 
     
     #[ORM\Column(length:100)]
@@ -33,7 +33,7 @@ class Commentaire
 
     public function getIdcomm(): ?int
     {
-        return $this->idcomm;
+        return $this->id;
     }
 
     public function getCommentaire(): ?string

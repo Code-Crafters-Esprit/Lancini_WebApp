@@ -39,6 +39,35 @@ class TestRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByNomtest($query)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->like('e.nomtest', ':query')
+        ));
+        $qb->setParameter('query', '%'.$query.'%');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function sortByAscDiff(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.difficulte', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function sortByDescDiff(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.difficulte', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Test[] Returns an array of Test objects
 //     */
