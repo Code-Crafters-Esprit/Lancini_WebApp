@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+<div class="form-group">
+	{{ form_label(form.titre) }}
+	{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.titre) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.description) }}
+	{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.description) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.type) }}
+	{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.type) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.lieu) }}
+	{{ form_widget(form.lieu, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.lieu) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.secteur) }}
+	{{ form_widget(form.secteur, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.secteur) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.datedebut) }}
+	{{ form_widget(form.datedebut) }}
+	{{ form_errors(form.datedebut) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.datefin) }}
+	{{ form_widget(form.datefin) }}
+	{{ form_errors(form.datefin) }}
+</div>
+<div class="form-group">
+	{{ form_label(form.userId) }}
+	{{ form_widget(form.userId, {'attr': {'class': 'form-control '}}) }}
+	{{ form_errors(form.userId) }}
+</div>
+<button class="btn btn-primary" class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

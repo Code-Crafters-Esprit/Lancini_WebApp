@@ -1,6 +1,208 @@
 {% extends 'template.html.twig' %}
+{% block StyleSheet %}
+	<link rel="stylesheet" href="{{ asset('css/homeScreen.css') }}">
+{% endblock %}
 {% block body %}
-<div id="setta">
- <h1>MENJI</h1>
- </div>
+	<div id="setta">
+		<section class="navig">
+			<h1>Lancini</h1>
+			<h3 class="span loader">
+				<span class="m">B</span>
+				<span class="m">E</span>
+				<span class="m">N</span>
+				<span class="m">E</span>
+				<span class="m">F</span>
+				<span class="m">I</span>
+				<span class="m">T</span>
+				<span class="m">S</span>
+				<span class="m">&nbsp;</span>
+				<span class="m">o</span>
+				<span class="m">f</span>
+				<span class="m">&nbsp;</span>
+				<span class="m">T</span>
+				<span class="m">E</span>
+				<span class="m">C</span>
+				<span class="m">H</span>
+				<span class="m">N</span>
+				<span class="m">O</span>
+				<span class="m">L</span>
+				<span class="m">O</span>
+				<span class="m">G</span>
+				<span class="m">I</span>
+				<span class="m">E</span>
+				<span class="m">S</span>
+			</h3>
+		</section>
+		<canvas class="background-canvas"></canvas>
+		{% if user %}
+			<h1>Bonjour,
+				{{ user.nom }}</h1>
+			<a class="btn btn-default" href="{{ path('app_logout') }}">logout</a>
+		{% endif %}
+		<script>
+			window.onload = function () {
+			Particles.init({selector: ".background-canvas"});
+			};
+			const particles = Particles.init({
+			selector: ".background-canvas",
+			color: [
+			"#03dac6", "#ff0266", "#000000"
+			],
+			connectParticles: true,
+			responsive: [
+			{
+			breakpoint: 768,
+			options: {
+			color: [
+			"#faebd7", "#03dac6", "#ff0266"
+			],
+			maxParticles: 43,
+			connectParticles: false
+			}
+			}
+			]
+			});
+
+			class NavigationPage {
+			constructor() {
+			this.currentId = null;
+			this.currentTab = null;
+			this.tabContainerHeight = 70;
+			this.lastScroll = 0;
+			let self = this;
+			$(".navig-tab").click(function () {
+			self.onTabClick(event, $(this));
+			});
+			$(window).scroll(() => {
+			this.onScroll();
+			});
+			$(window).resize(() => {
+			this.onResize();
+			});
+			}
+
+			onTabClick(event, element) {
+			event.preventDefault();
+			let scrollTop = $(element.attr("href")).offset().top - this.tabContainerHeight + 1;
+			$("html, body").animate({
+			scrollTop: scrollTop
+			}, 600);
+			}
+
+			onScroll() {
+			this.checkHeaderPosition();
+			this.findCurrentTabSelector();
+			this.lastScroll = $(window).scrollTop();
+			}
+
+			onResize() {
+			if (this.currentId) {
+			this.setSliderCss();
+			}
+			}
+
+			checkHeaderPosition() {
+			const headerHeight = 75;
+			if ($(window).scrollTop() > headerHeight) {
+			$(".navig-container").addClass("navig-container--scrolled");
+			} else {
+			$(".navig-container").removeClass("navig-container--scrolled");
+			}
+			let offset = $(".navig").offset().top + $(".navig").height() - this.tabContainerHeight - headerHeight;
+			if ($(window).scrollTop() > this.lastScroll && $(window).scrollTop() > offset) {
+			$(".navig-container").addClass("navig-container--move-up");
+			$(".navig-container").removeClass("navig-container--top-first");
+			$(".navig-container").addClass("navig-container--top-second");
+			} else if ($(window).scrollTop() < this.lastScroll && $(window).scrollTop() > offset) {
+			$(".navig-container").removeClass("navig-container--move-up");
+			$(".navig-container").removeClass("navig-container--top-second");
+			$(".navig-container-container").addClass("navig-container--top-first");
+			} else {
+			$(".navig-container").removeClass("navig-container--move-up");
+			$(".navig-container").removeClass("navig-container--top-first");
+			$(".navig-container").removeClass("navig-container--top-second");
+			}
+			}
+
+			findCurrentTabSelector(element) {
+			let newCurrentId;
+			let newCurrentTab;
+			let self = this;
+			$(".navig-tab").each(function () {
+			let id = $(this).attr("href");
+			let offsetTop = $(id).offset().top - self.tabContainerHeight;
+			let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;
+			if ($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
+			newCurrentId = id;
+			newCurrentTab = $(this);
+			}
+			});
+			if (this.currentId != newCurrentId || this.currentId === null) {
+			this.currentId = newCurrentId;
+			this.currentTab = newCurrentTab;
+			this.setSliderCss();
+			}
+			}
+
+			setSliderCss() {
+			let width = 0;
+			let left = 0;
+			if (this.currentTab) {
+			width = this.currentTab.css("width");
+			left = this.currentTab.offset().left;
+			}
+			$(".navig-tab-slider").css("width", width);
+			$(".navig-tab-slider").css("left", left);
+			}
+			}
+
+			new NavigationPage();
+		</script>
+	</div>
+{% endblock %}
+{% block navbar %}
+	<section id="navigation">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="ion-navicon"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						Lancini
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#Home">Home</a>
+						</li>
+						<li>
+							<a href="#offres">Offers</a>
+						</li>
+						<li>
+							<a href="#lancinimarket">LanciniMarket</a>
+						</li>
+						<li>
+							<a href="#Test">Get verified</a>
+						</li>
+						<li>
+							<a href="#blog">Community</a>
+						</li>
+						<li>
+							<a href="#Support">Support</a>
+						</li>
+						{% if user %}
+							<li>
+								<a href="{{ path('app_profile', {'idUser': user.iduser}) }}">Profile</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+				<!-- collapse navbar-collapse -->
+			</div>
+			<!-- container-fluid -->
+		</nav>
+		<!-- navbar -->
+	</section>
 {% endblock %}

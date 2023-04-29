@@ -33,24 +33,24 @@ class Participants
 
     public function getIdevent(): ?Evenement
     {
-        return $this->idevent;
+        return $this->idEvent;
     }
 
     public function setIdevent(?Evenement $idevent): self
     {
-        $this->idevent = $idevent;
+        $this->idEvent = $idevent;
 
         return $this;
     }
 
     public function getIduser(): ?User
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->iduser = $iduser;
+        $this->idUser = $iduser;
 
         return $this;
     }

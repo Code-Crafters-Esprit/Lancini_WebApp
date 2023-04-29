@@ -1,0 +1,63 @@
+{% extends 'user/login.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block form %}
+	<div class="formbg-inner padding-horizontal--48">
+
+		<form id="stripe-login" method="post">
+
+
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
+
+			<span class="padding-bottom--15">Sign in to your account</span>
+			<div class="field padding-bottom--24">
+				<label for="inputEmail">Email</label>
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+			</div>
+			<div class="field padding-bottom--24">
+				<div class="grid--50-50">
+					<label for="inputPassword">Password</label>
+					<div class="reset-pass">
+						<a href="{{ path('app_forgot_password_request') }}">Forgot your password?</a>
+					</div>
+				</div>
+				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+			</div>
+
+			<input
+			type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+
+			{# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality. See https://symfony.com/doc/current/security/remember_me.html#}
+
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" name="_remember_me">
+					Remember me
+				</label>
+			</div>
+
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+			<div class="field padding-bottom--24 padding-top--24">
+				<input class="btn btn-lg btn-primary" type="submit" value="Sign in">
+			</div>
+			<div class="field padding-bottom--24 padding-top--24" >
+				<a href="{{ path('fcb-login')}}" style="display: flex;justify-content: center;align-items: center;width: 100%;">
+					<img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook logo" style="vertical-align:middle;margin-right:10px; width:40px; height: 40px"> Continue using Facebook
+				</a>
+			</div>
+
+		</form>
+	</div>
+{% endblock %}

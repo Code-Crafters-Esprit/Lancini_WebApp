@@ -13,9 +13,10 @@ class Competence
     #[ORM\Column(name: "libelle", type: "string", length: 255, nullable: false)]
     private $libelle;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'Competence')]
-    private $userid;
-
+ 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
+    private $userId;
     public function getLibelle(): ?string
     {
         return $this->libelle;
@@ -23,12 +24,12 @@ class Competence
 
     public function getUserid(): ?User
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     public function setUserid(?User $userid): self
     {
-        $this->userid = $userid;
+        $this->userId = $userid;
 
         return $this;
     }

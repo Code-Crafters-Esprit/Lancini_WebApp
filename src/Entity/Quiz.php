@@ -32,9 +32,10 @@ class Quiz
     private ?string $reponsefausse3 = null;
 
 
-    #[ORM\ManyToOne(targetEntity: "Test", inversedBy: 'Quiz')]
-    private ?Test $idtest = null;
-
+    
+    #[ORM\ManyToOne(targetEntity: Test::class)]
+    #[ORM\JoinColumn(name: "idTest", referencedColumnName: "idTest")]
+    private $idTest;
 
     public function getIdquiz(): ?int
     {
@@ -103,12 +104,12 @@ class Quiz
 
     public function getIdtest(): ?Test
     {
-        return $this->idtest;
+        return $this->idTest;
     }
 
     public function setIdtest(?Test $idtest): self
     {
-        $this->idtest = $idtest;
+        $this->idTest = $idtest;
 
         return $this;
     }

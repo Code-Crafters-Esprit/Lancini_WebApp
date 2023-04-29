@@ -1,8 +1,13 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
-    form_theme:
+  default_path: "%kernel.project_dir%/templates"
+  globals:
+    gg_recaptcha_site_key: "%env(GOOGLE_RECAPTCHA_SITE_KEY)%"
+  form_themes:
+    - "registration/register.html.twig"
+    - "user/login.html.twig"
+  form_theme:
     - bootstrap_4_layout.html.twig
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true
