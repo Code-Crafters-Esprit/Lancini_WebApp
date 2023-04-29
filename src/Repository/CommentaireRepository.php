@@ -39,6 +39,20 @@ class CommentaireRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function ListCommentaireByPub($id) {
+    
+        return $this->createQueryBuilder('c')
+        ->join('c.idpub','p')
+        ->addSelect('p')
+        ->where('p.idpub= :idpub')
+        ->setParameter('idpub',$id)
+        ->getQuery()
+        ->getResult() ; 
+
+
+    }
+
 //    /**
 //     * @return Commentaire[] Returns an array of Commentaire objects
 //     */

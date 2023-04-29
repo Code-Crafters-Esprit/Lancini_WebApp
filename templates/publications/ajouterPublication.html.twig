@@ -1,0 +1,78 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+
+<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/Pback.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
+				
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color: white ">Lancini Comunnity</h1>
+						<h2 style="color: white">Get creative! Get inspired!</h2>
+					</div>
+				</section>
+
+
+<div class="main_contact roomy-100 text-black">
+							<div class="col-md-4">
+								<div class="rage_widget">
+									<div class="widget_head">
+										<h3 class="text-black">New content?</h3>
+										<div class="separator_small"></div>
+									</div>
+									<p> Create new content here and share it with our community		
+									</p>
+
+									<div class="widget_socail m-top-30">
+										
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 sm-m-top-30">
+								{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+											    {{form_label(form.libelle,"Title : ")}}
+												{{form_widget(form.libelle,{'att':{'class':'form-control'}})}}
+												{{form_errors(form.libelle,{'attr':{'class':'text-danger'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.datepub,"Date : ")}}
+												{{form_widget(form.datepub,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											 {{form_label(form.description,"Description : ")}}
+												{{form_widget(form.description,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+
+                                        <div class="col-sm-6">
+											<div class="form-group">
+											   {{form_label(form.cat,"Category : ")}}
+												{{form_widget(form.cat,{'att':{'class':'form-control'}})}}
+											</div>
+										</div>
+
+										
+
+									</div>
+
+								{{form_end(form)}}
+							</div>
+						</div>
+
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

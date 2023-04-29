@@ -1,0 +1,72 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+	<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/CommBack2.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
+				
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color: #5ab9ea" class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;">Lancini Community</h1>
+						<h2 style="color: white"> Here are the comments for the chosen content! </h2>
+					</div>
+				</section>
+				
+				<div id="bottom" class="bottom text-center">
+			        <a href="#about"><i class="ion-ios7-arrow-down"></i></a>
+			    </div>
+				  <div class="row main_content">
+                
+                    <div class="col-md-6 col-md-offset-3">
+                   
+                        <div id="client-speech" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
+                        
+                            <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 3240px; left: 0px; display: block; transition: all 1000ms ease 0s; transform: translate3d(0px, 0px, 0px);">
+                           
+                            <div class="owl-item" style="width: 540px;"><div class="item">
+                            {%for c in comm %}
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <img class="img-circle img-responsive center-block" src="img/logo.png" style="max-width: 70%;">
+                                    </div>  
+                                    <div class="col-md-12">
+                                        <p class="client-comment text-center">
+                                            " {{c.commentaire}} "
+                                        </p>
+                                    </div>
+
+                                </div>
+								
+                                <div class="row text-center">
+                                    <p class="client-name text-center"> By : {{c.iduser.Nom}} {{c.iduser.Prenom}}</p>
+                            </div>
+							<div class="line-dotted"></div>
+                                                     {% endfor %}
+                           
+                        </div>
+                        
+                        </div>
+                        
+                        </div>
+                        
+                        </div>
+
+                    </div>
+                       
+                </div>
+            </div>
+
+			</div><!-- overlay-1 -->
+		</div>
+
+		
+
+{% endblock %}
+
+
+
+
+{% block footer %}
+
+{% endblock %}

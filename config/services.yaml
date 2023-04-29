@@ -7,6 +7,14 @@ parameters:
 
 services:
     # default configuration for services in *this* file
+# Register the EventParticipantCountValidator as a service
+    App\Validator\EventParticipantCountValidator:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: validator.constraint_validator, alias: App\Validator\EventParticipantCountValidator }
+
+
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

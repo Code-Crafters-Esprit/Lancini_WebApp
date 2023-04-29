@@ -3,7 +3,7 @@
 	<head>
 	{% block title %}
 		
-		<title>Renessa</title>
+		<title>Lancini</title>
 	{% endblock %}
 
 		<!-- meta -->
@@ -12,6 +12,8 @@
        {% block stylesheets %}
 		
 	    <!-- css -->
+		
+		<link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/ionicons.min.css">
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -24,7 +26,8 @@
 
 	    <!-- js -->
 		{% block scripts %}
-			
+		<script src="map.js"></script>
+		<script src="{{ asset('assets/leaflet/leaflet.js') }}"></script>	
 	    <script src="js/jquery.min.js"></script>
 	    <script src="js/bootstrap.min.js"></script>
 	    <script src="js/owl.carousel.min.js"></script>

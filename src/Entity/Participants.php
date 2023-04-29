@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ParticipantsRepository;
+use App\Validator\Constraints as CustomAssert;
+use App\Validator\Constraints\EventParticipantCount;
 
 #[ORM\Entity(repositoryClass: ParticipantsRepository::class)]
+
 
 class Participants
 {
@@ -14,10 +17,13 @@ class Participants
     #[ORM\Column]
     private ?int $idparticipant = null;
 
-    #[ORM\ManyToOne(targetEntity: "Evenement", inversedBy: 'participants')]
+
+    #[ORM\ManyToOne(targetEntity: Evenement::class)]
+    #[ORM\JoinColumn(name: 'idevent', referencedColumnName: 'idevent', nullable: true)]
     private ?Evenement $idevent = null; 
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: 'participants')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'idUser', nullable: true)]
     private ?User $iduser = null; 
 
     public function getIdparticipant(): ?int

@@ -1,0 +1,18 @@
+<table border =1>
+
+
+<tr>
+
+<td>Publication</td>
+<td>Libelle</td>
+<td>Supprimer</td>
+</tr>
+ {%for p in pub %}
+<tr>
+<td>{{p.idpub}}</td>
+<td>{{p.libelle}}</td>
+<td> <a href="{{ path('supprimerPublication',{'idpub': p.idpub})}}"> supprimer </a> </td>
+</tr>
+{%endfor%}
+
+</table>

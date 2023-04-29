@@ -1,0 +1,106 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/PubBack2.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
+				
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color: black class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;""> Lancini Content</h1>
+						<h2 style="color: white">Create!</h2>
+					</div>
+				</section>
+
+<section id="blog">
+	    	<div class="container">
+	    		<div class="row text-center" id="heading">
+	    			<div class="bg-image">
+		    			<div class="col-md-6 col-md-offset-3 wow animated zoomInDown animated animated" id="heading-text" style="visibility: visible; animation-name: zoomInDown;">
+		        			<h3>Lancini Community</h3>
+		                	<p>Welcome dear community, here you can find the differenet content that our members post</p>
+		                	<hr class="full">
+		                	<br>
+		        		</div>
+		        	</div>
+	    		</div>
+				
+                   {%for p in pub %}
+		    	<div class="row post">
+		    		<div class="main_content">
+		    			<div class="post-thumbnail col-md-5">
+		    				<div class="frame">
+		    					<div class="post-format">
+		    						<span class="icon-picture">
+		    							<i class="fa fa-laptop"></i>
+		    						</span>
+		    					</div>
+		    					<a href="#"><img class="img-responsive" src="img/logo.png" alt=""></a>
+		    				</div>
+		    				<img class="hidden-xs post-shadow" src="img/post-shadow.png" alt="">
+		    			</div>
+
+		    			<div class="post-excerpt col-md-7">
+		    				<h2 class="title"><a href="#">{{p.libelle}}</a></h2>
+		    				<div class="line-dotted"></div>
+		    				<p>
+		    					{{p.description}}
+		    				</p> 
+		    				<div class="line-dotted"></div>
+		    				<p class="meta">
+		    					<strong>Date:</strong> {{p.datepub|date('Y-m-d')}}  <br>
+								<strong>  By:</strong> {{p.proprietaire.Nom}}  {{p.proprietaire.Prenom}}  <strong><br>
+								In: </strong><a href="#">{{p.cat}}</a>
+		    				</p>
+							{# <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('creer_commentaire',{'id': p.idpub})}}"> Comment !</a> #}
+							{#<a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('affichageCommentaire')}}"> Check what others think</a> #}
+
+							<form method="GET" action="{{ path('affichageCommentaireByPub')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ p.idpub }}>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Check what others think</button>
+                            </form>
+							<br> <br> 
+                            <form method="GET" action="{{ path('comment')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ p.idpub }}>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Comment !</button>
+                            </form>
+
+		    				<div class="line-dotted"></div>
+		    				<div class="post-share">
+		    					<p>Share this post:</p>
+		    					<ul>
+		    						<li>
+		    							<a href="https://www.facebook.com/" data-toggle="tooltip" title="Contact with Facebook" class="team-facebook">
+					        				<i class="fa fa-facebook"></i>
+					        			</a>
+		    						</li>
+		    						<li>
+		    							<a href="https://twitter.com/?lang=en" data-toggle="tooltip" title="Contact with Twitter" class="team-twitter">
+					        				<i class="fa fa-twitter"></i>
+					        			</a>
+		    						</li>
+		    						<li>
+                                      <a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Instagram" class="team-instagram">
+                                         <i class="fa fa-instagram"></i>
+                                      </a>
+                                    </li>
+
+		    					</ul>	
+		    				</div>
+		    			</div>
+		    		</div>
+		    	</div>
+               {%endfor%}
+
+    	
+	    	
+    		</div>	<!-- container -->
+	    </section>
+
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

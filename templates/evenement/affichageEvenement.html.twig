@@ -1,0 +1,111 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+
+<script>setTimeout(function() {
+    $('.alert').slideUp();
+}, 1000); 
+</script>
+
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<div id="wrapper">
+	 <div id="overlay-1" style="height: 900px; background-image: url('img/EventBack.jpg'); background-size: cover; background-position: center;">
+			{#<div id="overlay-1" style="height: 937px;">#}
+				
+				<section id="starting">
+					<div class="text-center starting-text" style="padding-top: 200.5px;">
+						<h1 class="rene" style="color: black class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;"">Our Events</h1>
+						<h2 style="color: white">Check it out!</h2>
+					</div>
+				</section>
+<div class="container">
+		    	<div class="team-members">
+		    		<div class="row text-center" id="heading">
+		    			<div class="col-md-6 col-md-offset-3 wow animated zoomInDown animated animated" id="heading-text" style="visibility: visible;">
+		        			<h3 style="color:#5ab9ea" >Lancini Community</h3>
+		                	<p>Welcome dear community, here you can find various event in which YOU can take part in!</p>
+		                	<hr class="full">
+		                	<br>
+		        		</div>
+		    		</div>
+
+
+					<div class="team-members">
+					
+					 {%for e in event %}
+				    	<div class="col-md-4 col-sm-6 text-center d-inline-block">
+				    		<div class="row wow animated zoomIn animated animated" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+				    			<div class="col-md-8 col-md-offset-2">
+								<img class="img-responsive" src="img/logo.png" alt="">
+				    			
+				    			</div>
+				    		</div>
+				        	<h4 class="wow animated fadeInUp animated animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s;">{{e.titre}}</h4>
+				        	<p class="member-title wow animated fadeIn animated animated" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s;">{{e.sujet}}</p>
+				        	<p class="team-member-description wow animated fadeIn animated animated" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s;"> 
+							 <strong>Date:</strong> {{e.dateevent}} <strong>  At :</strong> {{e.horaire}} <br>
+							 <strong>  In :</strong> {{e.lieu }} <strong>  By  :</strong> {{e.proprietaire.Nom}}  <br><br>
+
+							 <form method="GET" action="{{ path('creer_participant')}}" style="display: inline-block;">
+                            <input type="hidden" name="pub" value={{ e.idevent }}>
+							{% if eventCounts[e.idevent]  > 5 %} 
+
+							<p style="color:#5ab9ea">Unfortunaly this event is full !</p>
+							{% else %}
+
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-info  mr-4">Participate !</button>
+                            </form>
+							 {% endif %}
+							 {# <a class="btn btn-sm btn-outline-info btn-info  mr-4 "href="{{ path('creer_participant',{'id': e.idevent})}}"> Participate !</a> #}
+				        	<div class="row text-center wow animated fadeInDown animated animated" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s;">
+				        		<div class="team-member-contact">
+				        			<a href="https://www.facebook.com/" data-toggle="tooltip" title="Contact with Facebook" class="team-facebook">
+				        				<i class="fa fa-facebook"></i>
+				        			</a>
+				        		
+				        			<a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Twitter" class="team-twitter">
+				        				<i class="fa fa-twitter"></i>
+				        			</a>
+				        		
+				        			<a href="https://www.instagram.com/" data-toggle="tooltip" title="Contact with Google-plus" class="team-instagram">
+				        				<i class="fa fa-instagram"></i>
+				        			</a>
+				        		</div>	
+				        	</div>
+				    	</div>	<!-- col-md-4 -->
+				    	<!-- col-md-4 -->
+				    		<!-- col-md-4 -->
+					{% endfor %}
+			    </div>	<!-- team-members -->
+					
+	    	<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center">
+        <ul class="pagination custom-pagination">
+            {{ knp_pagination_render(event) }}
+        </ul>
+    </div>
+</div>
+
+<style>
+    .custom-pagination activespan {
+        color: #5ab9ea;
+    }
+</style>
+           
+    		</div>	<!-- container -->
+	    </section>
+
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

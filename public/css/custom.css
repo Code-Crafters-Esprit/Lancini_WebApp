@@ -32,6 +32,7 @@ a:hover {
 
 }
 
+
 .navbar-white li a {
     color: #16a085 !important;
 }
@@ -400,7 +401,7 @@ hr
 }
 .team-facebook:hover .fa-facebook
 {
-    transform:;
+    transform:
 }
 .team-twitter:hover
 {
@@ -881,13 +882,13 @@ form
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
     color: #fff;
-    background-color: #16a085;
-    border-color: #16a085;
+    background-color: #5bc0de;
+    border-color: #5bc0de;
 }
 
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
-    background-color: #3acab1;
-    border-color: #3acab1;
+    background-color: #5bc0de;
+    border-color: #5bc0de;
 }
 
 .pagination {
@@ -916,7 +917,7 @@ form
 }
 
 .pagination>li>a, .pagination>li>span {
-    color: #16a085;
+    color: #5bc0de;
 }
 
 #port-items .col-md-4 {
