@@ -20,8 +20,7 @@ class Badge
     #[ORM\Column(name: "idBadge")]
     private ?int $idBadge = null;
     
-    #[ORM\Column(length:255)]
-    private ?string $nombadge = null;
+
 
     #[ORM\Column(name: 'nomBadge', type: 'string', length: 255, nullable: false)]
     private string $nombadge;
@@ -32,7 +31,9 @@ class Badge
     #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
     private $userId;
    
-  
+    #[ORM\Column(name: 'date', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private $date;
+    
     #[ORM\ManyToOne(targetEntity: Test::class)]
     #[ORM\JoinColumn(name: "testId", referencedColumnName: "idTest")]
     private $testId;
