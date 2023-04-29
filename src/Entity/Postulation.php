@@ -5,9 +5,6 @@ namespace App\Entity;
 use App\Repository\PostulationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Postulation
- */
 #[ORM\Table(name: 'postulation')]
 #[ORM\Index(name: 'idUser', columns: ['idUser', 'idOffre'])]
 #[ORM\Index(name: 'idOffre', columns: ['idOffre', 'idUser'])]
@@ -24,11 +21,11 @@ class Postulation
 
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'idOffre', onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: 'Offre')]
-    private ?Offre $idoffre;
+    private ?Offre $idoffre=null;
 
     #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
     #[ORM\ManyToOne(targetEntity: 'User')]
-    private ?User $iduser;
+    private ?User $iduser=null;
 
     public function getIdpost(): ?int
     {

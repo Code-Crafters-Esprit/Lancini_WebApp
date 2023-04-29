@@ -14,7 +14,6 @@ class Test
     #[ORM\Column(name: 'idTest', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: "idTest")]
     private ?int $idTest = null;
 
     /**

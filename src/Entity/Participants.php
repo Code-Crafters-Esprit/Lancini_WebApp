@@ -4,8 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ParticipantsRepository;
-use App\Validator\Constraints as CustomAssert;
-use App\Validator\Constraints\EventParticipantCount;
+
 
 #[ORM\Entity(repositoryClass: ParticipantsRepository::class)]
 

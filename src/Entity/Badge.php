@@ -17,7 +17,6 @@ class Badge
     #[ORM\Column(name: 'idBadge', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: "idBadge")]
     private ?int $idBadge = null;
     
 

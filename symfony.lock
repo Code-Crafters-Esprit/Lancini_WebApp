@@ -64,36 +64,6 @@
             "./migrations/.gitignore"
         ]
     },
-    "google/recaptcha": {
-        "version": "1.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.1",
-            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
-        },
-        "files": [
-            "./config/packages/google_recaptcha.yaml"
-        ]
-    },
-    "knpuniversity/oauth2-client-bundle": {
-        "version": "2.14",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.20",
-            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
-        }
-    },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v5.9.0"
-    },
-    "knplabs/knp-menu-bundle": {
-        "version": "v3.2.0"
-    },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v5.9.0"
-    },
     "endroid/qrcode-bundle": {
         "version": "4.3.1"
     },
@@ -108,6 +78,45 @@
         "files": [
             "./config/packages/fos_rest.yaml"
         ]
+    },
+    "google/recaptcha": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.1",
+            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
+        },
+        "files": [
+            "./config/packages/google_recaptcha.yaml"
+        ]
+    },
+    "knplabs/knp-menu-bundle": {
+        "version": "v3.2.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.9.0"
+    },
+    "knplabs/knp-snappy-bundle": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "c81bdcf4a9d4e7b1959071457f9608631865d381"
+        }
+    },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "2.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.20",
+            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
+        }
+    },
+    "mercuryseries/flashy-bundle": {
+        "version": "v5.1.0"
     },
     "nelmio/cors-bundle": {
         "version": "2.3",

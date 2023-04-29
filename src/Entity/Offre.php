@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'offre')]
@@ -46,11 +45,11 @@ class Offre
     #[ORM\JoinColumn(name: 'idSecteur', referencedColumnName: 'IdSecteur')]
     #[ORM\ManyToOne(targetEntity: 'Secteur', cascade: ['all'], fetch: 'EAGER')]
     #[Assert\NotBlank(message:'The field must not be empty.')]
-    private ?Secteur $secteur;
+    private ?Secteur $secteur=null;
 
     #[ORM\JoinColumn(name: 'proprietaire', referencedColumnName: 'idUser')]
     #[ORM\ManyToOne(targetEntity: 'User', cascade: ['all'], fetch: 'EAGER')]
-    private ?User $proprietaire;
+    private ?User $proprietaire=null;
 
     #[ORM\OneToMany(mappedBy: 'idoffre', targetEntity: 'App\Entity\Postulation', cascade: ['persist', 'remove'])]
     private Collection $postulation;
