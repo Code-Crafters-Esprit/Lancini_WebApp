@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\QuizRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\QuizRepository;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
@@ -13,7 +11,8 @@ class Quiz
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $idquiz = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $question = null;
@@ -21,8 +20,10 @@ class Quiz
     #[ORM\Column(length: 255)]
     private ?string $reponsecorrecte = null;
 
+
     #[ORM\Column(length: 255)]
     private ?string $reponsefausse1 = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $reponsefausse2 = null;
@@ -30,17 +31,15 @@ class Quiz
     #[ORM\Column(length: 255)]
     private ?string $reponsefausse3 = null;
 
-    #[ORM\ManyToMany(targetEntity: Test::class, mappedBy: 'quizzes')]
-    private Collection $tests;
 
-    public function __construct()
-    {
-        $this->tests = new ArrayCollection();
-    }
+    
+    #[ORM\ManyToOne(targetEntity: Test::class)]
+    #[ORM\JoinColumn(name: "idTest", referencedColumnName: "idTest")]
+    private $idTest;
 
-    public function getId(): ?int
+    public function getIdquiz(): ?int
     {
-        return $this->id;
+        return $this->idquiz;
     }
 
     public function getQuestion(): ?string
@@ -103,33 +102,14 @@ class Quiz
         return $this;
     }
 
-    public function __toString(): string {
-        return $this->question;
+    public function getIdtest(): ?Test
+    {
+        return $this->idTest;
     }
 
-    /**
-     * @return Collection<int, Test>
-     */
-    public function getTests(): Collection
+    public function setIdtest(?Test $idtest): self
     {
-        return $this->tests;
-    }
-
-    public function addTest(Test $test): self
-    {
-        if (!$this->tests->contains($test)) {
-            $this->tests->add($test);
-            $test->addQuiz($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTest(Test $test): self
-    {
-        if ($this->tests->removeElement($test)) {
-            $test->removeQuiz($this);
-        }
+        $this->idTest = $idtest;
 
         return $this;
     }

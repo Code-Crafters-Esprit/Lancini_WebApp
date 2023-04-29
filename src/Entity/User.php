@@ -23,8 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
-    private int $id;
+    private int $idUser;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a name')]

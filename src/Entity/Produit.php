@@ -61,7 +61,7 @@ class Produit
 
     public function getIdproduit(): ?int
     {
-        return $this->id;
+        return $this->idproduit;
     }
 
     public function getCategorie(): ?string

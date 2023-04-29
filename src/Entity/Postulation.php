@@ -6,48 +6,52 @@ use App\Repository\PostulationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'postulation')]
+#[ORM\Index(columns: ['idUser', 'idOffre'], name: 'idUser')]
+#[ORM\Index(columns: ['idOffre', 'idUser'], name: 'idOffre')]
+#[ORM\Index(columns: ['idOffre'], name: 'IDX_DA7D4E9BB842C572')]
+#[ORM\Index(columns: ['idUser'], name: 'IDX_DA7D4E9BFE6E88D7')]
 #[ORM\Entity(PostulationRepository::class)]
 class Postulation
 {
 
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'idPost', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    private int $idpost;
 
-    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'idOffre', onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: 'Offre')]
-    private ?Offre $offre;
+    private ?Offre $idoffre;
 
-    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
     #[ORM\ManyToOne(targetEntity: 'User')]
-    private ?User $user;
+    private ?User $iduser;
 
-    public function getId(): ?int
+    public function getIdpost(): ?int
     {
-        return $this->id;
+        return $this->idpost;
     }
 
-    public function getOffre(): ?Offre
+    public function getIdoffre(): ?Offre
     {
-        return $this->offre;
+        return $this->idoffre;
     }
 
-    public function setOffre(?Offre $offre): self
+    public function setIdoffre(?Offre $idoffre): self
     {
-        $this->offre = $offre;
+        $this->idoffre = $idoffre;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getIduser(): ?User
     {
-        return $this->user;
+        return $this->iduser;
     }
 
-    public function setUser(?User $user): self
+    public function setIduser(?User $iduser): self
     {
-        $this->user = $user;
+        $this->iduser = $iduser;
 
         return $this;
     }

@@ -58,7 +58,7 @@ class Evenement
 
     public function getIdevent(): ?int
     {
-        return $this->id;
+        return $this->idevent;
     }
 
     public function getTitre(): ?string

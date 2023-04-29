@@ -7,7 +7,7 @@ parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     timezone: 'Africa/Tunis'
     locale: '%env(DEFAULT_LOCALE)%'
-    uploads_directory: '%kernel.project_dir%/public/uploads'
+
 services:
 
     App\Repository\ProduitRepository:
