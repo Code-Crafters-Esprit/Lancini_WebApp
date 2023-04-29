@@ -102,12 +102,12 @@ class Avis
 
     public function getIdevaluateuruser(): ?User
     {
-        return $this->idEvaluateurUser;
+        return $this->idevaluateuruser;
     }
 
     public function setIdevaluateuruser(?User $idEvaluateurUser): self
     {
-        $this->idEvaluateurUser = $idEvaluateurUser;
+        $this->idevaluateuruser = $idEvaluateurUser;
 
         return $this;
     }
