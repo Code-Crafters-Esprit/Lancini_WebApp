@@ -54,8 +54,7 @@ class OfferController extends AbstractController
 
         $pagination = $paginator->paginate(
             $offersQuery,
-            $request->query->getInt('page', 1),
-            3
+            $request->query->getInt('page', 1), 3
         );
 
         $f = $this->createForm(OfferSearchType::class);
@@ -118,7 +117,7 @@ class OfferController extends AbstractController
             $em->persist($offer);
             $em->flush();
             $request->getSession()->getFlashBag()->add('success','Offer added successfully!');
-            //$flashy->success('Offre ajoutée avec succès !');
+            $flashy->success('Offre ajoutée avec succès !');
             return $this->redirectToRoute('affOffer');
         }
 
@@ -206,13 +205,13 @@ class OfferController extends AbstractController
                throw $this->createNotFoundException('L\'offre n\'existe pas.');
            }
 
-           // On définit les options du PDF
+           //  les options du PDF
            $pdfOptions = new Options();
            // Police par défaut
            $pdfOptions->set('defaultFont', 'Arial');
            $pdfOptions->setIsRemoteEnabled(true);
 
-           // On instancie Dompdf
+           //instancie Dompdf
            $dompdf = new Dompdf($pdfOptions);
 
            $context = stream_context_create([
@@ -238,10 +237,10 @@ class OfferController extends AbstractController
            $dompdf->setPaper('A4', 'portrait');
            $dompdf->render();
 
-           // On génère un nom de fichier
+           //  nom de fichier
            $fichier = 'Details';
 
-           // On envoie le PDF au navigateur
+           //  envoie le PDF au navigateur
            $dompdf->stream($fichier, [
                'Attachment' => true
            ]);

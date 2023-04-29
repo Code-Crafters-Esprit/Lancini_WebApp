@@ -85,7 +85,7 @@ class OfferType extends AbstractType
             ])
 
             ->add('competence', TextType::class, [
-                'label' => 'Compétences',
+                'label' => 'Skills',
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z\s,:;]*$/',

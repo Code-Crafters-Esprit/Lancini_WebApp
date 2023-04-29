@@ -20,7 +20,7 @@ class QrcodeService{
         $result=$this-> builder
             ->data($query)
             ->encoding(new Encoding('UTF-8'))
-            ->size(400)
+            ->size(200)
             ->margin(10)
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->build()

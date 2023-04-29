@@ -71,10 +71,6 @@ class OffreRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult()
         ;
-
-
-        
-        
     }
 
 }

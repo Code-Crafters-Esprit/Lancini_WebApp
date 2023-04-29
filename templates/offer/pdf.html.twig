@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <div style="text-align:right;">
-    <h6>Téléchargé le {{ heure }}</h6>
+    <h6>Downloaded in {{ heure }}</h6>
 </div>
 
 <div style="text-align:center; text-decoration: underline; color: #5680E9 ">
@@ -21,19 +21,19 @@
 </div>
 
 <div>
-    <h5 class="card-title" style="color: #2e6da4">Description :</h5>
+    <h5 class="card-title">Description :</h5>
     <p class="card-text">{{ offer.description }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Secteur : </h5>
+    <h5 class="card-title">Sector : </h5>
     <p class="card-text">{{ offer.secteur.nom }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Type d'offre :</h5>
+    <h5 class="card-title">Offre Type :</h5>
     <p class="card-text">{{ offer.typeOffre }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Date de debut : </h5>
+    <h5 class="card-title"> Start Date: </h5>
     <p class="card-text">{{ offer.dateDebut|date }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Date de fin :</h5>
+    <h5 class="card-title">End Date :</h5>
     <p class="card-text">{{ offer.dateFin|date }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Proprietaire :</h5>
+    <h5 class="card-title">User :</h5>
     <p class="card-text">{{ offer.proprietaire.nom }}</p>
-    <h5 class="card-title" style="color: #2e6da4">Compétence : </h5>
+    <h5 class="card-title">Skills : </h5>
     <p class="card-text">{{ offer.competence }}</p>
 
 </div>
