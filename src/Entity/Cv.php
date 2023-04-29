@@ -16,6 +16,7 @@ class Cv
     private ?int $idcv = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     #[Assert\Length(
         min: 8,
         max: 8
@@ -51,6 +52,7 @@ class Cv
 
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     #[Assert\Email]
     private ?string $email = null;
 

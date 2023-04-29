@@ -120,6 +120,7 @@ button {
   </ul>
   </div>
   <div class="actions">
+    <a href="{{ path('print_cv', {'id': cv.idcv}) }}">print</a>
     <a href="{{ path('app_cv_show', {'idcv': cv.idcv}) }}">show</a>
     <a href="{{ path('app_cv_edit', {'idcv': cv.idcv}) }}">edit</a>
 

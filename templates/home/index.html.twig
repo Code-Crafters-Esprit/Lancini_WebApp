@@ -1,7 +1,6 @@
 {% extends 'template.html.twig' %}
 {% block body %}
 <div id="setta">
- <h1>MENJI</h1>
  </div>
 
 
@@ -49,7 +48,7 @@
 
 										</ul>
 										<div class="pricing_btn text-center m-top-40">
-											<a href="{{ path('app_test_pass', {'id': test.id}) }}" class="btn btn-primary">PASSER TEST</a>
+											<a href="{{ path('test_take', {'id': test.id}) }}" class="btn btn-primary">PASSER TEST</a>
 										</div>
 									</div>
 								</div>

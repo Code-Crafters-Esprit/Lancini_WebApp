@@ -9,15 +9,69 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/admin/test')]
 class TestAdminController extends AbstractController
 {
-    #[Route('/', name: 'admin_test_index', methods: ['GET'])]
-    public function index(TestRepository $testRepository): Response
+    #[Route('/sortByAscDiff', name: 'sort_by_asc_diff')]
+    public function sortAscDiff(EntityManagerInterface $entityManager, TestRepository $testRepository, Request $request)
     {
+        $tests = $entityManager
+            ->getRepository(Test::class)
+            ->findAll();
+
+        $query = $request->query->get('q');
+        $tests = $testRepository->findByNomtest($query);
+
+        $tests = $testRepository->sortByAscDiff();
+    
+        return $this->render("testAdmin/index.html.twig",[
+            'tests' => $tests,
+            'query' => $query,
+        ]);
+    }
+    
+    #[Route('/sortByDescDiff', name: 'sort_by_desc_diff')]
+    public function sortDescDiff(EntityManagerInterface $entityManager, TestRepository $testRepository, Request $request)
+    {
+        $tests = $entityManager
+            ->getRepository(Test::class)
+            ->findAll();
+
+        $query = $request->query->get('q');
+        $tests = $testRepository->findByNomtest($query);
+
+        $tests = $testRepository->sortByDescDiff();
+    
+        return $this->render("testAdmin/index.html.twig",[
+            'tests' => $tests,
+            'query' => $query,
+        ]);
+    }
+
+    #[Route('/search', name: 'test_search')]
+    public function search(EntityManagerInterface $entityManager, Request $request, TestRepository $testRepository): Response
+    {
+        $tests = $testRepository->findAll();
+        $query = $request->query->get('q');
+        $tests = $testRepository->findByNomtest($query);
+
+        return $this->render('testAdmin/search.html.twig', [
+            'tests' => $tests,
+            'query' => $query,
+        ]);
+    }
+    #[Route('/', name: 'admin_test_index', methods: ['GET'])]
+    public function index(TestRepository $testRepository, Request $request): Response
+    {
+        $tests = $testRepository->findAll();
+        $query = $request->query->get('q');
+        $tests = $testRepository->findByNomtest($query);
+
         return $this->render('testAdmin/index.html.twig', [
-            'tests' => $testRepository->findAll(),
+            'tests' => $tests,
+            'query' => $query,
         ]);
     }
 
