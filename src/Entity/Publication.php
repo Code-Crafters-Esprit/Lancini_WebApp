@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PublicationRepository;
 use App\Entity\Commentaire;
+use App\Entity\User;
 use DateTime;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Validator\Constraints\Collection;

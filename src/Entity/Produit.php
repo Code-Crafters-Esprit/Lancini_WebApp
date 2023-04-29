@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\User;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -100,14 +101,14 @@ class Produit
         return $this;
     }
 
-    public function getImageName(): ?string
+    public function getImage(): ?string
     {
-        return $this->imageName;
+        return $this->image;
     }
 
-    public function setImageName(string $imageName): self
+    public function setImage(string $imageName): self
     {
-        $this->imageName = $imageName;
+        $this->image = $imageName;
 
         return $this;
     }
