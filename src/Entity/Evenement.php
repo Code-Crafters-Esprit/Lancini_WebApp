@@ -16,7 +16,6 @@ use App\Validator\Constraints\EventParticipantCount;
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 
 
- #[CustomAssert\EventParticipantCount]
  
 class Evenement
 {

@@ -89,7 +89,7 @@ public function ajouter(ManagerRegistry $mr, Request $request, ManagerRegistry $
         $selectedCountryName = Countries::getName($selectedCountry);
 
 
-        // Set the selected country name on the entity
+       
         $event->setLieu($selectedCountryName);
         $em->persist($event);
 

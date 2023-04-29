@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     public $iduser;
-
+  
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -55,9 +55,9 @@ class User
         $this->badge = new ArrayCollection();
     }
 
-    public function getIduser(): ?int
+    public function getIdUser(): ?int
     {
-        return $this->iduser;
+        return $this->idUser;
     }
 
     public function getNom(): string
