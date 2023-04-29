@@ -52,7 +52,7 @@ class Publication
 
     public function getIdpub(): ?int
     {
-        return $this->idPub;
+        return $this->idpub;
     }
 
     public function getLibelle(): ?string

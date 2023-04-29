@@ -27,7 +27,7 @@ class PublicationsController extends AbstractController
 
         $repository=$doctrine->getRepository(Publication::class);
             $pub=$repository->findAll() ;
-        $user = $this->getUser();
+            $user = $this->getUser();
 
 
         return $this->render('publications/affichagePublications.html.twig',  [

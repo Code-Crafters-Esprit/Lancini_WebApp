@@ -50,24 +50,24 @@ class Commentaire
 
     public function getIdpub(): ?Publication
     {
-        return $this->idPub;
+        return $this->idpub;
     }
 
     public function setIdpub(?Publication $idpub): self
     {
-        $this->idPub = $idpub;
+        $this->idpub = $idpub;
 
         return $this;
     }
 
     public function getIduser(): ?User
     {
-        return $this->idUser;
+        return $this->iduser;
     }
 
     public function setIduser(?User $iduser): self
     {
-        $this->idUser = $iduser;
+        $this->iduser = $iduser;
 
         return $this;
     }

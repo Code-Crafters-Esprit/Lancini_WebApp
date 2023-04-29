@@ -21,8 +21,8 @@ class Evenement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column (name :"idEvent")]
-    private ?int $idEvent = null;
+    #[ORM\Column (name :"idevent")]
+    private ?int $idevent = null;
 
     #[ORM\Column(length:30)]
     #[Assert\NotBlank(message:"Please fill out the title field")]
@@ -58,7 +58,7 @@ class Evenement
 
     public function getIdevent(): ?int
     {
-        return $this->idEvent;
+        return $this->idevent;
     }
 
     public function getTitre(): ?string

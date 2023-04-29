@@ -23,8 +23,8 @@ class Participants
     private ?Evenement $idevent = null; 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'idUser', nullable: true)]
-    private ?User $iduser = null; 
+    #[ORM\JoinColumn(name: 'idUser', referencedColumnName: 'idUser', nullable: true)]
+    private ?User $idUser = null; 
 
     public function getIdparticipant(): ?int
     {
@@ -33,12 +33,12 @@ class Participants
 
     public function getIdevent(): ?Evenement
     {
-        return $this->idEvent;
+        return $this->idevent;
     }
 
     public function setIdevent(?Evenement $idevent): self
     {
-        $this->idEvent = $idevent;
+        $this->idevent = $idevent;
 
         return $this;
     }
