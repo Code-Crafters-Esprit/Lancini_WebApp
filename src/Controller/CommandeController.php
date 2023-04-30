@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Commande;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/commande')]
 class CommandeController extends AbstractController
@@ -24,6 +26,19 @@ class CommandeController extends AbstractController
             'commandes' => $commandeRepository->findAll(),
         ]);
     }
+    #[Route('/AllCommandes', name: 'commandes', methods: ['GET'])]
+    public function getCommandes(CommandeRepository $repo, SerializerInterface $serializer)
+    {
+        $commandes = $repo->findAll();
+       
+
+        $json = $serializer->serialize($commandes, 'json', ['groups' => "commandes"]);
+
+       
+        return new Response($json);
+    }
+   
+
    #[Route('/chart', name: 'app_chart_index', methods: ['GET'])]
 public function salesByVendeur(CommandeRepository $commandeRepository)
 { 
@@ -37,7 +52,59 @@ public function salesByVendeur(CommandeRepository $commandeRepository)
         'sellers'   => $sellers,
     ]);
 }
+#[Route("/Commandes/{id}", name: "commande")]
+public function StudentId($idCommande, NormalizerInterface $normalizer, CommandeRepository $repo)
+{
+    $commande = $repo->find($idCommande);
+    $commandeNormalises = $normalizer->normalize($commande, 'json', ['groups' => "commandes"]);
+    return new Response(json_encode($commandeNormalises));
+}
+#[Route("addCommandeJSON/new", name: "addCommandeJSON", methods: ['POST'])]
+public function addCommandeJSON(Request $req,   NormalizerInterface $Normalizer)
+{
 
+    $em = $this->getDoctrine()->getManager();
+    $commande = new Commande();
+    $commande->setProduit($req->get('produit'));
+    $commande->setAcheteur($req->get('acheteur'));
+    $commande->setVendeur($req->get('vendeur'));
+    $commande->setMontantpaye($req->get('montantpaye'));
+    $commande->setDatecommande($req->get('datecommande'));
+    $em->persist($commande);
+    $em->flush();
+
+    $jsonContent = $Normalizer->normalize($commande, 'json', ['groups' => 'commandes']);
+    return new Response(json_encode($jsonContent));
+}
+
+#[Route("updateCommandeJSON/{idCommande}", name: "updateCommandeJSON")]
+    public function updateCommandeJSON(Request $req, $idCommande, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->find($idCommande);
+        $commande->setProduit($req->get('produit'));
+        $commande->setAcheteur($req->get('acheteur'));
+        $commande->setVendeur($req->get('vendeur'));
+        $commande->setMontantpaye($req->get('montantpaye'));
+        $commande->setDatecommande($req->get('datecommande'));
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($commande, 'json', ['groups' => 'commandes']);
+        return new Response("Order updated successfully " . json_encode($jsonContent));
+    }
+    #[Route("deleteCommandeJSON/{idCommande}", name: "deleteCommandeJSON")]
+    public function deleteCommandeJSON(Request $req, $idCommande, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->find($idCommande);
+        $em->remove($commande);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($commande, 'json', ['groups' => 'commandes']);
+        return new Response("Order deleted successfully " . json_encode($jsonContent));
+    }
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CommandeRepository $commandeRepository, ProduitRepository $produitRepository): Response
     {

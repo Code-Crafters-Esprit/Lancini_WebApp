@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -15,26 +16,32 @@ class Commande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("commandes")]
     private  $idCommande ;
 
     #[ORM\Column(name: "dateCommande", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Groups("commandes")]
     private $datecommande = null;
 
     #[ORM\Column(name: "montantPaye", type: "decimal", precision: 10, scale: 2, nullable: false)]
+    #[Groups("commandes")]
     private $montantpaye=null;
     #[ORM\ManyToOne(targetEntity: Produit::class)]
     #[ORM\JoinColumn(name: "produit", referencedColumnName: "idProduit")]
     #[Assert\NotBlank(message: "You must pick a product.")]
+    #[Groups("commandes")]
     private $produit;
     
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "acheteur", referencedColumnName: "idUser")]
     #[Assert\NotBlank(message: "You must pick a buyer.")]
+    #[Groups("commandes")]
     private $acheteur;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "vendeur", referencedColumnName: "idUser")]
+    #[Groups("commandes")]
     private $vendeur;
 
     public function getIdcommande(): ?int
