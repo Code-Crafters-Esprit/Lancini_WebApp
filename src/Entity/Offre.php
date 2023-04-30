@@ -16,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(OffreRepository::class)]
 class Offre
 {
+
+
     #[ORM\Id]
     #[ORM\Column(name: 'idOffre', type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]

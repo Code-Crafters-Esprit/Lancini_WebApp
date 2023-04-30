@@ -12,30 +12,48 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use App\Entity\Secteur;
+use App\Controller\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+
+
+
 
 
 class SecteurMobileController extends AbstractController
-{
-    #[Route('/mobileSecteur', name: 'app_mobile_secteur' , methods:'GET'  )]
-    public function Secteuremobile( NormalizerInterface  $normalizer)
     {
-        $secteur = $this->getDoctrine()->getRepository(Secteur::class)->findAll();
-        $json = $normalizer->normalize($secteur, "json");
-        dd($json);
-       // $json = json_encode($secteur);
-        return new JsonResponse($json);
+    #[Route('/mobileSecteur', name: 'mobileSecteur')]
+    public function index(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $secteurRepository = $entityManager->getRepository(Secteur::class);
+        $secteurs = $secteurRepository->findAll();
+
+        $secteursArray = [];
+        foreach ($secteurs as $secteur) {
+            $secteur->setDatemodification(new \DateTime()); // Set the modification date to the current time
+
+            $secteursArray[] = [
+                'idsecteur' => $secteur->getIdsecteur(),
+                'nom' => $secteur->getNom(),
+                'description' => $secteur->getDescription(),
+                'datecreation' => $secteur->getDatecreation(),
+                'datemodification' => $secteur->getDatemodification(),
+            ];
+        }
+
+        return $this->json($secteursArray);
     }
-    /**
-     * @Route("/newSecteur_mobile/{nom}/{description}/{DateCreation}/{DateModification}/}", name="newSecteur_mobile", methods={"GET","POST"})
+/**
+     * @Route("/newSecteur/{nom}/{description}/{DateCreation}/{DateModification}/}", name="newSecteur_mobile",
+      *methods={"POST"}
      */
     public function newSecteur($nom,$description,$DateCreation,$DateModification,NormalizerInterface  $normalizer )
     {
 
         $secteur = new Sinstre();
-        $secteur->setFirstname($nom);
-        $secteur->setLastname($description);
-        $secteur->setEmail($DateCreation);
-        $secteur->setDate($DateModification);
+        $secteur->setNom($nom);
+        $secteur->setDescription($description);
+        $secteur->setDatecreation($DateCreation);
+        $secteur->setDatemodification($DateModification);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($secteur);
@@ -46,16 +64,41 @@ class SecteurMobileController extends AbstractController
     }
 
     /**
-     * @Route("/SupprimerSecteur", name="SupprimerSecteur")
+@Route("/addSecteurM", name="addSecteurM")
+
+@Method("POST")
+     * */
+
+    public function ajouterSecteur ($nom,$description,$DateCreation,$DateModification ,Request $request , EntityManagerInterface $entityManager)
+    {
+        $secteur = new Secteur();
+        $description = $request->query->get("description");
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $secteur->setNom($nom);
+        $secteur->setDescription($description);
+        $secteur->setDatecreation($DateCreation);
+        $secteur->setDatemodification($DateModification);
+
+        $entityManager->persist($secteur);
+        $entityManager->Flush();
+        $serializer = new Serializer ([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($secteur );
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("/SupprimerSecteur", name="SupprimerSecteur", methods={"DELETE"})
      */
     public function SupprimerSecteur(Request $request)
     {
-
         $idSecteur = $request->get("idSecteur");
         $em = $this->getDoctrine()->getManager();
         $secteur = $em->getRepository(Secteur::class)->find($idSecteur);
+
         if($secteur != null)
         {
+            $secteur->setOffre(null);
             $em->remove($secteur);
             $em->flush();
             $serializer = new Serializer([new ObjectNormalizer()]);
