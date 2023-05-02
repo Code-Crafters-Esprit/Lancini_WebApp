@@ -253,9 +253,7 @@ class OfferController extends AbstractController
     public function qrCode( QrcodeService $qrcodeService,$idOffre)
     {
         $offer = $this->getDoctrine()->getRepository(Offre::class)->find($idOffre);
-
         $qrCode = $qrcodeService->qrcode($offer);
-
         return $this->render('offer/details.html.twig', [
             'offer' => $offer,
             'qrCode' => $qrCode

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Metadata\Delete;
+use FontLib\Table\Type\post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +14,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use App\Entity\Secteur;
-use App\Controller\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -20,7 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 
 class SecteurMobileController extends AbstractController
-    {
+{
     #[Route('/mobileSecteur', name: 'mobileSecteur')]
     public function index(EntityManagerInterface $entityManager): JsonResponse
     {
@@ -29,7 +30,7 @@ class SecteurMobileController extends AbstractController
 
         $secteursArray = [];
         foreach ($secteurs as $secteur) {
-            $secteur->setDatemodification(new \DateTime()); // Set the modification date to the current time
+            $secteur->setDatemodification(new \DateTime());
 
             $secteursArray[] = [
                 'idsecteur' => $secteur->getIdsecteur(),
@@ -42,54 +43,35 @@ class SecteurMobileController extends AbstractController
 
         return $this->json($secteursArray);
     }
-/**
-     * @Route("/newSecteur/{nom}/{description}/{DateCreation}/{DateModification}/}", name="newSecteur_mobile",
-      *methods={"POST"}
-     */
-    public function newSecteur($nom,$description,$DateCreation,$DateModification,NormalizerInterface  $normalizer )
-    {
 
-        $secteur = new Sinstre();
+    #[Route('/addSecteurM', name: 'addSecteurM',methods: ['POST'])]
+    public function ajouterSecteur(Request $request)
+    {
+        $nom = $request->query->get('nom');
+        $description = $request->query->get('description');
+        $dateCreation = new \DateTime($request->query->get('date_creation'));
+
+        $secteur = new Secteur();
         $secteur->setNom($nom);
         $secteur->setDescription($description);
-        $secteur->setDatecreation($DateCreation);
-        $secteur->setDatemodification($DateModification);
+        $secteur->setDatecreation($dateCreation);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($secteur);
         $entityManager->flush();
-        $json = $normalizer->normalize($secteur, "json", ['groups' => ['post:read']]);
-        return new JsonResponse($json);
 
+        return new JsonResponse([
+            'idsecteur' => $secteur->getIdsecteur(),
+            'nom' => $secteur->getNom(),
+            'description' => $secteur->getDescription(),
+            'datecreation' => $secteur->getDatecreation()->format('Y-m-d'),
+        ]);
     }
 
-    /**
-@Route("/addSecteurM", name="addSecteurM")
 
-@Method("POST")
-     * */
 
-    public function ajouterSecteur ($nom,$description,$DateCreation,$DateModification ,Request $request , EntityManagerInterface $entityManager)
-    {
-        $secteur = new Secteur();
-        $description = $request->query->get("description");
-        $entityManager = $this->getDoctrine()->getManager();
+    #[Route('/SupprimerSecteur', name: 'SupprimerSecteur')]
 
-        $secteur->setNom($nom);
-        $secteur->setDescription($description);
-        $secteur->setDatecreation($DateCreation);
-        $secteur->setDatemodification($DateModification);
-
-        $entityManager->persist($secteur);
-        $entityManager->Flush();
-        $serializer = new Serializer ([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($secteur );
-        return new JsonResponse($formatted);
-    }
-
-    /**
-     * @Route("/SupprimerSecteur", name="SupprimerSecteur", methods={"DELETE"})
-     */
     public function SupprimerSecteur(Request $request)
     {
         $idSecteur = $request->get("idSecteur");
@@ -108,9 +90,8 @@ class SecteurMobileController extends AbstractController
 
     }
 
-    /**
-     * @Route("/updateSecteur", name="updateSecteur")
-     */
+
+    #[Route('/updateSecteur', name: 'updateSecteur')]
     public function updateSecteur(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $secteur = $this->getDoctrine()->getManager()->getRepository(Secteur::class)->find($request->get("id"));
