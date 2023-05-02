@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 
@@ -27,6 +29,78 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);
+    }
+
+    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+
+    #[Route('/get/all', name: 'app_user_get_all')]
+    public function getAll(EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
+    {
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->findAll();
+        $json = $serializer->serialize($users, 'json', ['groups' => "users"]);
+        return new Response($json);
+    }
+
+    #[Route('/get/one/{id}', name: 'app_user_get_one')]
+    public function getUserJSON($id, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
+    {
+        $user = $entityManager
+            ->getRepository(User::class)
+            ->find($id);
+        $json = $serializer->serialize($user, 'json', ['groups' => "users"]);
+        return new Response($json);
+    }
+
+    #[Route("update/new", name: "addUserSON")]
+    public function addStudentJSON(Request $req, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $user = new User();
+        $user->setEmail($req->get('email'));
+        $user->setMotdepasse($req->get('motdepasse'));
+        $user->setNom($req->get('nom'));
+        $user->setPrenom($req->get('prenom'));
+        $user->setRole($req->get('role'));
+        $user->setBio($req->get('bio'));
+        $user->setPhotopath($req->get('photopath'));
+        $user->setNumtel($req->get('numtel'));
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    #[Route("update/edit/{id}", name: "updateUserJSON")]
+    public function updateStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $user->setEmail($req->get('email'));
+        $user->setMotdepasse($req->get('motdepasse'));
+        $user->setNom($req->get('nom'));
+        $user->setPrenom($req->get('prenom'));
+        $user->setRole($req->get('role'));
+        $user->setBio($req->get('bio'));
+        $user->setPhotopath($req->get('photopath'));
+        $user->setNumtel($req->get('numtel'));
+
+        $entityManager->flush();
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
+        return new Response("User updated successfully " . json_encode($jsonContent));
+    }
+
+    #[Route("delete/{id}", name: "deleteUserJSON")]
+    public function deleteStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
+        return new Response("User deleted successfully " . json_encode($jsonContent));
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]

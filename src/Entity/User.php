@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
@@ -23,6 +24,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+
+    #[Groups("users")]
     private int $idUser;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
@@ -32,6 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
         message: "Name cannot contain only numbers"
     )]
+    #[Groups("users")]
     private string $nom;
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
@@ -41,14 +45,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
         message: "Last name cannot contain only numbers"
     )]
+    #[Groups("users")]
     private string $prenom;
 
     #[ORM\Column]
+    #[Groups("users")]
     private array $roles = [];
 
     #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: "Please enter an email")]
     #[Assert\Email(message: "Please enter a valid email address")]
+    #[Groups("users")]
     private string $email;
 
     #[Assert\NotBlank(message: "Please enter a password")]
@@ -63,13 +70,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Please enter a role")]
     #[Assert\Length(max: 255, maxMessage: "Role should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'role', type: 'string', length: 255, nullable: false)]
+    #[Groups("users")]
     private string $role;
 
     #[Assert\Length(max: 65535, maxMessage: "Bio should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'bio', type: 'text', length: 65535, nullable: true)]
+    #[Groups("users")]
     private ?string $bio;
 
     #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
+    #[Groups("users")]
     private ?string $photopath = null;
 
 
@@ -88,6 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\Length(max: 255, maxMessage: "Phone number should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'numTel', type: 'string', length: 255, nullable: true)]
+    #[Groups("users")]
     private ?string $numtel;
 
     #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Badge', cascade: ['persist'])]
