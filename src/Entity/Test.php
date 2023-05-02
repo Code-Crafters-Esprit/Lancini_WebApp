@@ -2,35 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\TestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'test')]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: TestRepository::class)]
 class Test
 {
-    /**
-     * @var int
-     */
-    #[ORM\Column(name: 'idTest', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    private ?int $idTest = null;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     */
-    #[ORM\Column(name: 'nomTest', type: 'string', length: 255, nullable: false)]
-    private $nomtest;
+    #[ORM\Column(length: 255)]
+    private ?string $nomtest = null;
 
-    /**
-     * @var int
-     */
-    #[ORM\Column(name: 'difficulte', type: 'integer', nullable: false)]
-    private $difficulte;
+    #[ORM\Column]
+    private ?int $difficulte = null;
 
-    public function getIdtest(): ?int
+    #[ORM\ManyToMany(targetEntity: Quiz::class, inversedBy: 'tests')]
+    private Collection $quizzes;
+
+    public function __construct()
     {
-        return $this->idTest;
+        $this->quizzes = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getNomtest(): ?string
@@ -53,6 +54,34 @@ class Test
     public function setDifficulte(int $difficulte): self
     {
         $this->difficulte = $difficulte;
+
+        return $this;
+    }
+
+    public function __toString(): string {
+        return $this->nomtest;
+    }
+
+    /**
+     * @return Collection<int, Quiz>
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes->add($quiz);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        $this->quizzes->removeElement($quiz);
 
         return $this;
     }

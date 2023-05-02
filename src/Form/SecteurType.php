@@ -18,6 +18,7 @@ class SecteurType extends AbstractType
     {
         $builder
             ->add('nom',TextType::class,
+            
         [
             'label' => 'Name',
             'constraints' => [
@@ -25,14 +26,25 @@ class SecteurType extends AbstractType
                     'pattern' => '/^[A-Za-z]*$/',
                     'message' => 'The name must only contain letters.'
                 ])
-            ]
+                
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
         ])
-            ->add('description',TextType::class)
+            ->add('description',TextType::class,[
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('datecreation' , DateType::class, [
                 'label' => 'Creation date',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'data' => new \DateTime(),
+                'attr' => [
+                    'class' => 'form-control',
+                ],
 
             ])
             ->add('datemodification' , DateType::class, [
@@ -40,9 +52,13 @@ class SecteurType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'data' => new \DateTime(),
+                'attr' => [
+                    'class' => 'form-control',
+                ],
 
             ])
             ->add('Create', SubmitType::class);
+            
         ;
     }
 
