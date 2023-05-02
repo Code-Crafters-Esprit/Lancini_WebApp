@@ -28,6 +28,9 @@ class OfferType extends AbstractType
             ->add('nom' , TextType::class ,
                 [
             'label' => 'Name',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
                     'constraints' => [
                         new Regex([
                             'pattern' => '/^[a-zA-Z\s]*$/',
@@ -58,6 +61,9 @@ class OfferType extends AbstractType
             ->add('description' , TextType::class,
             [
             'label' => 'Description',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                     'constraints' => [
                         new Regex([
                             'pattern' => '/^[a-zA-Z\s]*$/',
@@ -70,7 +76,11 @@ class OfferType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'constraints' => [
-                ]
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+
             ])
             ->add('datefin', DateType::class, [
                 'label' => 'End date',
@@ -81,11 +91,17 @@ class OfferType extends AbstractType
                         'propertyPath' => 'parent.all[datedebut].data',
                         'message' => 'The end date should be after or equal to the start date.'
                     ])
-                ]
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
 
             ->add('competence', TextType::class, [
                 'label' => 'Skills',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z\s,:;]*$/',
@@ -94,7 +110,9 @@ class OfferType extends AbstractType
                 ]
             ])
             ->add('secteur', EntityType::class, ['class'=> Secteur::class,
-
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                     'label' => 'Sector',
                     'choice_label'=>'Nom',
                     'multiple'=>false ,
@@ -104,7 +122,11 @@ class OfferType extends AbstractType
                 'choice_label'=>'Nom',
                 'multiple'=>false ,
                 'expanded'=>false, ])
-            ->add('Create', SubmitType::class);
+            ->add('Create', SubmitType::class,[
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ],
+            ]);
 
         ;
     }
