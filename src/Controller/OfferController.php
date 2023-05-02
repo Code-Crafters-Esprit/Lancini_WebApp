@@ -249,16 +249,16 @@ class OfferController extends AbstractController
        }
 
 
-    #[Route('/generate_qr_code/{idOffre}', name:'qrCode')]
+    #[Route('/generate_qr_code/{idOffre}', name:'qrCodeOffer')]
     public function qrCode( QrcodeService $qrcodeService,$idOffre)
     {
         $offer = $this->getDoctrine()->getRepository(Offre::class)->find($idOffre);
 
-        $qrCode = $qrcodeService->qrcode($offer);
+        $qrCodeOffer = $qrcodeService->qrcode($offer);
 
         return $this->render('offer/details.html.twig', [
             'offer' => $offer,
-            'qrCode' => $qrCode
+            'qrCodeOffer' => $qrCodeOffer
         ]);
     }
 }

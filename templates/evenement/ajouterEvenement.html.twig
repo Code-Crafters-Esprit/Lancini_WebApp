@@ -3,124 +3,125 @@
 {% block body %}
 
 
-<div id="wrapper">
-	 <div id="overlay-1" style="height: 900px; background-image: url('img/Eback.jpg'); background-size: cover; background-position: center;">
+	<div id="wrapper">
+		<div
+			id="overlay-1" style="height: 900px; background-image: url('img/Eback.jpg'); background-size: cover; background-position: center;">
 			{#<div id="overlay-1" style="height: 937px;">#}
-				
-				<section id="starting">
-					<div class="text-center starting-text" style="padding-top: 200.5px;">
-						<h1 class="rene" style="color: #7fd5ff">Lancini Comunnity</h1>
-						<h2 style="color: white">Let's meet and learn together!</h2>
+
+			<section id="starting">
+				<div class="text-center starting-text" style="padding-top: 200.5px;">
+					<h1 class="rene" style="color: #7fd5ff">Lancini Comunnity</h1>
+					<h2 style="color: white">Let's meet and learn together!</h2>
+				</div>
+			</section>
+
+
+			<div class="main_contact roomy-100 text-black">
+				<div class="col-md-4">
+					<div class="rage_widget">
+						<div class="widget_head">
+							<h3 class="text-black">Having a new event?</h3>
+							<div class="separator_small"></div>
+						</div>
+
+						<p>
+							Add your own event and share it with our community
+						</p>
+
+						<div class="widget_socail m-top-30"></div>
 					</div>
-				</section>
+				</div>
+				<div class="col-md-8 sm-m-top-30">
+					{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}
+					) }}
 
-
-
-
-<div class="main_contact roomy-100 text-black">
-							<div class="col-md-4">
-								<div class="rage_widget">
-									<div class="widget_head">
-										<h3 class="text-black">Having a new event?</h3>
-										<div class="separator_small"></div>
-									</div>
-									<p> Add your own event and share it with our community		
-									</p>
-
-									<div class="widget_socail m-top-30">
-										
-									</div>
-								</div>
-							</div>
-							<div class="col-md-8 sm-m-top-30">
-								{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
-								 
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="form-group">
-											    {{form_label(form.titre,"Title : ")}}
-												{{form_widget(form.titre,{'att':{'class':'form-control'}})}}
-												{{form_errors(form.titre,{'attr':{'class':'text-danger'}})}}
-											</div>
-										</div>
-
-                                        <div class="col-sm-6">
-											<div class="form-group">
-											    {{form_label(form.sujet,"What is it about? ")}}
-												{{form_widget(form.sujet,{'att':{'class':'form-control'}})}}
-												{{form_errors(form.sujet,{'attr':{'class':'text-danger'}})}}
-											</div>
-										</div>
-
-                                        <div class="col-sm-6">
-											<div class="form-group">
-											    {{form_label(form.lieu,"Place : ")}}
-												{{ form_widget(form.lieu, {'attr': {'class': 'map-coordinates'}}) }}
-												{{form_errors(form.lieu,{'attr':{'class':'text-danger'}})}}
-											</div>
-										</div>
-
-                                        <div class="col-sm-6">
-											<div class="form-group">
-											 {{form_label(form.dateevent,"Date : ")}}
-												{{form_widget(form.dateevent,{'att':{'class':'form-control'}})}}
-											</div>
-										</div>
-
-                                        <div class="col-sm-6">
-											<div class="form-group">
-											 {{form_label(form.horaire,"Time : ")}}
-												{{form_widget(form.horaire,{'att':{'class':'form-control'}})}}
-											</div>
-										</div>
-					
-									</div>
-
-								{{form_end(form)}}
-								<div id="map" style="height: 400px;"></div>
-
-								$(document).ready(function() {
-    <script>
-        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-        }).addTo(mymap);
-        var marker = L.marker([51.5, -0.09]).addTo(mymap);
-    </script>
-});
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								{{form_label(form.titre,"Title : ")}}
+								{{form_widget(form.titre,{'att':{'class':'form-control'}})}}
+								{{form_errors(form.titre,{'attr':{'class':'text-danger'}})}}
 							</div>
 						</div>
 
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
+						<div class="col-sm-6">
+							<div class="form-group">
+								{{form_label(form.sujet,"What is it about? ")}}
+								{{form_widget(form.sujet,{'att':{'class':'form-control'}})}}
+								{{form_errors(form.sujet,{'attr':{'class':'text-danger'}})}}
+							</div>
+						</div>
 
-    <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+						<div class="col-sm-6">
+							<div class="form-group">
+								{{form_label(form.lieu,"Place : ")}}
+								{{ form_widget(form.lieu, {'attr': {'class': 'map-coordinates'}}) }}
+								{{form_errors(form.lieu,{'attr':{'class':'text-danger'}})}}
+							</div>
+						</div>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-            maxZoom: 18,
-        }).addTo(map);
+						<div class="col-sm-6">
+							<div class="form-group">
+								{{form_label(form.dateevent,"Date : ")}}
+								{{form_widget(form.dateevent,{'att':{'class':'form-control'}})}}
+							</div>
+						</div>
 
-        var marker = L.marker([51.505, -0.09], {
-            draggable: true
-        }).addTo(map);
+						<div class="col-sm-6">
+							<div class="form-group">
+								{{form_label(form.horaire,"Time : ")}}
+								{{form_widget(form.horaire,{'att':{'class':'form-control'}})}}
+							</div>
+						</div>
 
-        marker.on('dragend', function(event) {
-            var marker = event.target;
-            var position = marker.getLatLng();
-            var lat = position.lat;
-            var lng = position.lng;
+				
 
-            $('.map-coordinates').val(lat + ',' + lng);
-        });
-    </script>
-{% endblock %}
+					{{form_end(form)}}
+						</div>
+					<div id="map" style="height: 400px;"></div>
 
-{% block footer %}
+					$(document).ready(function() {
+					<script>
+						var mymap = L.map('mapid').setView([
+51.505, -0.09
+], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+maxZoom: 18
+}).addTo(mymap);
+var marker = L.marker([51.5, -0.09]).addTo(mymap);
+					</script>
+					});
+				</div>
+			</div>
 
-{% endblock %}
+		{% endblock %}
+		{% block javascripts %}
+			{{ parent() }}
+
+			<script>
+				var map = L.map('map').setView([
+51.505, -0.09
+], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+maxZoom: 18
+}).addTo(map);
+
+var marker = L.marker([
+51.505, -0.09
+], {draggable: true}).addTo(map);
+
+marker.on('dragend', function (event) {
+var marker = event.target;
+var position = marker.getLatLng();
+var lat = position.lat;
+var lng = position.lng;
+
+$('.map-coordinates').val(lat + ',' + lng);
+});
+			</script>
+		{% endblock %}
+
+		{% block footer %}{% endblock %}

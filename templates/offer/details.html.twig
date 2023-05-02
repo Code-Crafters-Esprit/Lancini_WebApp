@@ -86,7 +86,7 @@
                         <h5>{{ offer.nom }}</h5>
                     </div>
                     <div>
-                        <a class="btn btn-link mr-3" href="{{ path('qrCode', {'idOffre': offer.idOffre}) }}" style="color: #0b0b0b;">QR code</a>
+                        <a class="btn btn-link mr-3" href="{{ path('qrCodeOffer', {'idOffre': offer.idOffre}) }}" style="color: #0b0b0b;">QR code</a>
                         <a class="btn btn-link" href="{{ path('Offer.pdf', {'id': offer.idOffre}) }}" style="color: #0b0b0b;" data-toggle="tooltip" data-placement="top" title="Export PDF">PDF</a>
                     </div>
                 </div>
