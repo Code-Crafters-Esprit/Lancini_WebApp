@@ -37,6 +37,13 @@ class AdminController extends AbstractController
     )
     {
     }
+    #[Route('/', name: 'app_admin')]
+    public function index(): Response
+    {
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
     #[Route('/offerList', name: 'app_admin_offerList')]
     public function affOffer(ManagerRegistry $mg): Response
     {
@@ -307,11 +314,5 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin/avisadmin/delete   .html.twig', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
+    
 }
