@@ -50,8 +50,8 @@ class Cv
 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "userId", referencedColumnName: "idUser")]
-    private $userId;
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser")]
+    private $idUser;
 
     public function getIdcv(): ?int
     {
@@ -178,14 +178,14 @@ class Cv
         return $this;
     }
 
-    public function getUserid(): ?User
+    public function getIdUser(): ?User
     {
-        return $this->userId;
+        return $this->idUser;
     }
 
-    public function setUserid(?User $userid): self
+    public function setIdUser(?User $idUser): self
     {
-        $this->userId = $userid;
+        $this->idUser = $idUser;
 
         return $this;
     }
