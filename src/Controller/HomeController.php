@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(MailerService $mailer): Response
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/base.html.twig', [
             'user' => $this->getUser(),
         ]);
     }

@@ -43,32 +43,51 @@
 			<div id="overlay-1">
 
 				<section id= "navigation">
-		{% block navbar %}
-				
-					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	  					<div class="container-fluid">
-	    					<div class="navbar-header">
-	      						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					        		<span class="ion-navicon"></span>
-					      		</button>
-					      		<a class="navbar-brand" href="{{ path('app_market_index') }}">Lancini</a>
-					    	</div>
-	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      					<ul class="nav navbar-nav navbar-right">
-		      						<li><a href="#about">About Us</a></li>
-		      						<li><a href="#our_service">Service</a></li>
-		        					<li><a href="#team">Team</a></li>
-		        					<li><a href="#portfolio">LanciniMarket</a></li>
-		        					<li><a href="#Offers">Offers</a></li>
-		        					<li><a href="#Community">Community</a></li>
-		        					<li><a href="#testimonial">Testimonials</a></li>
-		        					<li><a href="#contact">Contact us</a></li>
-
-							    </ul>
-	    					</div>	<!-- collapse navbar-collapse -->
-	  					</div>	<!-- container-fluid -->
-					</nav>	<!-- navbar -->
-				{% endblock %}
+	{% block navbar %}
+	<section id="navigation">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="ion-navicon"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						Lancini
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#Home">Home</a>
+						</li>
+						<li>
+							<a href="{{ path('app_homeOffer') }}">Offers</a>
+						</li>
+						<li>
+							<a href="{{ path('app_market_index') }}">LanciniMarket</a>
+						</li>
+						<li>
+							<a href="{{ path('app_test_index') }}">Get verified</a>
+						</li>
+						<li>
+							<a href="{{ path('app_community') }}">Community</a>
+						</li>
+						<li>
+							<a href="{{ path('app_reclamation_index') }}">Support</a>
+						</li>
+						<li>
+							<a href="{{ path('app_avis_index') }}">FeedBack</a>
+						</li>
+						
+					</ul>
+				</div>
+				<!-- collapse navbar-collapse -->
+			</div>
+			<!-- container-fluid -->
+		</nav>
+		<!-- navbar -->
+	</section>
+{% endblock %}
 
 				</section>	<!-- #navigation -->
 				<section id="starting">
