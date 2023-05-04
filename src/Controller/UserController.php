@@ -31,8 +31,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-
     #[Route('/get/all', name: 'app_user_get_all')]
     public function getAll(EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
@@ -53,7 +51,7 @@ class UserController extends AbstractController
         return new Response($json);
     }
 
-    #[Route("update/new", name: "addUserSON")]
+    #[Route("update/new", name: "addUserJSON")]
     public function addStudentJSON(Request $req, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
