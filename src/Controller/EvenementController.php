@@ -79,6 +79,9 @@ public function ajouter(ManagerRegistry $mr, Request $request, ManagerRegistry $
     $users=$repository->findAll() ;
     
     $event = new Evenement;
+    if($this->getUser()){
+        $event->setProprietaire($this->getUser());
+    }
     $form = $this->createForm(EvenementType::class,$event);
 
     $form->handleRequest($request);

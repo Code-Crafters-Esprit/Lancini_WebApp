@@ -57,8 +57,10 @@ class PublicationsController extends AbstractController
 public function ajouter(ManagerRegistry $mr, Request $request): Response
 {
     $pub = new Publication();
+    if($this->getUser()){
+        $pub->setProprietaire($this->getUser());
+    }
     $form = $this->createForm(PublicationType::class,$pub);
-
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
