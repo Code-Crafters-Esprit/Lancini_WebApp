@@ -56,10 +56,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: "Please enter a password")]
     #[Assert\Length(min: 8, max: 255, minMessage: "Password should be at least {{ limit }} characters long", maxMessage: "Password should not exceed {{ limit }} characters")]
-    #[Assert\Regex(
-        pattern: "/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
-        message: "Password must contain at least one letter and one number"
-    )]
+    // #[Assert\Regex(
+    //     pattern: "/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
+    //     message: "Password must contain at least one letter and one number"
+    // )]
     #[ORM\Column(name: 'motDePasse', type: 'string', length: 255, nullable: false)]
     private string $motdepasse;
 

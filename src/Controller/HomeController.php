@@ -10,7 +10,7 @@ use App\Service\MailerService;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(MailerService $mailer): Response
+    public function index(): Response
     {
         return $this->render('home/base.html.twig', [
             'user' => $this->getUser(),

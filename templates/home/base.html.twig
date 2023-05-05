@@ -25,6 +25,7 @@
 
 	    <!-- js -->
 		{% block scripts %}
+
 			
 	    <script src="{{asset('jquery.min.js')}}"></script>
 	    <script src="{{asset('bootstrap.min.js')}}"></script>
@@ -51,14 +52,14 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						<span class="ion-navicon"></span>
 					</button>
-					<a class="navbar-brand" href="#">
+					<a class="navbar-brand" href="{{ path('app_home') }}">
 						Lancini
 					</a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="#Home">Home</a>
+							<a href="{{ path('app_home') }}">Home</a>
 						</li>
 						<li>
 							<a href="{{ path('app_homeOffer') }}">Offers</a>
@@ -78,7 +79,15 @@
 						<li>
 							<a href="{{ path('app_avis_index') }}">FeedBack</a>
 						</li>
-						
+						{% if app.user %}	
+							<li>
+								<a href="{{ path('app_profile',{'idUser': app.user.iduser}) }}">Profile</a>
+							</li>
+						{% else %}
+							<li>
+								<a href="{{ path('app_login') }}">Sign in</a>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 				<!-- collapse navbar-collapse -->
@@ -291,7 +300,7 @@ At LANCINI, our mission is to empower people to achieve their professional goals
 				    				<img class="img-circle img-responsive center-block" src="img/Syed-Rezwanul-Haque.jpg" alt="Syed Rezwanul Haque Rubel">
 				    			</div>
 				    		</div>
-				        	<h4 class="wow animated fadeInUp" data-wow-delay= "0.2s">Syed Rezwanul Haque Rubel</h4>
+				        	<h4 class="wow animated fadeInUp" data-wow-delay= "0.2s">Daly Naguez</h4>
 				        	<p class= "member-title wow animated fadeIn" data-wow-delay= "0.3s">Project Manager</p>
 				        	<p class= "team-member-description wow animated fadeIn" data-wow-delay= "0.4s">Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna hifd.</p>
 				        	<div class= "row text-center wow animated fadeInDown" data-wow-delay= "0.5s">
@@ -316,7 +325,7 @@ At LANCINI, our mission is to empower people to achieve their professional goals
 				    				<img class="img-circle img-responsive center-block" src="img/Shahjahan-Jewel.jpg" alt= "Shahjahan Jewel" >
 				    			</div>
 				    		</div>
-				        	<h4 class= "wow animated fadeInUp" data-wow-delay= "0.7s">Shahjahan Jewel</h4>
+				        	<h4 class= "wow animated fadeInUp" data-wow-delay= "0.7s">Youssef Ayed</h4>
 				        	<p class= "member-title wow animated fadeIn" data-wow-delay= "0.8s">Head Of Ideas</p>
 				        	<p class= "team-member-description wow animated fadeIn" data-wow-delay= "0.9s">Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
 				        	<div class= "row text-center wow animated fadeInDown" data-wow-delay= "0.5s">	
@@ -339,7 +348,7 @@ At LANCINI, our mission is to empower people to achieve their professional goals
 				    				<img class="img-circle img-responsive center-block" src="img/nathan.jpg" alt= "Nathan Thomas Paul" >
 				    			</div>
 				    		</div>
-				        	<h4 class="wow animated fadeInUp" data-wow-delay= "1.2s">Nathan Thomas Paul</h4>
+				        	<h4 class="wow animated fadeInUp" data-wow-delay= "1.2s">Yassine Ezzar</h4>
 				        	<p class= "member-title wow animated fadeIn" data-wow-delay= "1.3s">Client Relations Manager</p>
 				        	<p class= "team-member-description wow animated fadeIn" data-wow-delay= "1.4s">Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum.</p>
 				        	<div class= "row text-center wow animated fadeInDown" data-wow-delay= "0.5s">	

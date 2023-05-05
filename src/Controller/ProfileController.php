@@ -45,8 +45,8 @@ class ProfileController extends AbstractController
         $user = $userRepository->find($idUser);
         if ($user == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $user);
-            $passwordForm = $this->createForm(PasswordFormType::class, $user);
-            $eform = $this->createForm(EmailFormType::class, $user);
+            $passwordForm = $this->createForm(PasswordFormType::class);
+            $eform = $this->createForm(EmailFormType::class);
 
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
