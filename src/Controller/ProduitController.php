@@ -66,7 +66,7 @@ class ProduitController extends AbstractController
         //* Nous renvoyons une réponse Http qui prend en paramètre un tableau en format JSON
         return new Response($json);
     }
-    #[Route("/Produits/{id}", name: "produits")]
+    #[Route("/Produits/{id}", name: "produits" , methods:['GET'])]
     public function StudentId($id, NormalizerInterface $normalizer, ProduitRepository $repo)
     {
         $produit = $repo->find($id);
