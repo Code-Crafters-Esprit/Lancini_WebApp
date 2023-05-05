@@ -20,6 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Swift_SmtpTransport;
+use Swift_Message;
+use Swift_Mailer;
 
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
@@ -44,7 +47,6 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
-                $mailer,
                 $translator
             );
         }
@@ -130,7 +132,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData, TranslatorInterface $translator): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
@@ -155,15 +157,26 @@ class ResetPasswordController extends AbstractController
             ));
             return $this->redirectToRoute('app_check_email');
         }
+        $transport = new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls');
+        $transport->setUsername('lancini.verify@gmail.com');
+        $transport->setPassword('jixaahkirmsloywt');
+        $mailer = new Swift_Mailer($transport);
 
-        $email = (new TemplatedEmail())
-            ->from('lancini.verify@gmail.com')
-            ->to($user->getEmail())
-            ->subject('Your password reset request')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ]);
+        $email = (new Swift_Message())
+            ->setFrom('lancini.verify@gmail.com')
+            ->setTo($user->getEmail())
+            ->setSubject('Your password reset request')
+            ->setBody(
+                $this->renderView(
+                    'reset_password/email.html.twig',
+                    [
+                        
+                        'resetToken' => $resetToken,
+                       
+                    ]
+                ),
+                'text/html'
+            );
 
         $mailer->send($email);
 
