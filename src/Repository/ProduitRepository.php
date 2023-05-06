@@ -125,7 +125,7 @@ class ProduitRepository extends ServiceEntityRepository
     public function findProductsByVendeur()
     {
         $qb = $this->createQueryBuilder('p')
-            ->select('v.nom as vendeurNom, COUNT(p.idproduit) as productCount')
+            ->select('v.nom as vendeurNom, COUNT(p.idProduit) as productCount')
             ->leftJoin('p.vendeur', 'v')
             ->groupBy('v.idUser')
             ->getQuery();
@@ -143,7 +143,7 @@ class ProduitRepository extends ServiceEntityRepository
     public function findSellersByProductCount()
     {
         $qb = $this->createQueryBuilder('p')
-            ->select('v.nom as vendeurNom, v.prenom as vendeurPrenom, COUNT(p.idproduit) as productCount')
+            ->select('v.nom as vendeurNom, v.prenom as vendeurPrenom, COUNT(p.idProduit) as productCount')
             ->leftJoin('p.vendeur', 'v')
             ->groupBy('v.idUser')
             ->orderBy('productCount', 'DESC')

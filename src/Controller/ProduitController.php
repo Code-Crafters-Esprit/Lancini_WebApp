@@ -8,6 +8,7 @@ use App\Entity\Maillist;
 use App\Form\Produit1Type;
 use App\Repository\MaillistRepository;
 use App\Repository\ProduitRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -33,7 +34,19 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
-    #[Route('/chart', name: 'app_produitbyvendeur_index', methods: ['GET'])]
+    
+    #[Route("/AllProduits", name: "list" , methods:['GET' ,'POST' ])]
+   
+    public function getProduits(ProduitRepository $repo, SerializerInterface $serializer)
+    {
+        $produits = $repo->findAll();
+        
+        
+        $json = $serializer->serialize($produits, 'json', ['groups' => "produits"]);
+    
+        return new Response($json);
+    }
+    #[Route('/chart', name: 'app_produitbyvendeur_index', methods: ['GET','POST'])]
     public function productsByVendeur(ProduitRepository $produitRepository)
     {
         $data = $produitRepository->findProductsByVendeur();
@@ -48,28 +61,10 @@ class ProduitController extends AbstractController
             'sellers' => $sellers,
         ]);
     }
-    #[Route("/AllProduits", name: "list")]
-    //* Dans cette fonction, nous utilisons les services NormlizeInterface et StudentRepository, 
-    //* avec la méthode d'injection de dépendances.
-    public function getProduits(ProduitRepository $repo, SerializerInterface $serializer)
+    #[Route("/Produits/{idProduit}", name: "produits" , methods:['GET', 'POST'])]
+    public function StudentId($idProduit, NormalizerInterface $normalizer, ProduitRepository $repo)
     {
-        $produits = $repo->findAll();
-        //* Nous utilisons la fonction normalize qui transforme le tableau d'objets 
-        //* students en  tableau associatif simple.
-        // $studentsNormalises = $normalizer->normalize($students, 'json', ['groups' => "students"]);
-
-        // //* Nous utilisons la fonction json_encode pour transformer un tableau associatif en format JSON
-        // $json = json_encode($studentsNormalises);
-
-        $json = $serializer->serialize($produits, 'json', ['groups' => "produits"]);
-
-        //* Nous renvoyons une réponse Http qui prend en paramètre un tableau en format JSON
-        return new Response($json);
-    }
-    #[Route("/Produits/{id}", name: "produits" , methods:['GET'])]
-    public function StudentId($id, NormalizerInterface $normalizer, ProduitRepository $repo)
-    {
-        $produit = $repo->find($id);
+        $produit = $repo->find($idProduit);
         $produitNormalises = $normalizer->normalize($produit, 'json', ['groups' => "produits"]);
         return new Response(json_encode($produitNormalises));
     }
@@ -92,12 +87,12 @@ class ProduitController extends AbstractController
         $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
         return new Response(json_encode($jsonContent));
     }
-    #[Route("updateProduitJSON/{idproduit}", name: "updateProduitJSON")]
-    public function updateStudentJSON(Request $req, $idproduit, NormalizerInterface $Normalizer)
+    #[Route("updateProduitJSON/{idProduit}", name: "updateProduitJSON")]
+    public function updateStudentJSON(Request $req, $idProduit, NormalizerInterface $Normalizer)
     {
 
         $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository(Produit::class)->find($idproduit);
+        $produit = $em->getRepository(Produit::class)->find($idProduit);
         $produit->setNom($req->get('nom'));
         $produit->setCategorie($req->get('categorie'));
         $produit->setDescription($req->get('description'));
@@ -110,12 +105,12 @@ class ProduitController extends AbstractController
         $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
         return new Response("Produit updated successfully " . json_encode($jsonContent));
     }
-    #[Route("deleteProduitJSON/{idproduit}", name: "deleteProduitJSON")]
-    public function deleteStudentJSON(Request $req, $idproduit, NormalizerInterface $Normalizer)
+    #[Route("deleteProduitJSON/{idProduit}", name: "deleteProduitJSON")]
+    public function deleteStudentJSON(Request $req, $idProduit, NormalizerInterface $Normalizer)
     {
 
         $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository(Produit::class)->find($idproduit);
+        $produit = $em->getRepository(Produit::class)->find($idProduit);
         $em->remove($produit);
         $em->flush();
         $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
@@ -268,14 +263,14 @@ public function search(Request $request, ProduitRepository $produitRepository): 
    }
    
 
-    #[Route('/{idproduit}', name: 'app_produit_show', methods: ['GET'])]
+    #[Route('/{idProduit}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
         ]);
     }
-    #[Route('/buy/{idproduit}', name: 'app_produit_buy', methods: ['GET'])]
+    #[Route('/buy/{idProduit}', name: 'app_produit_buy', methods: ['GET'])]
     public function buy(Produit $produit): Response
     {$entityManager = $this->getDoctrine()->getManager();
 
@@ -294,7 +289,7 @@ public function search(Request $request, ProduitRepository $produitRepository): 
         ]);
     }
 
-    #[Route('/{idproduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
+    #[Route('/{idProduit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(Produit1Type::class, $produit);
@@ -331,7 +326,7 @@ public function search(Request $request, ProduitRepository $produitRepository): 
         ]);
     }
 
-#[Route('/{idproduit}', name: 'app_produit_delete', methods: ['POST'])]
+#[Route('/{idProduit}', name: 'app_produit_delete', methods: ['POST'])]
 public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
 {  
     $filesystem= new Filesystem();
@@ -340,7 +335,7 @@ public function delete(Request $request, Produit $produit, ProduitRepository $pr
         if ($produit->getImage() !== null && $filesystem->exists($imagePath)) {
             $filesystem->remove($imagePath);
         }
-        if ($this->isCsrfTokenValid('delete'.$produit->getIdproduit(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$produit->getidProduit(), $request->request->get('_token'))) {
             // Check if the image is null and set it to a default image if it is
             if ($produit->getImage() === null) {
                 $produit->setImage('default_image.png');

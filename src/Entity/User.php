@@ -3,44 +3,102 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\Collection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'email', columns: ['email'])]
 #[ORM\Entity]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[Vich\Uploadable]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public $iduser;
-
     #[ORM\Column(name: 'idUser', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+
+    #[Groups("users")]
     private int $idUser;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Please enter a name')]
+    #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
+    #[Assert\Regex(
+        pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
+        message: "Name cannot contain only numbers"
+    )]
+    #[Groups("users")]
     private string $nom;
 
     #[ORM\Column(name: 'Prenom', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Please enter a prename')]
+    #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
+    #[Assert\Regex(
+        pattern: "/^(?![0-9]*$)[A-Za-z0-9]+$/",
+        message: "Last name cannot contain only numbers"
+    )]
+    #[Groups("users")]
     private string $prenom;
 
+    #[ORM\Column]
+    #[Groups("users")]
+    private array $roles = [];
+
     #[ORM\Column(name: 'email', type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: "Please enter an email")]
+    #[Assert\Email(message: "Please enter a valid email address")]
+    #[Groups("users")]
     private string $email;
 
+    #[Assert\NotBlank(message: "Please enter a password")]
+    #[Assert\Length(min: 8, max: 255, minMessage: "Password should be at least {{ limit }} characters long", maxMessage: "Password should not exceed {{ limit }} characters")]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
+        message: "Password must contain at least one letter and one number"
+    )]
     #[ORM\Column(name: 'motDePasse', type: 'string', length: 255, nullable: false)]
     private string $motdepasse;
 
+    #[Assert\NotBlank(message: "Please enter a role")]
+    #[Assert\Length(max: 255, maxMessage: "Role should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'role', type: 'string', length: 255, nullable: false)]
+    #[Groups("users")]
     private string $role;
 
+    #[Assert\Length(max: 65535, maxMessage: "Bio should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'bio', type: 'text', length: 65535, nullable: true)]
+    #[Groups("users")]
     private ?string $bio;
 
     #[ORM\Column(name: 'photoPath', type: 'string', length: 255, nullable: true)]
-    private ?string $photopath;
+    #[Groups("users")]
+    private ?string $photopath = null;
 
+
+    /**
+     * @var File|null
+     * @Assert\Image(
+     *     maxSize = "5M",
+     *     maxSizeMessage = "The maximum allowed file size is {{ limit }}",
+     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg", "image/gif"},
+     *     mimeTypesMessage = "Please upload a valid image file"
+     * )
+     */
+    private ?File $photoFile;
+
+
+
+    #[Assert\Length(max: 255, maxMessage: "Phone number should not exceed {{ limit }} characters")]
     #[ORM\Column(name: 'numTel', type: 'string', length: 255, nullable: true)]
+    #[Groups("users")]
     private ?string $numtel;
 
     #[ORM\OneToMany(mappedBy: 'userid', targetEntity: 'App\Entity\Badge', cascade: ['persist'])]
@@ -49,10 +107,68 @@ class User
     #[ORM\OneToMany(mappedBy: 'proprietaire', targetEntity: 'Offre', cascade: ['persist'])]
     private Collection $offre;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: 'App\Entity\Experience', cascade: ['persist'])]
+    private Collection $experiences;
+
+    #[ORM\Column(name: "isVerified", type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->offre = new ArrayCollection();
         $this->badge = new ArrayCollection();
+        $this->experiences = new ArrayCollection();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->motdepasse;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+    public function getPhotoFile(): string
+    {
+        return $this->photoFile;
+    }
+
+    public function setPhotoFile(File $photoFile): self
+    {
+        $this->photoFile = $photoFile;
+
+        return $this;
     }
 
     public function getIduser(): ?int
@@ -168,6 +284,11 @@ class User
         return $this;
     }
 
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
     public function getOffre(): ArrayCollection
     {
         return $this->offre;
@@ -176,6 +297,26 @@ class User
     public function setOffre(ArrayCollection $offre): self
     {
         $this->offre = $offre;
+
+        return $this;
+    }
+    public function addExperience(Experience $experience): self
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences[] = $experience;
+            $experience->setUserid($this);
+        }
+
+        return $this;
+    }
+    public function removeExperience(Experience $experience): self
+    {
+        if ($this->experiences->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getUserid() === $this) {
+                $experience->setUserid(null);
+            }
+        }
 
         return $this;
     }
@@ -219,8 +360,21 @@ class User
 
         return $this;
     }
-    public function __toString() {
-        return $this->nom . ' ' . $this->prenom;
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
     }
-    
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
+    }
 }

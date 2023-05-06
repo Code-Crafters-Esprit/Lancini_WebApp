@@ -21,7 +21,7 @@ class Produit
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
     #[Groups("produits")]
-    private $idproduit;
+    private $idProduit;
 
     #[ORM\Column(name: 'categorie', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a category')]
@@ -47,7 +47,6 @@ class Produit
     
     #[Assert\Image(maxSize :"5M",maxSizeMessage : "The maximum allowed file size is {{ limit }}", mimeTypes :["image/png", "image/jpeg", "image/jpg", "image/gif"], mimeTypesMessage :"Please upload a valid image file")]
     #[Vich\UploadableField(mapping: "products", fileNameProperty: "image")]
-    #[Groups("produits")]
     private $imageFile;
 
 
@@ -61,16 +60,19 @@ class Produit
     #[ORM\Column(name: 'date', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups("produits")]
     private $date;
+    #[ORM\Column(name: 'vendeur', type: 'string', nullable: true)]
+  
+    private $vendeur ="vendeur";
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+   /* #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'vendeur', referencedColumnName: 'idUser')]
     #[Assert\NotBlank(message: "You must pick a Seller.")]
     #[Groups("produits")]
     private $vendeur;
-
-    public function getIdproduit(): ?int
+*/
+    public function getidProduit(): ?int
     {
-        return $this->idproduit;
+        return $this->idProduit;
     }
 
     public function getCategorie(): ?string
@@ -161,11 +163,14 @@ class Produit
     }
 
 
-    public function getVendeur(): ?User
+   /* public function getVendeur(): ?User
+    {
+        return $this->vendeur;
+    } */
+    public function getVendeur(): ?string
     {
         return $this->vendeur;
     }
-
     public function setVendeur(?User $vendeur): self
     {
         $this->vendeur = $vendeur;

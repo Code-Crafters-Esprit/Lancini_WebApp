@@ -93,7 +93,7 @@
   {% if produit.categorie == 'Wallpaper' or produit.categorie == 'Backgrounds' %}
     {% set amount = produit.prix  %}
     <button id="buy-btn" class="buy-btn">
-      <a href="{{ path('pay', {'idproduit': produit.idproduit}) }}">
+      <a href="{{ path('pay', {'idProduit': produit.idProduit}) }}">
         <i class="fa fa-shopping-cart"></i>
       </a>
       {{ produit.prix }} dt
