@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Evenement;
+use App\Entity\Publication;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,4 +85,42 @@ class JsonController extends AbstractController
 
         return $this->json(['message' => 'L evenement a été supprimée avec succès.']);
     }
+
+    #[Route('/jsonPublication', name: 'jsonPublication')]
+    public function indexPublication(EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Retrieve all publications from the repository
+        $publicationRepository = $entityManager->getRepository(Publication::class);
+        $publications = $publicationRepository->findAll();
+    
+        // Convert the publications to an associative array
+        $publicationsArray = [];
+        foreach ($publications as $publication) {
+            $publicationsArray[] = [
+                'id' => $publication->getIdpub(),
+                'libelle' => $publication->getLibelle(),
+                'description' => $publication->getDescription(),
+                'cat' => $publication->getCat(),
+                'datepub' => $publication->getDatepub()->format('Y-m-d'),
+                'proprietaire' => $publication->getProprietaire()->getIdUser(),
+            ];
+        }
+    
+        // Return the publications in JSON format
+        return $this->json($publicationsArray);
+    }
+
+    
+    #[Route('/api/delete/publication/{id}', name: 'publication_json_delete')]
+    public function deletePubJson($id): JsonResponse
+    {   $em = $this->getDoctrine()->getManager() ;
+        $publication = $em->getRepository(Publication::class)->find($id) ;
+        $em->remove($publication);
+        $em->flush();
+
+        return $this->json(['message' => 'publication a été supprimée avec succès.']);
+    }
+
+
+
 }
