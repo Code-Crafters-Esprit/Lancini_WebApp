@@ -5,3 +5,6 @@ download_pdf:
 language_switcher:
     path: /language/{locale}
     controller: App\Controller\LanguageController::switchLocale
+
+api_login_check:
+    path: /api/login_check
