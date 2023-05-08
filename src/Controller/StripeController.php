@@ -20,7 +20,7 @@ class StripeController extends AbstractController
             'controller_name' => 'StripeController',
         ]);
     }
-    #[Route('/pay/{idproduit}', name: 'pay')]
+    #[Route('/pay/{idProduit}', name: 'pay')]
     public function pay(Request $request, StripeService $stripeService, $idproduit)
     {
     // Retrieve the product from the database using the ID

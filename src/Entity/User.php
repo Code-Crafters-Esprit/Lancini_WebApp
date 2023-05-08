@@ -110,14 +110,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: 'App\Entity\Experience', cascade: ['persist'])]
     private Collection $experiences;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: 'App\Entity\Produit', cascade: ['persist'])]
+    private Collection $produits;
+
     #[ORM\Column(name: "isVerified", type: 'boolean')]
     private $isVerified = false;
 
+    
     public function __construct()
     {
         $this->offre = new ArrayCollection();
         $this->badge = new ArrayCollection();
         $this->experiences = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getUserIdentifier(): string
@@ -289,6 +294,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->experiences;
     }
 
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
     public function getOffre(): ArrayCollection
     {
         return $this->offre;
@@ -300,6 +310,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function setProduits(ArrayCollection $produits): self
+    {
+        $this->produits = $produits;
+
+        return $this;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setVendeur($this);
+        }
+
+        return $this;
+    }
+
     public function addExperience(Experience $experience): self
     {
         if (!$this->experiences->contains($experience)) {
@@ -376,5 +404,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->email;
+    }
+    public function JSONSerialize(){
+        return array(
+            "idUser" => $this->idUser,
+            "nom"   => $this->nom,
+            "prenom"=> $this->prenom,
+            "email"=> $this->email
+        );
     }
 }

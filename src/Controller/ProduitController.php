@@ -35,18 +35,29 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ProduitController extends AbstractController
 {
     
-    #[Route("/AllProduits", name: "list" , methods:['GET' ,'POST' ])]
-   
-    public function getProduits(ProduitRepository $repo, SerializerInterface $serializer)
-    {
+    #[Route("/AllProduits", name: "list", methods: ["GET", "POST"])]
+    public function getProduits(
+        ProduitRepository $repo,
+        SerializerInterface $serializer,
+        UserRepository $userRepository
+    ) {
         $produits = $repo->findAll();
         
+        $context = [
+            'groups' => ['produits'],
+            'callbacks' => [
+                'vendeur' => function ($object, $format, $context) use ($serializer) {
+                    return $object->JSONSerialize();
+                }
+            ]
+        ];
         
-        $json = $serializer->serialize($produits, 'json', ['groups' => "produits"]);
-    
+        $json = $serializer->serialize($produits, 'json', $context);
+        
         return new Response($json);
     }
-    #[Route('/chart', name: 'app_produitbyvendeur_index', methods: ['GET','POST'])]
+    
+    #[Route('/chart', name: 'app_produitbyvendeur_index', methods: ['GET'])]
     public function productsByVendeur(ProduitRepository $produitRepository)
     {
         $data = $produitRepository->findProductsByVendeur();
@@ -61,33 +72,37 @@ class ProduitController extends AbstractController
             'sellers' => $sellers,
         ]);
     }
-    #[Route("/Produits/{idProduit}", name: "produits" , methods:['GET', 'POST'])]
+    #[Route("/Produits/{idProduit}", name: "produits" , methods:['GET'])]
     public function StudentId($idProduit, NormalizerInterface $normalizer, ProduitRepository $repo)
     {
         $produit = $repo->find($idProduit);
         $produitNormalises = $normalizer->normalize($produit, 'json', ['groups' => "produits"]);
         return new Response(json_encode($produitNormalises));
     }
-    #[Route("addProduitJSON/new", name: "addProduitJSON")]
-    public function addStudentJSON(Request $req,   NormalizerInterface $Normalizer)
+    #[Route("/addProduitJSON/new", name: "addProduitJSON", methods:['GET'])]
+    public function addStudentJSON(Request $req, NormalizerInterface $Normalizer)
     {
-
         $em = $this->getDoctrine()->getManager();
         $produit = new Produit();
         $produit->setNom($req->get('nom'));
         $produit->setCategorie($req->get('categorie'));
         $produit->setDescription($req->get('description'));
-        $produit->setDate($req->get('date'));
+        
+        $dateString = $req->get('date');
+        $date = new \DateTime($dateString);
+        $produit->setDate($date);
+        
         $produit->setPrix($req->get('prix'));
         $produit->setImage($req->get('image'));
-
+    
         $em->persist($produit);
         $em->flush();
-
+    
         $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
         return new Response(json_encode($jsonContent));
     }
-    #[Route("updateProduitJSON/{idProduit}", name: "updateProduitJSON")]
+    
+    #[Route("/updateProduitJSON/{idProduit}", name: "updateProduitJSON" ,  methods:['GET'])]
     public function updateStudentJSON(Request $req, $idProduit, NormalizerInterface $Normalizer)
     {
 
@@ -105,7 +120,7 @@ class ProduitController extends AbstractController
         $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
         return new Response("Produit updated successfully " . json_encode($jsonContent));
     }
-    #[Route("deleteProduitJSON/{idProduit}", name: "deleteProduitJSON")]
+    #[Route("/deleteProduitJSON/{idProduit}", name: "deleteProduitJSON" , methods :['GET'])]
     public function deleteStudentJSON(Request $req, $idProduit, NormalizerInterface $Normalizer)
     {
 
@@ -207,54 +222,55 @@ public function search(Request $request, ProduitRepository $produitRepository): 
     return $this->json($data);
 }
     
-   #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-   public function new(Request $request, ProduitRepository $produitRepository, MaillistRepository $MaillistRepository, MailerInterface $mailer, EntityManagerInterface $entityManager, Environment $twig): Response
-   {
-       $produit = new Produit();
-       $timezone = $this->getParameter('timezone');
-   
-       $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
-       $form = $this->createForm(Produit1Type::class, $produit);
-       $form->handleRequest($request);
-   
-       if ($form->isSubmitted() && $form->isValid()) {
-           // Handle file upload
-           /** @var UploadedFile $file */
-           $file = $form->get('image')->getData();
-   
-           if ($file) {
-               $fileName = uniqid() . '.' . $file->guessExtension();
-   
-               try {
-                   $file->move(
-                       $this->getParameter('kernel.project_dir') . '/public/images/products',
-                       $fileName
-                   );
-   
-                   $produit->setImage($fileName);
-               } catch (FileException $e) {
-                   // Handle exception
-               }
-           }
-           $emailList = $entityManager->getRepository(MailList::class)->findAll();
-           $emailList = array_map(function($mailList) {
-               return $mailList->getEmail();
-           }, $emailList);
-           foreach ($emailList as $email) {
-            $html = $twig->render('LanciniMarket/mail.html.twig', [             
-                'produit' => $produit, ]);
-               $email = (new Email())
-                       ->from('lancinimarket@gmail.com')
-                       ->to($email)
-                       ->subject('New Product Alert!')
-                       ->html($html);
-                   
-               $mailer->send($email);
-           }
-           $produitRepository->save($produit, true);
-   
-           return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-       }
+#[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
+public function new(Request $request, ProduitRepository $produitRepository, MaillistRepository $MaillistRepository, MailerInterface $mailer, EntityManagerInterface $entityManager, Environment $twig): Response
+{
+    $produit = new Produit();
+    $timezone = $this->getParameter('timezone');
+
+    $produit->setDate(new DateTime('now', new \DateTimeZone($timezone)));
+    $form = $this->createForm(Produit1Type::class, $produit);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Handle file upload
+        /** @var UploadedFile $file */
+        $file = $form->get('image')->getData();
+
+        if ($file) {
+            $fileName = uniqid() . '.' . $file->guessExtension();
+
+            try {
+                $file->move(
+                    'C:/xampp/htdocs/images/products',
+                    $fileName
+                );
+
+                $produit->setImage($fileName);
+            } catch (FileException $e) {
+                // Handle exception
+            }
+        
+    }
+    $emailList = $entityManager->getRepository(MailList::class)->findAll();
+    $emailList = array_map(function ($mailList) {
+        return $mailList->getEmail();
+    }, $emailList);
+    foreach ($emailList as $email) {
+        $html = $twig->render('LanciniMarket/mail.html.twig', [
+            'produit' => $produit, ]);
+        $email = (new Email())
+                ->from('lancinimarket@gmail.com')
+                ->to($email)
+                ->subject('New Product Alert!')
+                ->html($html);
+
+        $mailer->send($email);
+    }
+    $produitRepository->save($produit, true);
+
+    return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+}
    
        return $this->renderForm('produit/new.html.twig', [
            'produit' => $produit,
@@ -344,7 +360,7 @@ public function delete(Request $request, Produit $produit, ProduitRepository $pr
         }
     } catch (\Exception $e) {
         // handle the exception, for example:
-        $this->addFlash('error', 'An error occurred while deleting the item.');
+        $this->addFlash('error', 'An error occurred while deleting the Product.');
         return $this->redirectToRoute('app_produit_index');
     }
 

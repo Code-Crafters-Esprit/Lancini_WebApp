@@ -60,16 +60,15 @@ class Produit
     #[ORM\Column(name: 'date', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups("produits")]
     private $date;
-    #[ORM\Column(name: 'vendeur', type: 'string', nullable: true)]
   
-    private $vendeur ="vendeur";
 
-   /* #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'vendeur', referencedColumnName: 'idUser')]
     #[Assert\NotBlank(message: "You must pick a Seller.")]
     #[Groups("produits")]
-    private $vendeur;
-*/
+
+     private ?User $vendeur;
+
     public function getidProduit(): ?int
     {
         return $this->idProduit;
@@ -167,7 +166,7 @@ class Produit
     {
         return $this->vendeur;
     } */
-    public function getVendeur(): ?string
+    public function getVendeur(): ?User
     {
         return $this->vendeur;
     }

@@ -76,7 +76,7 @@
         {% for produit in produits %}
           <div class="product">
             <div class="product-img">
-              <img src="{{ asset('images/products/' ~ produit.image) }}" alt="{{ produit.nom }}">
+<img src="{{ app.local ~ '\images\products' ~ produit.image) }}" alt="{{ produit.nom }}">
             </div>
             <div class="product-info">
               <div class="product-text">
