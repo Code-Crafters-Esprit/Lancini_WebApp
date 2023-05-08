@@ -2,146 +2,161 @@
 
 namespace App\Controller;
 
-use App\Entity\Cv;
+use App\Entity\Evenement;
+use App\Entity\Publication;
 use App\Entity\User;
-use App\Form\CvType;
-use App\Repository\CvRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Doctrine\Persistence\ManagerRegistry;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-#[Route('/cv')]
-class CvController extends AbstractController
+class JsonController extends AbstractController
 {
-    #[Route('/', name: 'app_cv_index', methods: ['GET'])]
-    public function index(CvRepository $cvRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/jsonEvenement', name: 'jsonEvenement')]
+    public function index(EntityManagerInterface $entitymanager): JsonResponse
     {
-        $user = $entityManager->find(User::class, 1);
-        $cvs = $entityManager
-            ->getRepository(Cv::class)
-            ->findAll();
+        // Récupérer tous les événements en utilisant le repository
+        $evenementRepository = $entitymanager->getRepository(Evenement::class);
+        $evenements = $evenementRepository->findAll();
 
-        foreach ($cvs as $key => $cv) {
-            if ($cv->getUserid() != $user) {
-                unset($cvs[$key]);
-            }
+        // Convertir les événements en tableau associatif
+        $evenementsArray = [];
+        foreach ($evenements as $evenement) {
+
+            $evenementsArray[] = [
+                'id' => $evenement->getIdevent(),
+                'titre' => $evenement->getTitre(),
+                'sujet' => $evenement->getSujet(),
+                'lieu' => $evenement->getLieu(),
+                'horaire' => $evenement->getHoraire(),
+                'date' => $evenement->getDateevent(),
+                'proprietaire' => $evenement->getProprietaire()->getIdUser()
+            ];
         }
-        return $this->render('cv/index.html.twig', [
-            'cvs' => $cvs,
-        ]);
+
+        // Retourner les événements au format JSON
+        return $this->json($evenementsArray);
     }
 
-    #[Route('/new', name: 'app_cv_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CvRepository $cvRepository, EntityManagerInterface $entityManager): Response
-    {
-        $cv = new Cv();
-        $user = $entityManager->find(User::class, 1);
-        $form = $this->createForm(CvType::class, $cv);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file = $request->files->get('cv')['photo'];
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename
+    #[Route('/api/ajoutEvenement', name: 'evenement_json_create')]
+    public function create(Request $request, EntityManagerInterface $entityManager, NormalizerInterface $normalizer, ManagerRegistry $doctrine): JsonResponse
+    {
+        $repository = $doctrine->getRepository(User::class);
+        $users = $repository->findAll();
+        $requestData = json_decode($request->getContent(), true);
+        $em = $this->getDoctrine()->getManager();
+        $evenement = new Evenement();
+        $evenement->setTitre($request->get('titre'));
+        $evenement->setSujet($request->get('sujet'));
+        $evenement->setDateevent(new \DateTime($request->get('date')));
+        $evenement->setLieu($request->get('lieu'));
+        $evenement->setHoraire($request->get('horaire'));
+
+        // $proprietaire = $this->getDoctrine()
+        //   ->getRepository(User::class)
+        // ->find($request->request->get('idUser'));
+
+        $proprietaire = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($request->get('proprietaire'));
+        $evenement->setProprietaire($proprietaire);
+        $entityManager->persist($evenement);
+        $entityManager->flush();
+
+
+
+        $transport = new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+        $transport->setUsername('samar.gharsallah@esprit.tn');
+        $transport->setPassword('223AFT3476');
+        $mailer = new Swift_Mailer($transport);
+
+
+        foreach ($users as $user) {
+
+            $message = (new Swift_Message());
+            $message->setSubject('A new event is up');
+            $message->setFrom(['Lanciniofficial@gmail.com' => 'Lancini']);
+            $message->setTo($user->getEmail());
+            $message->setBody(
+                $this->renderView(
+                    'mailEvenement.html.twig',
+                    [
+
+                        'event' => $evenement->getTitre(),
+
+                    ]
+                ),
+                'text/html'
             );
-            $cv->setPhoto($filename);
-            $cv->setUserid($user);
-            $cvRepository->save($cv, true);
 
-            return $this->redirectToRoute('app_cv_index', [], Response::HTTP_SEE_OTHER);
+            $mailer->send($message);
         }
 
-        return $this->renderForm('cv/new.html.twig', [
-            'cv' => $cv,
-            'form' => $form,
+
+        return $this->json([
+            'id' => $evenement->getIdevent(),
+            'titre' => $evenement->getTitre(),
+            'sujet' => $evenement->getSujet(),
+            'date' => $evenement->getDateevent(),
+            'lieu' => $evenement->getLieu(),
+            'horaire' => $evenement->getHoraire(),
+            'proprietaire' => $evenement->getProprietaire()->getIdUser()
+
         ]);
     }
 
-    #[Route('/{idcv}', name: 'app_cv_show', methods: ['GET'])]
-    public function show(Cv $cv): Response
+    #[Route('/api/delete/evenement/{id}', name: 'evenement_json_delete')]
+    public function delete($id): JsonResponse
     {
-        return $this->render('cv/show.html.twig', [
-            'cv' => $cv,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $em->getRepository(Evenement::class)->find($id);
+        $em->remove($evenement);
+        $em->flush();
+
+        return $this->json(['message' => 'L evenement a été supprimée avec succès.']);
     }
 
-    #[Route('/{idcv}/edit', name: 'app_cv_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cv $cv, CvRepository $cvRepository): Response
+    #[Route('/jsonPublication', name: 'jsonPublication')]
+    public function indexPublication(EntityManagerInterface $entityManager): JsonResponse
     {
-        $form = $this->createForm(CvType::class, $cv);
-        $form->handleRequest($request);
+        // Retrieve all publications from the repository
+        $publicationRepository = $entityManager->getRepository(Publication::class);
+        $publications = $publicationRepository->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $cvRepository->save($cv, true);
-
-            return $this->redirectToRoute('app_cv_index', [], Response::HTTP_SEE_OTHER);
+        // Convert the publications to an associative array
+        $publicationsArray = [];
+        foreach ($publications as $publication) {
+            $publicationsArray[] = [
+                'id' => $publication->getIdpub(),
+                'libelle' => $publication->getLibelle(),
+                'description' => $publication->getDescription(),
+                'cat' => $publication->getCat(),
+                'datepub' => $publication->getDatepub()->format('Y-m-d'),
+                'proprietaire' => $publication->getProprietaire()->getIdUser(),
+            ];
         }
 
-        return $this->renderForm('cv/edit.html.twig', [
-            'cv' => $cv,
-            'form' => $form,
-        ]);
+        // Return the publications in JSON format
+        return $this->json($publicationsArray);
     }
 
-    #[Route('/{idcv}', name: 'app_cv_delete', methods: ['POST'])]
-    public function delete(Request $request, Cv $cv, CvRepository $cvRepository): Response
+
+    #[Route('/api/delete/publication/{id}', name: 'publication_json_delete')]
+    public function deletePubJson($id): JsonResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$cv->getIdcv(), $request->request->get('_token'))) {
-            $cvRepository->remove($cv, true);
-        }
+        $em = $this->getDoctrine()->getManager();
+        $publication = $em->getRepository(Publication::class)->find($id);
+        $em->remove($publication);
+        $em->flush();
 
-        return $this->redirectToRoute('app_cv_index', [], Response::HTTP_SEE_OTHER);
-    }
-    
-    #[Route ('/printcv/{id}', name: 'print_cv')]
-    public function exportCvPDF($id, CvRepository $repo)
-    {
-        // On définit les options du PDF
-        $pdfOptions = new Options();
-        // Police par défaut
-        $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->setIsRemoteEnabled(true);
-
-        // On instancie Dompdf
-        $dompdf = new Dompdf();
-        $context = stream_context_create([
-            'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed' => TRUE
-            ]
-        ]);
-        $dompdf->setHttpContext($context);
-        $cv = $repo->find($id);
-        // dd($cvs);
-
-        // On génère le html
-        $html = $this->renderView(
-            'cv/print.html.twig',
-            [
-                'cv' => $cv
-            ]
-        );
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        // On génère un nom de fichier
-        $fichier = 'cv'. $cv->getCin() . date('c') .'.pdf';
-
-        // On envoie le PDF au navigateur
-        $dompdf->stream($fichier, [
-            'Attachment' => true
-        ]);
-
-        return new Response();
+        return $this->json(['message' => 'publication a été supprimée avec succès.']);
     }
 }
