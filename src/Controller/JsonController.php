@@ -6,6 +6,10 @@ use App\Entity\Publication;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +46,10 @@ class JsonController extends AbstractController
 
 
     #[Route('/api/ajoutEvenement', name: 'evenement_json_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager,NormalizerInterface $normalizer): JsonResponse
+    public function create(Request $request, EntityManagerInterface $entityManager,NormalizerInterface $normalizer, ManagerRegistry $doctrine): JsonResponse
     {
+        $repository=$doctrine->getRepository(User::class);
+        $users=$repository->findAll() ;
         $requestData = json_decode($request->getContent(), true);
         $em = $this->getDoctrine()->getManager() ;
         $evenement = new Evenement();
@@ -63,6 +69,36 @@ class JsonController extends AbstractController
             $evenement->setProprietaire($proprietaire);
         $entityManager->persist($evenement);
         $entityManager->flush();
+
+
+
+        $transport = new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+        $transport->setUsername('samar.gharsallah@esprit.tn');
+        $transport->setPassword('223AFT3476');
+        $mailer = new Swift_Mailer($transport);
+
+
+        foreach ($users as $user ) {
+        
+            $message = (new Swift_Message());
+        $message->setSubject('A new event is up');
+        $message->setFrom(['Lanciniofficial@gmail.com' => 'Lancini']);
+        $message->setTo($user->getEmail());
+        $message->setBody(
+            $this->renderView(
+                'mailEvenement.html.twig',
+                [
+                    
+                    'event' => $evenement->getTitre(),
+                   
+                ]
+            ),
+            'text/html'
+        );
+    
+        $mailer->send($message);
+    }
+
 
         return $this->json([          
             'id' => $evenement->getIdevent(),
