@@ -98,50 +98,52 @@ class CvController extends AbstractController
             return new JsonResponse($formatted);
         
     }
+
     /**
-    * @Route("/printcvmobile/{id}", name="app_cv_pdf_mobile", methods={"GET", "POST"})
-    */    public function exportCvPDFMobile($id, CvRepository $repo)
+     * @Route("/printcvmobile/{id}", name="app_cv_pdf_mobile", methods={"GET", "POST"})
+     */
+    public function exportCvPDFMobile($id, CvRepository $repo)
     {
-        // On définit les options du PDF
-        $pdfOptions = new Options();
-        // Police par défaut
-        $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->setIsRemoteEnabled(true);
-
-        // On instancie Dompdf
-        $dompdf = new Dompdf();
-        $context = stream_context_create([
-            'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed' => TRUE
-            ]
-        ]);
-        $dompdf->setHttpContext($context);
-        $cv = $repo->find($id);
-        // dd($cvs);
-
-        // On génère le html
-        $html = $this->renderView(
-            'cv/print.html.twig',
-            [
-                'cv' => $cv
-            ]
-        );
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        // On génère un nom de fichier
-        $fichier = 'cv'. $cv->getCin() . date('c') .'.pdf';
-
-        // On envoie le PDF au navigateur
-        $dompdf->stream($fichier, [
-            'Attachment' => true
-        ]);
-    
-        return new JsonResponse();
+                // On définit les options du PDF
+                $pdfOptions = new Options();
+                // Police par défaut
+                $pdfOptions->set('defaultFont', 'Arial');
+                $pdfOptions->setIsRemoteEnabled(true);
+        
+                // On instancie Dompdf
+                $dompdf = new Dompdf();
+                $context = stream_context_create([
+                    'ssl' => [
+                        'verify_peer' => FALSE,
+                        'verify_peer_name' => FALSE,
+                        'allow_self_signed' => TRUE
+                    ]
+                ]);
+                $dompdf->setHttpContext($context);
+                $cv = $repo->find($id);
+                // dd($cvs);
+        
+                // On génère le html
+                $html = $this->renderView(
+                    'cv/print.html.twig',
+                    [
+                        'cv' => $cv
+                    ]
+                );
+        
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('A4', 'portrait');
+                $dompdf->render();
+        
+                // On génère un nom de fichier
+                $fichier = 'cv'.$cv->getCin().date('c').'.pdf';
+        
+                // On envoie le PDF au navigateur
+                $dompdf->stream($fichier, [
+                    'Attachment' => true
+                ]);
+        
+                return new Response();
     }
 
 
