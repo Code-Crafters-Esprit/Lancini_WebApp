@@ -43,7 +43,6 @@ class Cv
 
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
     private ?string $photo = null;
 
     #[ORM\Column(length: 255)]
