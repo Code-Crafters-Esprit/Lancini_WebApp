@@ -242,7 +242,7 @@ public function new(Request $request, ProduitRepository $produitRepository, Mail
 
             try {
                 $file->move(
-                    'C:/xampp/htdocs/images/products',
+                    $this->getParameter('kernel.project_dir') . '/public/images/products',
                     $fileName
                 );
 
@@ -250,6 +250,8 @@ public function new(Request $request, ProduitRepository $produitRepository, Mail
             } catch (FileException $e) {
                 // Handle exception
             }
+
+
         
     }
     $emailList = $entityManager->getRepository(MailList::class)->findAll();
