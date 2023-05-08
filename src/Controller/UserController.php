@@ -31,75 +31,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/get/all', name: 'app_user_get_all')]
-    public function getAll(EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
-    {
-        $users = $entityManager
-            ->getRepository(User::class)
-            ->findAll();
-        $json = $serializer->serialize($users, 'json', ['groups' => "users"]);
-        return new Response($json);
-    }
-
-    #[Route('/get/one/{id}', name: 'app_user_get_one')]
-    public function getUserJSON($id, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
-    {
-        $user = $entityManager
-            ->getRepository(User::class)
-            ->find($id);
-        $json = $serializer->serialize($user, 'json', ['groups' => "users"]);
-        return new Response($json);
-    }
-
-    #[Route("update/new", name: "addUserJSON")]
-    public function addStudentJSON(Request $req, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
-    {
-
-        $user = new User();
-        $user->setEmail($req->get('email'));
-        $user->setMotdepasse($req->get('motdepasse'));
-        $user->setNom($req->get('nom'));
-        $user->setPrenom($req->get('prenom'));
-        $user->setRole($req->get('role'));
-        $user->setBio($req->get('bio'));
-        $user->setPhotopath($req->get('photopath'));
-        $user->setNumtel($req->get('numtel'));
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
-        return new Response(json_encode($jsonContent));
-    }
-
-    #[Route("update/edit/{id}", name: "updateUserJSON")]
-    public function updateStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
-    {
-
-        $user = $entityManager->getRepository(User::class)->find($id);
-        $user->setEmail($req->get('email'));
-        $user->setMotdepasse($req->get('motdepasse'));
-        $user->setNom($req->get('nom'));
-        $user->setPrenom($req->get('prenom'));
-        $user->setRole($req->get('role'));
-        $user->setBio($req->get('bio'));
-        $user->setPhotopath($req->get('photopath'));
-        $user->setNumtel($req->get('numtel'));
-
-        $entityManager->flush();
-        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
-        return new Response("User updated successfully " . json_encode($jsonContent));
-    }
-
-    #[Route("delete/{id}", name: "deleteUserJSON")]
-    public function deleteStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
-    {
-
-        $user = $entityManager->getRepository(User::class)->find($id);
-        $entityManager->remove($user);
-        $entityManager->flush();
-        $jsonContent = $Normalizer->normalize($user, 'json', ['groups' => 'users']);
-        return new Response("User deleted successfully " . json_encode($jsonContent));
-    }
+   
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
