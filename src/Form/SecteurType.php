@@ -24,25 +24,41 @@ class SecteurType extends AbstractType
                 new Assert\Regex([
                     'pattern' => '/^[A-Za-z]*$/',
                     'message' => 'The name must only contain letters.'
-                ])
-            ]
+                ]),
+            ],
+            'attr' => [
+                'class' => 'form-control',
+            ],
+
         ])
-            ->add('description',TextType::class)
+            ->add('description',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('datecreation' , DateType::class, [
                 'label' => 'Creation date',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'data' => new \DateTime(),
-
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('datemodification' , DateType::class, [
                 'label' => 'Modification date',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'data' => new \DateTime(),
-
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
-            ->add('Create', SubmitType::class);
+            ->add('Create', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ],
+            ]);
         ;
     }
 

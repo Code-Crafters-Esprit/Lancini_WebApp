@@ -69,25 +69,22 @@ class SecteurMobileController extends AbstractController
     }
 
 
-
-    #[Route('/SupprimerSecteur', name: 'SupprimerSecteur')]
-
-    public function SupprimerSecteur(Request $request)
+    #[Route('/SupprimerSecteur/{id}', name: 'SupprimerSecteur')]
+    public function SupprimerSecteur(Request $request, $id, NormalizerInterface $normalizer)
     {
-        $idSecteur = $request->get("idSecteur");
         $em = $this->getDoctrine()->getManager();
-        $secteur = $em->getRepository(Secteur::class)->find($idSecteur);
+        $secteur = $em->getRepository(Secteur::class)->find($id);
 
-        if($secteur != null)
-        {
-            $secteur->setOffre(null);
-            $em->remove($secteur);
-            $em->flush();
-            $serializer = new Serializer([new ObjectNormalizer()]);
-            $formated = $serializer->normalize("secteur ete supprimer avec succées ");
-            return new JsonResponse($formated);
+        if (!$secteur) {
+            throw $this->createNotFoundException('Secteur non trouvé.');
         }
 
+        $em->remove($secteur);
+        $em->flush();
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formated = $serializer->normalize("Le secteur a été supprimé avec succès.");
+        return new JsonResponse($formated);
     }
 
 
@@ -101,7 +98,6 @@ class SecteurMobileController extends AbstractController
         $secteur->setDescription($request->get("description"));
         $secteur->setDatecreation($request->get("DateCreation"));
         $secteur->setDatemodification($request->get("DateModification"));
-
 
         $em->persist($secteur);
         $em->flush();

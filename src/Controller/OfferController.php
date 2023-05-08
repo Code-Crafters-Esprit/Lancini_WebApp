@@ -104,11 +104,11 @@ class OfferController extends AbstractController
                 'f' => $f->createView(),
             ]);
         }
-
     #[Route('/add', name: 'addOffer')]
     public function add(ManagerRegistry $mr, Request $request, FlashyNotifier $flashy): Response
     {
         $offer = new Offre();
+        //$offer->setProprietaire($this->getUser());
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
 
