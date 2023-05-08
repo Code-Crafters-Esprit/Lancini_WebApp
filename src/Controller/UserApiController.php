@@ -75,7 +75,7 @@ class UserApiController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-    #[Route('api/user/get/all', name: 'app_user_get_all')]
+    #[Route('/api/user/get/all', name: 'app_user_get_all')]
     public function getAll(EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
         $users = $entityManager
@@ -85,7 +85,7 @@ class UserApiController extends AbstractController
         return new Response($json);
     }
 
-    #[Route('api/user/get/one/{id}', name: 'app_user_get_one')]
+    #[Route('/api/user/get/one/{id}', name: 'app_user_get_one')]
     public function getUserJSON($id, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
         $user = $entityManager
@@ -95,7 +95,7 @@ class UserApiController extends AbstractController
         return new Response($json);
     }
 
-    #[Route("api/user/update/new", name: "addUserJSON")]
+    #[Route("/api/user/update/new", name: "addUserJSON")]
     public function addStudentJSON(Request $req, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
@@ -115,50 +115,44 @@ class UserApiController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-    #[Route("api/user/update/edit/{id}", name: "updateUserJSON", methods: ['GET', 'POST'])]
+    #[Route("/api/user/update/edit/{id}", name: "updateUserJSON", methods: ['GET', 'POST'])]
     public function updateStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
         $user = $entityManager->getRepository(User::class)->find($id);
+        $content = json_decode($req->getContent(), true);
+        
 
-        $email = $req->get('email');
-        if ($email !== null) {
-            $user->setEmail($email);
+        if (isset($content['email'])) {
+            $user->setEmail($content['email']);
         }
 
-        $motdepasse = $req->get('motdepasse');
-        if ($motdepasse !== null) {
-            $user->setMotdepasse($motdepasse);
+        if (isset($content['motdepasse'])) {
+            $user->setMotdepasse($content['motdepasse']);
         }
 
-        $nom = $req->get('nom');
-        if ($nom !== null) {
-            $user->setNom($nom);
+        if (isset($content['nom'])) {
+            $user->setNom($content['nom']);
         }
 
-        $prenom = $req->get('prenom');
-        if ($prenom !== null) {
-            $user->setPrenom($prenom);
+        if (isset($content['prenom'])) {
+            $user->setPrenom($content['prenom']);
         }
 
-        $role = $req->get('role');
-        if ($role !== null) {
-            $user->setRole($role);
+        if (isset($content['role'])) {
+            $user->setRole($content['role']);
         }
 
-        $bio = $req->get('bio');
-        if ($bio !== null) {
-            $user->setBio($bio);
+        if (isset($content['bio'])) {
+            $user->setBio($content['bio']);
         }
 
-        $photopath = $req->get('photopath');
-        if ($photopath !== null) {
-            $user->setPhotopath($photopath);
+        if (isset($content['photopath'])) {
+            $user->setPhotopath($content['photopath']);
         }
 
-        $numtel = $req->get('numtel');
-        if ($numtel !== null) {
-            $user->setNumtel($numtel);
+        if (isset($content['numtel'])) {
+            $user->setNumtel($content['numtel']);
         }
 
         $entityManager->flush();
@@ -167,7 +161,7 @@ class UserApiController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-    #[Route("api/user/delete/{id}", name: "deleteUserJSON")]
+    #[Route("/api/user/delete/{id}", name: "deleteUserJSON")]
     public function deleteStudentJSON(Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
@@ -178,7 +172,7 @@ class UserApiController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-    #[Route("api/user/info/{token}", name: "userTokenJSON", methods: ['GET', 'POST'])]
+    #[Route("/api/user/info/{token}", name: "userTokenJSON", methods: ['GET', 'POST'])]
     public function getUserInfo(UserRepository $ur, Request $request, JWTTokenManagerInterface $jwtManager, NormalizerInterface $Normalizer, $token, JWTEncoderInterface $jwtEncoder)
     {
 
