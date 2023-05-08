@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Metadata\Delete;
+use FontLib\Table\Type\post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,62 +14,81 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use App\Entity\Secteur;
+use Doctrine\ORM\EntityManagerInterface;
+
+
+
 
 
 class SecteurMobileController extends AbstractController
 {
-    #[Route('/mobileSecteur', name: 'app_mobile_secteur' , methods:'GET'  )]
-    public function Secteuremobile( NormalizerInterface  $normalizer)
+    #[Route('/mobileSecteur', name: 'mobileSecteur')]
+    public function index(EntityManagerInterface $entityManager): JsonResponse
     {
-        $secteur = $this->getDoctrine()->getRepository(Secteur::class)->findAll();
-        $json = $normalizer->normalize($secteur, "json");
-        dd($json);
-       // $json = json_encode($secteur);
-        return new JsonResponse($json);
-    }
-    /**
-     * @Route("/newSecteur_mobile/{nom}/{description}/{DateCreation}/{DateModification}/}", name="newSecteur_mobile", methods={"GET","POST"})
-     */
-    public function newSecteur($nom,$description,$DateCreation,$DateModification,NormalizerInterface  $normalizer )
-    {
+        $secteurRepository = $entityManager->getRepository(Secteur::class);
+        $secteurs = $secteurRepository->findAll();
 
-        $secteur = new Sinstre();
-        $secteur->setFirstname($nom);
-        $secteur->setLastname($description);
-        $secteur->setEmail($DateCreation);
-        $secteur->setDate($DateModification);
+        $secteursArray = [];
+        foreach ($secteurs as $secteur) {
+            $secteur->setDatemodification(new \DateTime());
+
+            $secteursArray[] = [
+                'idsecteur' => $secteur->getIdsecteur(),
+                'nom' => $secteur->getNom(),
+                'description' => $secteur->getDescription(),
+                'datecreation' => $secteur->getDatecreation(),
+                'datemodification' => $secteur->getDatemodification(),
+            ];
+        }
+
+        return $this->json($secteursArray);
+    }
+
+    #[Route('/addSecteurM', name: 'addSecteurM',methods: ['POST'])]
+    public function ajouterSecteur(Request $request)
+    {
+        $nom = $request->query->get('nom');
+        $description = $request->query->get('description');
+        $dateCreation = new \DateTime($request->query->get('date_creation'));
+
+        $secteur = new Secteur();
+        $secteur->setNom($nom);
+        $secteur->setDescription($description);
+        $secteur->setDatecreation($dateCreation);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($secteur);
         $entityManager->flush();
-        $json = $normalizer->normalize($secteur, "json", ['groups' => ['post:read']]);
-        return new JsonResponse($json);
 
+        return new JsonResponse([
+            'idsecteur' => $secteur->getIdsecteur(),
+            'nom' => $secteur->getNom(),
+            'description' => $secteur->getDescription(),
+            'datecreation' => $secteur->getDatecreation()->format('Y-m-d'),
+        ]);
     }
 
-    /**
-     * @Route("/SupprimerSecteur", name="SupprimerSecteur")
-     */
-    public function SupprimerSecteur(Request $request)
-    {
 
-        $idSecteur = $request->get("idSecteur");
+    #[Route('/SupprimerSecteur/{id}', name: 'SupprimerSecteur')]
+    public function SupprimerSecteur(Request $request, $id, NormalizerInterface $normalizer)
+    {
         $em = $this->getDoctrine()->getManager();
-        $secteur = $em->getRepository(Secteur::class)->find($idSecteur);
-        if($secteur != null)
-        {
-            $em->remove($secteur);
-            $em->flush();
-            $serializer = new Serializer([new ObjectNormalizer()]);
-            $formated = $serializer->normalize("secteur ete supprimer avec succées ");
-            return new JsonResponse($formated);
+        $secteur = $em->getRepository(Secteur::class)->find($id);
+
+        if (!$secteur) {
+            throw $this->createNotFoundException('Secteur non trouvé.');
         }
 
+        $em->remove($secteur);
+        $em->flush();
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formated = $serializer->normalize("Le secteur a été supprimé avec succès.");
+        return new JsonResponse($formated);
     }
 
-    /**
-     * @Route("/updateSecteur", name="updateSecteur")
-     */
+
+    #[Route('/updateSecteur', name: 'updateSecteur')]
     public function updateSecteur(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $secteur = $this->getDoctrine()->getManager()->getRepository(Secteur::class)->find($request->get("id"));
@@ -77,7 +98,6 @@ class SecteurMobileController extends AbstractController
         $secteur->setDescription($request->get("description"));
         $secteur->setDatecreation($request->get("DateCreation"));
         $secteur->setDatemodification($request->get("DateModification"));
-
 
         $em->persist($secteur);
         $em->flush();
