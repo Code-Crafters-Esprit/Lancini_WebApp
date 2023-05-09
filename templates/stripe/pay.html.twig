@@ -13,7 +13,7 @@
     </head>
     <body>
       <div class="container">
-        <form action="{{ path('pay', {'idproduit': produit.idproduit}) }}" method="POST">
+        <form action="{{ path('pay', {'idProduit': produit.idProduit}) }}" method="POST">
             <script src="https://js.stripe.com/v3/"></script>
             <input type="hidden" name="amount" value="{{ amount ?? '' }}">
             <input type="hidden" name="stripeToken" value="{{ stripeToken ?? '' }}">

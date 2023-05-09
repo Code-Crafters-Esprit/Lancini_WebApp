@@ -20,19 +20,19 @@ class StripeController extends AbstractController
             'controller_name' => 'StripeController',
         ]);
     }
-    #[Route('/pay/{idproduit}', name: 'pay')]
-    public function pay(Request $request, StripeService $stripeService, $idproduit)
+    #[Route('/pay/{idProduit}', name: 'pay')]
+    public function pay(Request $request, StripeService $stripeService, $idProduit)
     {
     // Retrieve the product from the database using the ID
     $entityManager = $this->getDoctrine()->getManager();
-    $produit = $entityManager->getRepository(Produit::class)->find($idproduit);
+    $produit = $entityManager->getRepository(Produit::class)->find($idProduit);
     
     if (!$produit) {
     throw $this->createNotFoundException('The product does not exist');
     }
     
     $amount = $produit->getPrix() ; // Convert the price to cents'
-    $successUrl = $this->generateUrl('app_produit_buy', ['idproduit' => $produit->getIdproduit()], UrlGeneratorInterface::ABSOLUTE_URL);
+    $successUrl = $this->generateUrl('app_produit_buy', ['idProduit' => $produit->getidProduit()], UrlGeneratorInterface::ABSOLUTE_URL);
     $cancelUrl = 'https://example.com/cancel';
     
     // create a Stripe Checkout Session and get the session ID

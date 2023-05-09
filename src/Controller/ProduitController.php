@@ -237,36 +237,29 @@ public function new(Request $request, ProduitRepository $produitRepository, Mail
         $file = $form->get('image')->getData();
 
         if ($file) {
-            $fileName = uniqid() . '.' . $file->guessExtension();
-
+            $originalFileName = $file->getClientOriginalName();
+            $fileName = pathinfo($originalFileName, PATHINFO_FILENAME);
+            $fileExtension = $file->getClientOriginalExtension();
+        
             try {
+                // Move the file to the original destination directory
                 $file->move(
-                    $this->getParameter('kernel.project_dir') . '/public/images/products',
-                    $fileName
+                    'C:\xampp\htdocs\img', // Set the original destination directory here
+                    $originalFileName
                 );
-
-                $produit->setImage($fileName);
+        
+                // Save the image path in the format file:///C:/xampp/htdocs/Img/originalFileName
+                $produit->setImage($originalFileName);
+        
+                // Create a copy of the uploaded file in the images/products directory
+                $file->move(
+                    'C:\Users\Daly\Lancini_WebApp\public\images\products',
+                    $originalFileName
+                );
             } catch (FileException $e) {
                 // Handle exception
             }
-
-        
-    }
-    $emailList = $entityManager->getRepository(MailList::class)->findAll();
-    $emailList = array_map(function ($mailList) {
-        return $mailList->getEmail();
-    }, $emailList);
-    foreach ($emailList as $email) {
-        $html = $twig->render('LanciniMarket/mail.html.twig', [
-            'produit' => $produit, ]);
-        $email = (new Email())
-                ->from('lancinimarket@gmail.com')
-                ->to($email)
-                ->subject('New Product Alert!')
-                ->html($html);
-
-        $mailer->send($email);
-    }
+        }
     $produitRepository->save($produit, true);
 
     return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);

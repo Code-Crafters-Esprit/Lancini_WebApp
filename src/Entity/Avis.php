@@ -88,12 +88,12 @@ class Avis
         return $this;
     }
 
-    public function getIdProduit(): ?Produit
+    public function getidProduit(): ?Produit
     {
         return $this->idProduit;
     }
 
-    public function setIdProduit(?Produit $idProduit): self
+    public function setidProduit(?Produit $idProduit): self
     {
         $this->idProduit = $idProduit;
 
