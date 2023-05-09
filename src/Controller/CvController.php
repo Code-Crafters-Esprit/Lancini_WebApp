@@ -23,7 +23,7 @@ class CvController extends AbstractController
 
 
      /**
-     * @Route("/showcvsmobile", name="app_cvs_mobile", methods={"GET", "POST"})
+     * @Route("/showcvsmobile/", name="app_cvs_mobile", methods={"GET", "POST"})
      */
     public function ShowCvsMobile (EntityManagerInterface $entityManagerInterface){
         $cvs = $entityManagerInterface->getRepository(Cv::class)
@@ -87,7 +87,7 @@ class CvController extends AbstractController
         $cv->setDatenaissance(new \DateTime('@'.strtotime($request->get("dateNaissance")."+ 1 day")));
         $cv->setLangue($request->query->get("langue"));
         $cv->setEducation($request->query->get("education"));
-        $cv->setUserid($entityManager->getRepository(User::class)->find($idu));
+        $cv->setIdUser($entityManager->getRepository(User::class)->find($idu));
         $cv->setEmail($request->query->get("email"));
         
             $entityManager->persist($cv);

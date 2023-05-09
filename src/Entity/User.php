@@ -274,12 +274,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getBadge(): ArrayCollection
+/*  public function getBadge(): ArrayCollection
     {
         return $this->badge;
     }
-
+*/
     public function setBadge(ArrayCollection $badge): self
     {
         $this->badge = $badge;
@@ -292,11 +291,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->experiences;
     }
 
-    public function getOffre(): ArrayCollection
+   /* public function getOffre(): ArrayCollection
     {
         return $this->offre;
     }
-
+*/
     public function setOffre(ArrayCollection $offre): self
     {
         $this->offre = $offre;
