@@ -8,43 +8,51 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource]
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 #[ApiResource]
 class Reclamation
 {
-    
+    #[Groups("reclamations")]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private  $id;
+    private  $id= null;
+    
+    #[Groups("reclamations")]
     #[ORM\Column(name: "nom", type: "string", length: 10, nullable: false)]     
       #[Assert\Regex( pattern:"/^[A-Za-z]+$/", message:"Le champ nom ne doit contenir que des lettres.")]
+
         private string $nom;    
 
-
-    #[ORM\Column(name: "prenom", type: "string", length: 10, nullable: false)]
+        #[Groups("reclamations")]
+    #[ORM\Column(name: "prenom", type: "string", length: 10, nullable: true)]
     
      
       #[Assert\Regex(pattern:"/^[A-Za-z]+$/",message:"Le champ prenom ne doit contenir que des lettres.")]
      
     private string $prenom;
+    #[Groups("reclamations")]
 
     #[ORM\Column(name: "description", type: "string", length: 255, nullable: false)]
     private string $description;
+    #[Groups("reclamations")]
 
     #[ORM\Column(name: "sujetdereclamations", type: "string", length: 255, nullable: false)]
 
   #[Assert\Regex(pattern:"/^[A-Za-z]+$/",message:"Le champ sujetdereclamations ne doit contenir que des lettres." )]
  
     private string $sujetdereclamations;
+    #[Groups("reclamations")]
 
     #[ORM\Column(name: "email", type: "string", length: 150, nullable: false)]
      
      #[Assert\NotBlank()]
-      #[Assert\Regex( pattern:"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", message:"Le format de l'email '{{ value }}' n'est pas valide. Veuillez saisir une adresse email au format ****@***")]
+      #[Assert\Regex( pattern:"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", message:"Le format de l'email '{{ value }}' n'est pas valide. Veuillez saisir une adresse email au format ***@**")]
      
     private string $email;
+    #[Groups("reclamations")]
 
     #[ORM\Column(name: "tel", type: "string", length: 100, nullable: false)]
     
@@ -56,15 +64,16 @@ class Reclamation
       
      
     private string $tel;
+    #[Groups("reclamations")]
 
     #[ORM\Column(name: "etat", type: "string", length: 255, nullable: false)]
     private string $etat;
 
 
+    #[Groups("reclamations")]
+
     
-    #[ORM\ManyToOne(targetEntity: Avis::class)]
-    #[ORM\JoinColumn(name: "id", referencedColumnName: "idavis")]
-    private $idavis;
+   
 
     public function getNom(): ?string
     {
@@ -150,18 +159,9 @@ class Reclamation
         return $this;
     }
 
-    public function getIdAvis(): ?Avis
-    {
-        return $this->idavis;
-    }
+
     
-
-    public function setIdAvis(?Avis $idavis): self
-    {
-        $this->idavis = $idavis;
-
-        return $this;
-    }
+    
 
 
 
