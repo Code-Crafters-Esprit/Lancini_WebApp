@@ -7,9 +7,9 @@ use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\User;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -20,23 +20,28 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(name: "idProduit", type: "integer", nullable: false)]
-    private $idproduit;
+    #[Groups("produits")]
+    private $idProduit;
 
     #[ORM\Column(name: 'categorie', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a category')]
     #[Assert\Length(max: 255, maxMessage: 'Category name should not exceed {{ limit }} characters')]
+    #[Groups("produits")]
     private $categorie;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a name')]
     #[Assert\Length(max: 255, maxMessage: 'Name should not exceed {{ limit }} characters')]
+    #[Groups("produits")]
     private $nom;
 
     #[ORM\Column(name: 'description', type: 'text', length: 65535, nullable: false)]
     #[Assert\NotBlank(message: 'Please enter a description')]
     #[Assert\Length(max: 100, maxMessage: 'Description should not exceed {{ limit }} characters')]
+    #[Groups("produits")]
     private $description;
     #[ORM\Column(name: "image", type:"string", length:255, nullable: false, options: ["default" => "default_image.png"])]
+    #[Groups("produits")]
     private $image="img.jpg";
 
     
@@ -44,24 +49,28 @@ class Produit
     #[Vich\UploadableField(mapping: "products", fileNameProperty: "image")]
     private $imageFile;
 
-
     #[ORM\Column(name: 'prix', type: 'decimal', precision: 10, scale: 2)]
     #[Assert\PositiveOrZero(message: 'Price should be a positive value')]
     #[Assert\Length(max: 4, maxMessage: 'Maximum 4 digits, only numbers allowed')]
+    #[Groups("produits")]
 
     private $prix;
 
     #[ORM\Column(name: 'date', type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups("produits")]
     private $date;
+  
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'vendeur', referencedColumnName: 'idUser')]
     #[Assert\NotBlank(message: "You must pick a Seller.")]
-    private $vendeur;
+    #[Groups("produits")]
 
-    public function getIdproduit(): ?int
+     private ?User $vendeur;
+
+    public function getidProduit(): ?int
     {
-        return $this->idproduit;
+        return $this->idProduit;
     }
 
     public function getCategorie(): ?string
@@ -88,7 +97,6 @@ class Produit
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -106,9 +114,9 @@ class Produit
         return $this->image;
     }
 
-    public function setImage(string $imageName): self
+    public function setImage(string $image): self
     {
-        $this->image = $imageName;
+        $this->image = $image;
 
         return $this;
     }
@@ -151,12 +159,14 @@ class Produit
         return $this;
     }
 
-
+   /* public function getVendeur(): ?User
+    {
+        return $this->vendeur;
+    } */
     public function getVendeur(): ?User
     {
         return $this->vendeur;
     }
-
     public function setVendeur(?User $vendeur): self
     {
         $this->vendeur = $vendeur;

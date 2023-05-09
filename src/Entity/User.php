@@ -379,4 +379,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
+    public function JSONSerialize(){
+        return array(
+            "idUser" => $this->idUser,
+            "nom"   => $this->nom,
+            "prenom"=> $this->prenom,
+            "email"=> $this->email
+        );
+    }
 }
