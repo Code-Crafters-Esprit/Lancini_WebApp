@@ -1,12 +1,12 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'admin/index.html.twig' %}
 
 {% block title %}
 	<title>{{ "Lancini | " ~ user.nom ~ " " ~ user.prenom }}</title>
 {% endblock %}
 
-{% block stylesheet %}
+{# {% block stylesheet %}
 	<link rel="stylesheet" href="{{ asset('admin/user.css') }}">
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
 	<div class="profile_div">

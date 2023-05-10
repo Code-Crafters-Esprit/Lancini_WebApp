@@ -58,12 +58,36 @@
 					    	</div>
 	    					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      					<ul class="nav navbar-nav navbar-right">
-		      						<li><a href="#Home">Home</a></li>
-		      						<li><a href="#offres">Offers</a></li>
-		        					<li><a href="#lancinimarket">LanciniMarket</a></li>
-		        					<li><a href="#Test">Get verified</a></li>
-		        					<li><a href="#blog">Community</a></li>
-		        					<li><a href="#Support">Support</a></li>
+		      						<li>
+												<a href="{{ path('app_home') }}">Home</a>
+											</li>
+											<li>
+												<a href="{{ path('app_homeOffer') }}">Offers</a>
+											</li>
+											<li>
+												<a href="{{ path('app_market_index') }}">LanciniMarket</a>
+											</li>
+											<li>
+												<a href="{{ path('app_test_index') }}">Get verified</a>
+											</li>
+											<li>
+												<a href="{{ path('app_community') }}">Community</a>
+											</li>
+											<li>
+												<a href="{{ path('app_reclamation_index') }}">Support</a>
+											</li>
+											<li>
+												<a href="{{ path('app_avis_index') }}">FeedBack</a>
+											</li>
+											{% if app.user %}
+												<li>
+													<a href="{{ path('app_profile',{'idUser': app.user.iduser}) }}">Profile</a>
+												</li>
+											{% else %}
+												<li>
+													<a href="{{ path('app_login') }}">Sign in</a>
+												</li>
+											{% endif %}
 							    </ul>
 	    					</div>	<!-- collapse navbar-collapse -->
 	  					</div>	<!-- container-fluid -->
